@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.dao;
 
+import org.glassfish.jersey.process.internal.RequestScoped;
 import org.jvnet.hk2.annotations.Service;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -10,15 +11,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MockPlayerDao implements PlayerDao {
+@RequestScoped
+@Service
+public class PlayerDaoMock {
 
-    private static final List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
-    static {
+    public PlayerDaoMock() {
         players.add(new Player("Zikura", Collections.singletonList(new Character("Zikura", CharacterClass.Druid, Collections.singletonList(Role.Ranged)))));
-    }
-
-    public MockPlayerDao() {
     }
 
     public List<Player> getPlayers() {
