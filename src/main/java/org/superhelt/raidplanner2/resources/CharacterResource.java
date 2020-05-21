@@ -51,7 +51,7 @@ public class CharacterResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId, Character character) {
         if (character.getId() != characterId) {
-            return Response.status(400, "ID mismatch").build();
+            return Response.status(400, "ID mismatch between body and url").build();
         }
 
         Optional<Player> player = service.getPlayer(playerId);

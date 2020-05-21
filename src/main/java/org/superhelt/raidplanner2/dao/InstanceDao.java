@@ -33,11 +33,16 @@ public class InstanceDao {
         instances.add(new Instance(1, "Ny'alotha", bosses));
     }
 
-    public List<Instance> getInstances() {
+    public List<Instance> get() {
         return instances;
     }
 
-    public Optional<Instance> getInstance(int id) {
+    public Optional<Instance> get(int id) {
         return instances.stream().filter(i->i.getId()==id).findFirst();
+    }
+
+    public void update(Instance instance) {
+        instances.removeIf(i->i.getId()==instance.getId());
+        instances.add(instance);
     }
 }

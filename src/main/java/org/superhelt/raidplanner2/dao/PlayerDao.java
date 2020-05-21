@@ -22,24 +22,24 @@ public class PlayerDao {
         players.add(zikura);
     }
 
-    public List<Player> getPlayers() {
+    public List<Player> get() {
         return players;
     }
 
-    public Optional<Player> getPlayer(int id) {
+    public Optional<Player> get(int id) {
         return players.stream().filter(p->p.getId()==id).findFirst();
     }
 
-    public void updatePlayer(Player newPlayer) {
-        players.removeIf(p->p.getId()==newPlayer.getId());
-        players.add(newPlayer);
-    }
-
-    public void addPlayer(Player player) {
+    public void update(Player player) {
+        players.removeIf(p->p.getId()==player.getId());
         players.add(player);
     }
 
-    public void deletePlayer(int id) {
+    public void add(Player player) {
+        players.add(player);
+    }
+
+    public void delete(int id) {
         players.removeIf(p->p.getId()==id);
     }
 }

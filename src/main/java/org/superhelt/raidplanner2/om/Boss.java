@@ -2,8 +2,11 @@ package org.superhelt.raidplanner2.om;
 
 public class Boss {
 
-    private final int id;
-    private final String name;
+    private int id;
+    private String name;
+
+    public Boss() {
+    }
 
     public Boss(int id, String name) {
         this.id = id;
