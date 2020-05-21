@@ -13,13 +13,17 @@ import java.util.Optional;
 @Path("/players/{playerId}/characters")
 public class CharacterResource {
 
+    private final PlayerService service;
+
     @Inject
-    private PlayerService playerService;
+    public CharacterResource(PlayerService service) {
+        this.service = service;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCharacters(@PathParam("playerId") int playerId) {
-        Optional<Player> player = playerService.getPlayer(playerId);
+        Optional<Player> player = service.getPlayer(playerId);
 
         if (player.isPresent()) {
             return Response.ok(player.get().getCharacters()).build();
@@ -32,12 +36,12 @@ public class CharacterResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addCheracter(@PathParam("playerId") int playerId, Character character) {
-        Optional<Player> player = playerService.getPlayer(playerId);
+        Optional<Player> player = service.getPlayer(playerId);
         if(!player.isPresent()) {
             return Response.status(404).build();
         }
 
-        Character savedCharacter = playerService.addCharacter(player.get(), character);
+        Character savedCharacter = service.addCharacter(player.get(), character);
         return Response.ok(savedCharacter).build();
     }
 
@@ -50,13 +54,13 @@ public class CharacterResource {
             return Response.status(400, "ID mismatch").build();
         }
 
-        Optional<Player> player = playerService.getPlayer(playerId);
+        Optional<Player> player = service.getPlayer(playerId);
 
         if (!player.isPresent()) {
             return Response.status(404).build();
         }
 
-        playerService.updateCharacter(player.get(), character);
+        service.updateCharacter(player.get(), character);
         return Response.ok(character).build();
     }
 
@@ -65,13 +69,13 @@ public class CharacterResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId) {
-        Optional<Player> player = playerService.getPlayer(playerId);
+        Optional<Player> player = service.getPlayer(playerId);
 
         if (!player.isPresent()) {
             return Response.status(404).build();
         }
 
-        playerService.deleteCharacter(player.get(), characterId);
+        service.deleteCharacter(player.get(), characterId);
         return Response.ok().build();
     }
 }

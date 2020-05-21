@@ -1,6 +1,5 @@
 package org.superhelt.raidplanner2.resources;
 
-
 import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.service.InstanceService;
 
@@ -11,34 +10,25 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.Optional;
 
-@Path("instances")
-public class InstanceResource {
+@Path("/instances/{instanceId}/bosses")
+public class BossResource {
 
     private final InstanceService service;
 
     @Inject
-    public InstanceResource(InstanceService service) {
+    public BossResource(InstanceService service) {
         this.service = service;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getInstances() {
-        List<Instance> instances = service.getInstances();
-        return Response.ok(instances).build();
-    }
-
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getInstance(@PathParam("id") int id) {
-        Optional<Instance> instance = service.getInstance(id);
+    public Response getBosses(@PathParam("instanceId") int instanceId) {
+        Optional<Instance> instance = service.getInstance(instanceId);
 
         if(instance.isPresent()) {
-            return Response.ok(instance.get()).build();
+            return Response.ok(instance.get().getBosses()).build();
         } else {
             return Response.status(404).build();
         }

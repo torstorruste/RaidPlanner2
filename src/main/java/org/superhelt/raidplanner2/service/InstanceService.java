@@ -6,6 +6,7 @@ import org.superhelt.raidplanner2.om.Instance;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InstanceService {
@@ -19,5 +20,9 @@ public class InstanceService {
 
     public List<Instance> getInstances() {
         return dao.getInstances();
+    }
+
+    public Optional<Instance> getInstance(int id) {
+        return dao.getInstance(id);
     }
 }

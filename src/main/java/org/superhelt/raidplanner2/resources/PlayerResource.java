@@ -13,17 +13,17 @@ import java.util.Optional;
 @Path("/players")
 public class PlayerResource {
 
-    private final PlayerService playerService;
+    private final PlayerService service;
 
     @Inject
-    public PlayerResource(PlayerService playerService) {
-        this.playerService = playerService;
+    public PlayerResource(PlayerService service) {
+        this.service = service;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlayers() {
-        List<Player> players = playerService.getPlayers();
+        List<Player> players = service.getPlayers();
         return Response.ok(players).build();
     }
 
@@ -31,7 +31,7 @@ public class PlayerResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/{id}")
     public Response getPlayer(@PathParam("id") int id) {
-        Optional<Player> player = playerService.getPlayer(id);
+        Optional<Player> player = service.getPlayer(id);
         if(player.isPresent()) return Response.ok(player.get()).build();
         else return Response.status(404).build();
     }
@@ -40,14 +40,14 @@ public class PlayerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlayer(Player player) {
-        Player savedPlayer = playerService.addPlayer(player);
+        Player savedPlayer = service.addPlayer(player);
         return Response.ok(savedPlayer).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deletePlayer(@PathParam("id") int id) {
-        playerService.deletePlayer(id);
+        service.deletePlayer(id);
         return Response.ok().build();
     }
 }

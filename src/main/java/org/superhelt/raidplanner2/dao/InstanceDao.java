@@ -7,6 +7,7 @@ import org.superhelt.raidplanner2.om.Instance;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Singleton
@@ -34,5 +35,9 @@ public class InstanceDao {
 
     public List<Instance> getInstances() {
         return instances;
+    }
+
+    public Optional<Instance> getInstance(int id) {
+        return instances.stream().filter(i->i.getId()==id).findFirst();
     }
 }
