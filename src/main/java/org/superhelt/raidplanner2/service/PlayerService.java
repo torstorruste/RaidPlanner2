@@ -29,6 +29,10 @@ public class PlayerService {
     }
 
     public Player addPlayer(Player player) {
+        if(playerDao.getPlayers().stream().anyMatch(p->p.getName().equals(player.getName()))) {
+            throw new ServiceException("A player with the name %s already exists", player.getName());
+        }
+
         Player playerToSave = new Player(findId(), player.getName(), new ArrayList<>());
         playerDao.addPlayer(playerToSave);
         return playerToSave;
