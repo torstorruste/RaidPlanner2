@@ -32,7 +32,7 @@ public class InstanceService {
             throw new ServiceException("Instance %s already contains a boss with name %s", instance.getName(), boss.getName());
         }
 
-        Boss bossToAdd = new Boss(findId(instance), boss.getName());
+        Boss bossToAdd = new Boss(findId(), boss.getName());
 
         instance.getBosses().add(bossToAdd);
 
@@ -40,8 +40,8 @@ public class InstanceService {
         return instance;
     }
 
-    private int findId(Instance instance) {
-        return instance.getBosses().stream().mapToInt(Boss::getId).max().orElse(0)+1;
+    private int findId() {
+        return dao.get().stream().flatMap(i->i.getBosses().stream()).mapToInt(Boss::getId).max().orElse(0)+1;
     }
 
     public void updateBoss(Instance instance, Boss boss) {

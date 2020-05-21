@@ -43,7 +43,7 @@ public class PlayerService {
             throw new ServiceException("Player %s already has a character with the name %s", player.getName(), character.getName());
         }
 
-        Character characterToSave = new Character(findCharacterId(player), character.getName(), character.getCharacterClass(), character.getRoles());
+        Character characterToSave = new Character(findCharacterId(), character.getName(), character.getCharacterClass(), character.getRoles());
         player.getCharacters().add(characterToSave);
         dao.update(player);
 
@@ -82,7 +82,7 @@ public class PlayerService {
         return dao.get().stream().mapToInt(Player::getId).max().orElse(0) + 1;
     }
 
-    private int findCharacterId(Player player) {
-        return player.getCharacters().stream().mapToInt(Character::getId).max().orElse(0) + 1;
+    private int findCharacterId() {
+        return dao.get().stream().flatMap(p->p.getCharacters().stream()).mapToInt(Character::getId).max().orElse(0) + 1;
     }
 }
