@@ -1,6 +1,5 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.service.PlayerService;
 
@@ -8,7 +7,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
