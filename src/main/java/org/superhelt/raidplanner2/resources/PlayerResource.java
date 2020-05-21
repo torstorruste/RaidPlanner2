@@ -1,6 +1,6 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.dao.PlayerDaoMock;
+import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.inject.Inject;
@@ -13,10 +13,10 @@ import java.util.Optional;
 @Path("/players")
 public class PlayerResource {
 
-    private final PlayerDaoMock playerDao;
+    private final PlayerDao playerDao;
 
     @Inject
-    public PlayerResource(PlayerDaoMock playerDao) {
+    public PlayerResource(PlayerDao playerDao) {
         this.playerDao = playerDao;
     }
 

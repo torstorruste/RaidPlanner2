@@ -4,9 +4,12 @@ import java.util.List;
 
 public class Character {
 
-    private final String name;
-    private final CharacterClass characterClass;
-    private final List<Role> roles;
+    private String name;
+    private CharacterClass characterClass;
+    private List<Role> roles;
+
+    public Character() {
+    }
 
     public Character(String name, CharacterClass characterClass, List<Role> roles) {
         this.name = name;

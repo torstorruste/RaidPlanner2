@@ -7,19 +7,19 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Role;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Singleton
 @Service
-public class PlayerDaoMock {
+public class PlayerDao {
 
     private static List<Player> players = new ArrayList<>();
 
     static {
-        players.add(new Player(1, "Zikura", Collections.singletonList(new Character("Zikura", CharacterClass.Druid, Collections.singletonList(Role.Ranged)))));
+        List<Character> characters = new ArrayList<>();
+        characters.add(new Character("Zikura", CharacterClass.Druid, Collections.singletonList(Role.Ranged)));
+        Player zikura = new Player(1, "Zikura", characters);
+        players.add(zikura);
     }
 
     public List<Player> getPlayers() {
@@ -28,6 +28,11 @@ public class PlayerDaoMock {
 
     public Optional<Player> getPlayer(int id) {
         return players.stream().filter(p->p.getId()==id).findFirst();
+    }
+
+    public void updatePlayer(Player newPlayer) {
+        players.removeIf(p->p.getId()==newPlayer.getId());
+        players.add(newPlayer);
     }
 
     public Player addPlayer(Player player) {
