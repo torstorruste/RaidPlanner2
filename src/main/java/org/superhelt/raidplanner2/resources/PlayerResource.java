@@ -1,14 +1,10 @@
 package org.superhelt.raidplanner2.resources;
 
 import org.superhelt.raidplanner2.dao.PlayerDaoMock;
-import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -38,5 +34,14 @@ public class PlayerResource {
         Optional<Player> player = playerDao.getPlayer(id);
         if(player.isPresent()) return Response.ok(player.get()).build();
         else return Response.status(404).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addPlayer(Player player) {
+        Player savedPlayer = playerDao.addPlayer(player);
+
+        return Response.ok(savedPlayer).build();
     }
 }

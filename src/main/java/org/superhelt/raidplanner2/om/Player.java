@@ -4,9 +4,12 @@ import java.util.List;
 
 public class Player {
 
-    private final int id;
-    private final String name;
-    private final List<Character> characters;
+    private int id;
+    private String name;
+    private List<Character> characters;
+
+    public Player() {
+    }
 
     public Player(int id, String name, List<Character> characters) {
         this.id = id;
