@@ -45,4 +45,11 @@ public class PlayerResource {
         Player savedPlayer = playerService.addPlayer(player);
         return Response.ok(savedPlayer).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deletePlayer(@PathParam("id") int id) {
+        playerService.deletePlayer(id);
+        return Response.ok().build();
+    }
 }

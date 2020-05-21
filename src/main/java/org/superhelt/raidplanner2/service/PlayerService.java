@@ -70,6 +70,14 @@ public class PlayerService {
         playerDao.updatePlayer(player);
     }
 
+    public void deletePlayer(int id) {
+        if(playerDao.getPlayers().stream().noneMatch(p->p.getId()==id)) {
+            throw new ServiceException("No player with id %d exists", id);
+        }
+
+        playerDao.deletePlayer(id);
+    }
+
     private int findId() {
         return playerDao.getPlayers().stream().mapToInt(Player::getId).max().orElse(0) + 1;
     }

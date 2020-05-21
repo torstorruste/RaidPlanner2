@@ -38,4 +38,8 @@ public class PlayerDao {
     public void addPlayer(Player player) {
         players.add(player);
     }
+
+    public void deletePlayer(int id) {
+        players.removeIf(p->p.getId()==id);
+    }
 }
