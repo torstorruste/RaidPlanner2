@@ -13,28 +13,28 @@ import java.util.Optional;
 @Service
 public class PlayerService {
 
-    private final PlayerDao playerDao;
+    private final PlayerDao dao;
 
     @Inject
-    public PlayerService(PlayerDao playerDao) {
-        this.playerDao = playerDao;
+    public PlayerService(PlayerDao dao) {
+        this.dao = dao;
     }
 
     public List<Player> getPlayers() {
-        return playerDao.get();
+        return dao.get();
     }
 
     public Optional<Player> getPlayer(int id) {
-        return playerDao.get(id);
+        return dao.get(id);
     }
 
     public Player addPlayer(Player player) {
-        if(playerDao.get().stream().anyMatch(p->p.getName().equals(player.getName()))) {
+        if(dao.get().stream().anyMatch(p->p.getName().equals(player.getName()))) {
             throw new ServiceException("A player with the name %s already exists", player.getName());
         }
 
         Player playerToSave = new Player(findId(), player.getName(), new ArrayList<>());
-        playerDao.add(playerToSave);
+        dao.add(playerToSave);
         return playerToSave;
     }
 
@@ -45,7 +45,7 @@ public class PlayerService {
 
         Character characterToSave = new Character(findCharacterId(player), character.getName(), character.getCharacterClass(), character.getRoles());
         player.getCharacters().add(characterToSave);
-        playerDao.update(player);
+        dao.update(player);
 
         return characterToSave;
     }
@@ -58,7 +58,7 @@ public class PlayerService {
         player.getCharacters().removeIf(c -> c.getId() == character.getId());
         player.getCharacters().add(character);
 
-        playerDao.update(player);
+        dao.update(player);
     }
 
     public void deleteCharacter(Player player, int characterId) {
@@ -67,19 +67,19 @@ public class PlayerService {
         }
 
         player.getCharacters().removeIf(c->c.getId()==characterId);
-        playerDao.update(player);
+        dao.update(player);
     }
 
     public void deletePlayer(int id) {
-        if(playerDao.get().stream().noneMatch(p->p.getId()==id)) {
+        if(dao.get().stream().noneMatch(p->p.getId()==id)) {
             throw new ServiceException("No player with id %d exists", id);
         }
 
-        playerDao.delete(id);
+        dao.delete(id);
     }
 
     private int findId() {
-        return playerDao.get().stream().mapToInt(Player::getId).max().orElse(0) + 1;
+        return dao.get().stream().mapToInt(Player::getId).max().orElse(0) + 1;
     }
 
     private int findCharacterId(Player player) {

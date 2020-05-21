@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 import java.util.Optional;
 
 @Path("/players/{playerId}/characters")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CharacterResource {
 
     private final PlayerService service;
@@ -21,7 +23,6 @@ public class CharacterResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getCharacters(@PathParam("playerId") int playerId) {
         Optional<Player> player = service.getPlayer(playerId);
 
@@ -33,8 +34,6 @@ public class CharacterResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response addCheracter(@PathParam("playerId") int playerId, Character character) {
         Optional<Player> player = service.getPlayer(playerId);
         if(!player.isPresent()) {
@@ -47,8 +46,6 @@ public class CharacterResource {
 
     @PUT
     @Path("/{characterId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId, Character character) {
         if (character.getId() != characterId) {
             return Response.status(400, "ID mismatch between body and url").build();
@@ -66,8 +63,6 @@ public class CharacterResource {
 
     @DELETE
     @Path("/{characterId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId) {
         Optional<Player> player = service.getPlayer(playerId);
 

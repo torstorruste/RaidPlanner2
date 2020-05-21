@@ -47,7 +47,7 @@ public class BossResource {
 
     @PUT
     @Path("/{bossId}")
-    public Response updateBoss(@PathParam("instanceId") int instanceId, int bossId, Boss boss) {
+    public Response updateBoss(@PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId, Boss boss) {
         if(bossId!=boss.getId()) {
             return Response.status(400, "ID Mismatch between body and url").build();
         }
@@ -57,6 +57,19 @@ public class BossResource {
         if(instance.isPresent()) {
             service.updateBoss(instance.get(), boss);
             return Response.ok(boss).build();
+        } else {
+            return Response.status(404).build();
+        }
+    }
+
+    @DELETE
+    @Path("/{bossId}")
+    public Response deleteBoss(@PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId, Boss boss) {
+        Optional<Instance> instance = service.getInstance(instanceId);
+
+        if(instance.isPresent()) {
+            service.deleteBoss(instance.get(), bossId);
+            return Response.ok().build();
         } else {
             return Response.status(404).build();
         }

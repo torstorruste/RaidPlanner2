@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("/players")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
 
     private final PlayerService service;
@@ -21,14 +23,12 @@ public class PlayerResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getPlayers() {
         List<Player> players = service.getPlayers();
         return Response.ok(players).build();
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
     @Path("/{id}")
     public Response getPlayer(@PathParam("id") int id) {
         Optional<Player> player = service.getPlayer(id);
@@ -37,8 +37,6 @@ public class PlayerResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response addPlayer(Player player) {
         Player savedPlayer = service.addPlayer(player);
         return Response.ok(savedPlayer).build();

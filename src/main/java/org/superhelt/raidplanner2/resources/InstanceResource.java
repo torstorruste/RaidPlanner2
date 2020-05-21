@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("instances")
+@Produces(MediaType.APPLICATION_JSON)
 public class InstanceResource {
 
     private final InstanceService service;
@@ -25,7 +26,6 @@ public class InstanceResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getInstances() {
         List<Instance> instances = service.getInstances();
         return Response.ok(instances).build();
@@ -33,7 +33,6 @@ public class InstanceResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getInstance(@PathParam("id") int id) {
         Optional<Instance> instance = service.getInstance(id);
 
