@@ -8,7 +8,6 @@ import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.inject.Inject;
-import java.lang.Character;
 import java.util.List;
 import java.util.stream.Collectors;
 

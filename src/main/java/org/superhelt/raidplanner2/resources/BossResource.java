@@ -1,6 +1,7 @@
 package org.superhelt.raidplanner2.resources;
 
 import org.superhelt.raidplanner2.dto.BossApproval;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.InstanceService;
@@ -10,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/instances/{instanceId}/bosses")
@@ -71,7 +73,13 @@ public class BossResource {
     }
 
     private List<BossApproval> transform(List<Approval> approvals) {
-        return approvals.stream().map(a->new BossApproval(a.getCharacter(), a.getRole())).collect(Collectors.toList());
+        Map<Character, List<Role>> map = approvals.stream().collect(
+                Collectors.groupingBy(
+                        Approval::getCharacter,
+                        Collectors.mapping(Approval::getRole, Collectors.toList())
+                ));
+
+        return map.entrySet().stream().map(e->new BossApproval(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
 
     @POST

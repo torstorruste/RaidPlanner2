@@ -1,6 +1,7 @@
 package org.superhelt.raidplanner2.om;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Character {
 
@@ -33,5 +34,18 @@ public class Character {
 
     public List<Role> getRoles() {
         return roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return id == character.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

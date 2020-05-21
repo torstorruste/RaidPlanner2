@@ -1,8 +1,8 @@
 package org.superhelt.raidplanner2.resources;
 
 import org.superhelt.raidplanner2.dto.CharacterApproval;
-import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
+import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.PlayerService;
 
@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/players/{playerId}/characters")
@@ -72,8 +73,14 @@ public class CharacterResource {
         return Response.ok(transform(approvals)).build();
     }
 
-    private List<CharacterApproval> transform(List<Approval> approval) {
-        return approval.stream().map(a->new CharacterApproval(a.getBoss(), a.getRole())).collect(Collectors.toList());
+    private List<CharacterApproval> transform(List<Approval> approvals) {
+        Map<Boss, List<Role>> map = approvals.stream().collect(
+                Collectors.groupingBy(
+                        Approval::getBoss,
+                        Collectors.mapping(Approval::getRole, Collectors.toList())
+                ));
+
+        return map.entrySet().stream().map(e->new CharacterApproval(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
 
     @POST
