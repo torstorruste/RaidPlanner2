@@ -16,4 +16,8 @@ public class ApprovalDao {
     public void addApproval(Approval approval) {
         approvals.add(approval);
     }
+
+    public List<Approval> get() {
+        return approvals;
+    }
 }

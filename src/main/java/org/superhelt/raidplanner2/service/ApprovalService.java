@@ -8,6 +8,9 @@ import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.inject.Inject;
+import java.lang.Character;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ApprovalService {
@@ -21,6 +24,14 @@ public class ApprovalService {
         this.approvalDao = approvalDao;
         this.instanceDao = instanceDao;
         this.playerDao = playerDao;
+    }
+
+    public List<Approval> getByCharacter(int playerId, int characterId) {
+        return approvalDao.get().stream().filter(a->a.getPlayer().getId()==playerId && a.getCharacter().getId()==characterId).collect(Collectors.toList());
+    }
+
+    public List<Approval> getByBoss(int instanceId, int bossId) {
+        return approvalDao.get().stream().filter(a->a.getInstance().getId()==instanceId && a.getBoss().getId()==bossId).collect(Collectors.toList());
     }
 
     public Approval addApproval(int playerId, int characterId, int instanceId, int bossId, Role role) {

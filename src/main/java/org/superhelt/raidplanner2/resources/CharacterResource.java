@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/players/{playerId}/characters")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -61,6 +62,13 @@ public class CharacterResource {
 
         playerService.deleteCharacter(player, characterId);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("{characterId}/approvals")
+    public Response getApprovals(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId) {
+        List<Approval> approvals = approvalService.getByCharacter(playerId, characterId);
+        return Response.ok(approvals).build();
     }
 
     @POST
