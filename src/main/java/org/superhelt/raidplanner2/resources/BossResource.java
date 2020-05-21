@@ -1,9 +1,7 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.om.Approval;
-import org.superhelt.raidplanner2.om.Boss;
-import org.superhelt.raidplanner2.om.Instance;
-import org.superhelt.raidplanner2.om.Role;
+import org.superhelt.raidplanner2.dto.BossApproval;
+import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.InstanceService;
 
@@ -12,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/instances/{instanceId}/bosses")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -68,7 +67,11 @@ public class BossResource {
     @Path("{bossId}/approvals")
     public Response getApprovals(@PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId) {
         List<Approval> approvals = approvalService.getByBoss(instanceId, bossId);
-        return Response.ok(approvals).build();
+        return Response.ok(transform(approvals)).build();
+    }
+
+    private List<BossApproval> transform(List<Approval> approvals) {
+        return approvals.stream().map(a->new BossApproval(a.getCharacter(), a.getRole())).collect(Collectors.toList());
     }
 
     @POST

@@ -1,13 +1,9 @@
 package org.superhelt.raidplanner2.om;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Approval {
 
-    @JsonIgnore
     private Player player;
     private Character character;
-    @JsonIgnore
     private Instance instance;
     private Boss boss;
     private Role role;
