@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Character {
 
+    private int id;
     private String name;
     private CharacterClass characterClass;
     private List<Role> roles;
@@ -11,10 +12,15 @@ public class Character {
     public Character() {
     }
 
-    public Character(String name, CharacterClass characterClass, List<Role> roles) {
+    public Character(int id, String name, CharacterClass characterClass, List<Role> roles) {
+        this.id = id;
         this.name = name;
         this.characterClass = characterClass;
         this.roles = roles;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

@@ -8,6 +8,7 @@ import javax.ws.rs.ApplicationPath;
 public class MyApplication extends ResourceConfig {
     public MyApplication() {
         register(new RaidPlannerBinder());
-        packages("org.superhelt.raidplanner2.resources");
+        register(GenericExceptionMapper.class);
+        packages("org.superhelt.raidplanner2");
     }
 }

@@ -1,8 +1,8 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
+import org.superhelt.raidplanner2.service.PlayerService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -14,14 +14,14 @@ import java.util.Optional;
 public class CharacterResource {
 
     @Inject
-    private PlayerDao playerDao;
+    private PlayerService playerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCharacters(@PathParam("playerId") int playerId) {
-        Optional<Player> player = playerDao.getPlayer(playerId);
+        Optional<Player> player = playerService.getPlayer(playerId);
 
-        if(player.isPresent()) {
+        if (player.isPresent()) {
             return Response.ok(player.get().getCharacters()).build();
         } else {
             return Response.status(404).build();
@@ -32,40 +32,46 @@ public class CharacterResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addCheracter(@PathParam("playerId") int playerId, Character character) {
-        Optional<Player> player = playerDao.getPlayer(playerId);
-
-        if(player.isPresent()) {
-            boolean alreadyExists = player.get().getCharacters().stream().anyMatch(c -> c.getName().equals(character.getName()));
-            if(alreadyExists) {
-                return Response.status(400).build();
-            } else {
-                player.get().getCharacters().add(character);
-                playerDao.updatePlayer(player.get());
-                return Response.ok(character).build();
-            }
-        } else {
+        Optional<Player> player = playerService.getPlayer(playerId);
+        if(!player.isPresent()) {
             return Response.status(404).build();
         }
+
+        Character savedCharacter = playerService.addCharacter(player.get(), character);
+        return Response.ok(savedCharacter).build();
     }
 
     @PUT
+    @Path("/{characterId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCharacter(@PathParam("playerId") int playerId, Character character) {
-        Optional<Player> player = playerDao.getPlayer(playerId);
+    public Response updateCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId, Character character) {
+        if (character.getId() != characterId) {
+            return Response.status(400, "ID mismatch").build();
+        }
 
-        if(player.isPresent()) {
-            boolean alreadyExists = player.get().getCharacters().stream().anyMatch(c -> c.getName().equals(character.getName()));
-            if(alreadyExists) {
-                player.get().getCharacters().removeIf(c->c.getName().equals(character.getName()));
-                player.get().getCharacters().add(character);
-                playerDao.updatePlayer(player.get());
-                return Response.ok(character).build();
-            } else {
-                return Response.status(400).build();
-            }
-        } else {
+        Optional<Player> player = playerService.getPlayer(playerId);
+
+        if (!player.isPresent()) {
             return Response.status(404).build();
         }
+
+        playerService.updateCharacter(player.get(), character);
+        return Response.ok(character).build();
+    }
+
+    @DELETE
+    @Path("/{characterId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCharacter(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId) {
+        Optional<Player> player = playerService.getPlayer(playerId);
+
+        if (!player.isPresent()) {
+            return Response.status(404).build();
+        }
+
+        playerService.deleteCharacter(player.get(), characterId);
+        return Response.ok().build();
     }
 }

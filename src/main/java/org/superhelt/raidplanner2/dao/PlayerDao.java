@@ -17,7 +17,7 @@ public class PlayerDao {
 
     static {
         List<Character> characters = new ArrayList<>();
-        characters.add(new Character("Zikura", CharacterClass.Druid, Collections.singletonList(Role.Ranged)));
+        characters.add(new Character(1, "Zikura", CharacterClass.Druid, Collections.singletonList(Role.Ranged)));
         Player zikura = new Player(1, "Zikura", characters);
         players.add(zikura);
     }
@@ -35,13 +35,7 @@ public class PlayerDao {
         players.add(newPlayer);
     }
 
-    public Player addPlayer(Player player) {
-        Player newPlayer = new Player(findId(), player.getName(), new ArrayList<>());
-        players.add(newPlayer);
-        return newPlayer;
-    }
-
-    private int findId() {
-        return players.stream().mapToInt(Player::getId).max().getAsInt()+1;
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 }
