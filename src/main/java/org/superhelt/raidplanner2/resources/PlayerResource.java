@@ -8,44 +8,42 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 
 @Path("/players")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
 
-    private final PlayerService service;
+    private final PlayerService playerService;
 
     @Inject
-    public PlayerResource(PlayerService service) {
-        this.service = service;
+    public PlayerResource(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     @GET
     public Response getPlayers() {
-        List<Player> players = service.getPlayers();
+        List<Player> players = playerService.getPlayers();
         return Response.ok(players).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getPlayer(@PathParam("id") int id) {
-        Optional<Player> player = service.getPlayer(id);
-        if(player.isPresent()) return Response.ok(player.get()).build();
-        else return Response.status(404).build();
+        Player player = playerService.getPlayer(id);
+        return Response.ok(player).build();
     }
 
     @POST
     public Response addPlayer(Player player) {
-        Player savedPlayer = service.addPlayer(player);
+        Player savedPlayer = playerService.addPlayer(player);
         return Response.ok(savedPlayer).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deletePlayer(@PathParam("id") int id) {
-        service.deletePlayer(id);
+        playerService.deletePlayer(id);
         return Response.ok().build();
     }
 }

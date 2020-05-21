@@ -4,11 +4,28 @@ import java.util.List;
 
 public class Encounter {
 
-    private final Boss boss;
-    private final List<EncounterCharacter> players;
+    private int id;
+    private Boss boss;
+    private List<EncounterCharacter> players;
 
-    public Encounter(Boss boss, List<EncounterCharacter> players) {
+    public Encounter() {
+    }
+
+    public Encounter(int id, Boss boss, List<EncounterCharacter> players) {
+        this.id = id;
         this.boss = boss;
         this.players = players;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Boss getBoss() {
+        return boss;
+    }
+
+    public List<EncounterCharacter> getPlayers() {
+        return players;
     }
 }

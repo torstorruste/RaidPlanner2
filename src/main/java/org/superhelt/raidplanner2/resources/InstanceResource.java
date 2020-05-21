@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 
 @Path("instances")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,12 +33,8 @@ public class InstanceResource {
     @GET
     @Path("/{id}")
     public Response getInstance(@PathParam("id") int id) {
-        Optional<Instance> instance = service.getInstance(id);
+        Instance instance = service.getInstance(id);
 
-        if(instance.isPresent()) {
-            return Response.ok(instance.get()).build();
-        } else {
-            return Response.status(404).build();
-        }
+        return Response.ok(instance).build();
     }
 }

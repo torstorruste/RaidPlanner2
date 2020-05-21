@@ -1,6 +1,7 @@
 package org.superhelt.raidplanner2.service;
 
 import org.jvnet.hk2.annotations.Service;
+import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
@@ -8,7 +9,6 @@ import org.superhelt.raidplanner2.om.Player;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -24,13 +24,13 @@ public class PlayerService {
         return dao.get();
     }
 
-    public Optional<Player> getPlayer(int id) {
-        return dao.get(id);
+    public Player getPlayer(int id) {
+        return dao.get(id).orElseThrow(()->new ServerException(404, "Player with id %d does not exist", id));
     }
 
     public Player addPlayer(Player player) {
         if(dao.get().stream().anyMatch(p->p.getName().equals(player.getName()))) {
-            throw new ServiceException("A player with the name %s already exists", player.getName());
+            throw new ServerException("A player with the name %s already exists", player.getName());
         }
 
         Player playerToSave = new Player(findId(), player.getName(), new ArrayList<>());
@@ -40,7 +40,7 @@ public class PlayerService {
 
     public Character addCharacter(Player player, Character character) {
         if (player.getCharacters().stream().anyMatch(c -> c.getName().equals(character.getName()))) {
-            throw new ServiceException("Player %s already has a character with the name %s", player.getName(), character.getName());
+            throw new ServerException("Player %s already has a character with the name %s", player.getName(), character.getName());
         }
 
         Character characterToSave = new Character(findCharacterId(), character.getName(), character.getCharacterClass(), character.getRoles());
@@ -52,7 +52,7 @@ public class PlayerService {
 
     public void updateCharacter(Player player, Character character) {
         if (player.getCharacters().stream().noneMatch(c -> c.getId() == character.getId())) {
-            throw new ServiceException("Player %s has no character with the id %d", player.getName(), character.getId());
+            throw new ServerException("Player %s has no character with the id %d", player.getName(), character.getId());
         }
 
         player.getCharacters().removeIf(c -> c.getId() == character.getId());
@@ -63,7 +63,7 @@ public class PlayerService {
 
     public void deleteCharacter(Player player, int characterId) {
         if (player.getCharacters().stream().noneMatch(c -> c.getId() == characterId)) {
-            throw new ServiceException("Player %s has no character with the id %d", player.getName(), characterId);
+            throw new ServerException("Player %s has no character with the id %d", player.getName(), characterId);
         }
 
         player.getCharacters().removeIf(c->c.getId()==characterId);
@@ -72,7 +72,7 @@ public class PlayerService {
 
     public void deletePlayer(int id) {
         if(dao.get().stream().noneMatch(p->p.getId()==id)) {
-            throw new ServiceException("No player with id %d exists", id);
+            throw new ServerException(404, "No player with id %d exists", id);
         }
 
         dao.delete(id);

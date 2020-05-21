@@ -1,13 +1,13 @@
 package org.superhelt.raidplanner2.service;
 
 import org.jvnet.hk2.annotations.Service;
+import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.dao.InstanceDao;
 import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InstanceService {
@@ -23,13 +23,13 @@ public class InstanceService {
         return dao.get();
     }
 
-    public Optional<Instance> getInstance(int id) {
-        return dao.get(id);
+    public Instance getInstance(int id) {
+        return dao.get(id).orElseThrow(()->new ServerException(404, "Instance with id %d does not exist", id));
     }
 
     public Instance addBoss(Instance instance, Boss boss) {
         if (instance.getBosses().stream().anyMatch(b -> b.getName().equals(boss.getName()))) {
-            throw new ServiceException("Instance %s already contains a boss with name %s", instance.getName(), boss.getName());
+            throw new ServerException("Instance %s already contains a boss with name %s", instance.getName(), boss.getName());
         }
 
         Boss bossToAdd = new Boss(findId(), boss.getName());
@@ -46,7 +46,7 @@ public class InstanceService {
 
     public void updateBoss(Instance instance, Boss boss) {
         if (instance.getBosses().stream().noneMatch(b -> b.getId() == boss.getId())) {
-            throw new ServiceException("Instance %s does not contain a boss with id %d", instance.getName(), boss.getId());
+            throw new ServerException("Instance %s does not contain a boss with id %d", instance.getName(), boss.getId());
         }
 
         instance.getBosses().removeIf(b -> b.getId() == boss.getId());
@@ -57,7 +57,7 @@ public class InstanceService {
 
     public void deleteBoss(Instance instance, int bossId) {
         if (instance.getBosses().stream().noneMatch(b -> b.getId() == bossId)) {
-            throw new ServiceException("Instance %s does not contain a boss with id %d", instance.getName(), bossId);
+            throw new ServerException("Instance %s does not contain a boss with id %d", instance.getName(), bossId);
         }
 
         instance.getBosses().removeIf(b -> b.getId() == bossId);

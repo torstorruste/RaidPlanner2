@@ -2,7 +2,6 @@ package org.superhelt.raidplanner2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.superhelt.raidplanner2.service.ServiceException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -15,12 +14,12 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
 
     @Override
     public Response toResponse(Exception exception) {
-        ServiceException ex;
-        if(exception instanceof ServiceException) {
-            ex = (ServiceException) exception;
+        ServerException ex;
+        if(exception instanceof ServerException) {
+            ex = (ServerException) exception;
         } else {
             log.error("Unexpected exception encountered in exception mapper.", exception);
-            ex = new ServiceException("Unknown exception happened");
+            ex = new ServerException(exception.getMessage());
         }
 
         return Response.status(400).entity(ex.getMessage()).build();
