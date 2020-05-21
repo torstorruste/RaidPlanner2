@@ -34,9 +34,9 @@ public class PlayerService {
         return playerToSave;
     }
 
-    public Character addCharacter(Player player, Character character) throws ServiceException {
+    public Character addCharacter(Player player, Character character) {
         if (player.getCharacters().stream().anyMatch(c -> c.getName().equals(character.getName()))) {
-            throw new ServiceException("Character with that name already exists");
+            throw new ServiceException("Player %s already has a character with the name %s", player.getName(), character.getName());
         }
 
         Character characterToSave = new Character(findCharacterId(player), character.getName(), character.getCharacterClass(), character.getRoles());
@@ -46,9 +46,9 @@ public class PlayerService {
         return characterToSave;
     }
 
-    public void updateCharacter(Player player, Character character) throws ServiceException {
+    public void updateCharacter(Player player, Character character) {
         if (player.getCharacters().stream().noneMatch(c -> c.getId() == character.getId())) {
-            throw new ServiceException("No character with the given id");
+            throw new ServiceException("Player %s has no character with the id %d", player.getName(), character.getId());
         }
 
         player.getCharacters().removeIf(c -> c.getId() == character.getId());
@@ -57,9 +57,9 @@ public class PlayerService {
         playerDao.updatePlayer(player);
     }
 
-    public void deleteCharacter(Player player, int characterId) throws ServiceException {
+    public void deleteCharacter(Player player, int characterId) {
         if (player.getCharacters().stream().noneMatch(c -> c.getId() == characterId)) {
-            throw new ServiceException("No character with the given id");
+            throw new ServiceException("Player %s has no character with the id %d", player.getName(), characterId);
         }
 
         player.getCharacters().removeIf(c->c.getId()==characterId);
