@@ -1,5 +1,7 @@
 package org.superhelt.raidplanner2.client.gui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterPanel extends JPanel {
+
+    private static final Logger log = LoggerFactory.getLogger(CharacterPanel.class);
 
     private final PlayerPanel parent;
     private final PlayerService playerService;
@@ -65,6 +69,7 @@ public class CharacterPanel extends JPanel {
                 if(!character.getName().equals(newName)) {
                     updateCharacter(new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles()));
                     playerService.updateCharacter(player, character);
+                    refresh();
                 }
             }
         };
@@ -76,6 +81,7 @@ public class CharacterPanel extends JPanel {
             if(!character.getName().equals(newName)) {
                 updateCharacter(new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles()));
                 playerService.updateCharacter(player, character);
+                refresh();
             }
         };
     }
@@ -86,7 +92,6 @@ public class CharacterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 player.getCharacters().remove(character);
                 playerService.deleteCharacter(player, character);
-                parent.remove(CharacterPanel.this);
                 parent.refresh();
             }
         };
@@ -109,6 +114,7 @@ public class CharacterPanel extends JPanel {
                 updateCharacter(new Character(character.getId(), character.getName(), selectedClass, character.getRoles()));
                 playerService.updateCharacter(player, character);
             }
+            refresh();
         };
     }
 
@@ -123,6 +129,7 @@ public class CharacterPanel extends JPanel {
             }
             updateCharacter(new Character(character.getId(), character.getName(), character.getCharacterClass(), newRoles));
             playerService.updateCharacter(player, character);
+            refresh();
         };
     }
 
@@ -130,6 +137,13 @@ public class CharacterPanel extends JPanel {
         player.getCharacters().remove(this.character);
         this.character = character;
         player.getCharacters().add(character);
+        refresh();
+    }
+
+    public void refresh() {
+        log.info("Refreshing character panel for character {}", character.getName());
+        revalidate();
+        repaint();
     }
 
 }

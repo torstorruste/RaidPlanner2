@@ -1,5 +1,7 @@
 package org.superhelt.raidplanner2.client.gui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -12,6 +14,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PlayerPanel extends JPanel {
+
+    private static final Logger log = LoggerFactory.getLogger(PlayerPanel.class);
 
     private final PlayerService playerService;
     private final PlayerAdminPanel parent;
@@ -70,7 +74,9 @@ public class PlayerPanel extends JPanel {
     }
 
     public void refresh() {
+        log.info("Refreshing player panel for {}", player.getName());
         refreshCharacterPanels(player);
+        revalidate();
         repaint();
         parent.refresh();
     }
