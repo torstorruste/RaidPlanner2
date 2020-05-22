@@ -32,6 +32,7 @@ public class CharacterPanel extends JPanel {
 
         JComboBox<CharacterClass> classComboBox = new JComboBox<>(CharacterClass.values());
         classComboBox.setSelectedIndex(character.getCharacterClass().ordinal());
+        classComboBox.addItemListener(getClassListener());
         add(classComboBox);
 
         for(Role role : Role.values()) {
@@ -39,12 +40,23 @@ public class CharacterPanel extends JPanel {
             if(character.getRoles().contains(role)) {
                 roleBox.setSelected(true);
             }
-            roleBox.addItemListener(getListener(role));
+            roleBox.addItemListener(getRoleListener(role));
             add(roleBox);
         }
     }
 
-    private ItemListener getListener(Role role) {
+    private ItemListener getClassListener() {
+        return a->{
+            CharacterClass selectedClass = (CharacterClass) a.getItem();
+
+            if(selectedClass != character.getCharacterClass()) {
+                character = new Character(character.getId(), character.getName(), selectedClass, character.getRoles());
+                playerService.updateCharacter(player, character);
+            }
+        };
+    }
+
+    private ItemListener getRoleListener(Role role) {
         return a-> {
             List<Role> newRoles = new ArrayList<>(character.getRoles());
             JCheckBox roleBox = (JCheckBox) a.getItem();
