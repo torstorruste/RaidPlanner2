@@ -8,6 +8,7 @@ import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
 import java.awt.event.ItemListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +37,22 @@ public class CharacterPanel extends JPanel {
         add(classComboBox);
 
         for(Role role : Role.values()) {
+            add(new JLabel(createImageIcon(role)));
             JCheckBox roleBox = new JCheckBox();
             if(character.getRoles().contains(role)) {
                 roleBox.setSelected(true);
             }
             roleBox.addItemListener(getRoleListener(role));
             add(roleBox);
+        }
+    }
+
+    private ImageIcon createImageIcon(Role role) {
+        URL url = getClass().getResource("/" + role+".png");
+        if(url != null) {
+            return new ImageIcon(url, role.toString());
+        } else {
+            return null;
         }
     }
 

@@ -10,6 +10,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class PlayerService {
@@ -23,7 +24,9 @@ public class PlayerService {
         log.info("GET {}/players", REST_URL);
         Player[] players = client.target(REST_URL).path("players").request(MediaType.APPLICATION_JSON).get(Player[].class);
 
-        return Arrays.asList(players);
+        List<Player> result = Arrays.asList(players);
+        result.sort(Comparator.comparing(Player::getName));
+        return result;
     }
 
     public void updateCharacter(Player player, Character character) {
