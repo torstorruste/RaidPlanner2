@@ -1,6 +1,6 @@
 package org.superhelt.raidplanner2.client;
 
-import org.superhelt.raidplanner2.client.gui.PlayerPanel;
+import org.superhelt.raidplanner2.client.gui.PlayerAdminPanel;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class Program extends JFrame {
         super("A Necessary Raid Planner");
 
         PlayerService playerService = new PlayerService();
-        add(new PlayerPanel(playerService));
+        add(new PlayerAdminPanel(playerService));
     }
 
     public static void main(String[] args) {

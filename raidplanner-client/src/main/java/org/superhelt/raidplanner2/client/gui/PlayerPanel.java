@@ -1,26 +1,27 @@
 package org.superhelt.raidplanner2.client.gui;
 
-import org.superhelt.raidplanner2.client.service.PlayerService;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.swing.*;
-import java.util.List;
 
 public class PlayerPanel extends JPanel {
 
-    private final PlayerService service;
+    private final Player player;
 
-    public PlayerPanel(PlayerService service) {
-        this.service = service;
+    public PlayerPanel(Player player) {
+        this.player = player;
 
         initGui();
     }
 
     private void initGui() {
-        List<Player> players = service.getPlayers();
+        add(new JLabel("Player: "+player.getName()));
 
-        for(Player player : players) {
-            add(new JLabel(player.getName()));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+        for(Character character : player.getCharacters()) {
+            add(new CharacterPanel(character));
         }
     }
 
