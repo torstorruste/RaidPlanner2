@@ -20,26 +20,24 @@ public class FilePlayerDao implements PlayerDao {
 
     static {
         try {
-            if (!Files.exists(jsonFile)) {
-                Files.createFile(jsonFile);
-                log.info("Created file {}", jsonFile);
-            }
-
             readPlayersFromFile();
-
         } catch (Exception e) {
-            log.error("Unable to create or read {}", jsonFile, e);
+            log.error("Unable to read {}", jsonFile, e);
         }
     }
 
     private static void readPlayersFromFile() throws IOException {
-        String json = readFile(jsonFile);
+        if(Files.exists(jsonFile)) {
+            String json = readFile(jsonFile);
 
-        ObjectMapper mapper = new ObjectMapper();
-        Player[] savedPlayers = mapper.readerFor(Player[].class).readValue(json);
+            ObjectMapper mapper = new ObjectMapper();
+            Player[] savedPlayers = mapper.readerFor(Player[].class).readValue(json);
 
-        players.addAll(Arrays.asList(savedPlayers));
-        log.info("Read {} players from {}", players.size(), jsonFile);
+            players.addAll(Arrays.asList(savedPlayers));
+            log.info("Read {} players from {}", players.size(), jsonFile);
+        } else {
+            log.info("Found no file to read ({})", jsonFile);
+        }
     }
 
     private static void writePlayersToFile() {
