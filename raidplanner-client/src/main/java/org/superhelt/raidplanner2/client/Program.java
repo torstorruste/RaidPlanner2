@@ -12,7 +12,7 @@ public class Program extends JFrame {
         super("A Necessary Raid Planner");
 
         PlayerService playerService = new PlayerService();
-        add(new PlayerAdminPanel(this, playerService));
+        add(new JScrollPane(new PlayerAdminPanel(this, playerService)));
     }
 
     public static void main(String[] args) {

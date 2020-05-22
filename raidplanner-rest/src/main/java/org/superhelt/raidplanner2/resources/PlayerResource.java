@@ -36,6 +36,9 @@ public class PlayerResource {
 
     @POST
     public Response addPlayer(Player player) {
+        if(player.getName()==null || player.getName().isEmpty()) {
+            return Response.status(400, "Player needs a name").build();
+        }
         Player savedPlayer = playerService.addPlayer(player);
         return Response.ok(savedPlayer).build();
     }

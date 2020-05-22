@@ -33,8 +33,10 @@ public class AddPlayerPanel extends JPanel {
         return new AbstractAction("Add player") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerService.addPlayer(new Player(-1, nameField.getText(), new ArrayList<>()));
-                parent.refresh();
+                if(!nameField.getText().isEmpty()) {
+                    playerService.addPlayer(new Player(-1, nameField.getText(), new ArrayList<>()));
+                    parent.refresh();
+                }
             }
         };
     }
