@@ -7,6 +7,7 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.net.URL;
@@ -15,11 +16,13 @@ import java.util.List;
 
 public class CharacterPanel extends JPanel {
 
+    private final PlayerPanel parent;
     private final PlayerService playerService;
     private final Player player;
     private Character character;
 
-    public CharacterPanel(PlayerService playerService, Player player, Character character) {
+    public CharacterPanel(PlayerPanel parent, PlayerService playerService, Player player, Character character) {
+        this.parent = parent;
         this.playerService = playerService;
         this.player = player;
         this.character = character;
@@ -47,13 +50,26 @@ public class CharacterPanel extends JPanel {
             roleBox.addItemListener(getRoleListener(role));
             add(roleBox);
         }
+        add(new JButton(getDeleteButton()));
+    }
+
+    private Action getDeleteButton() {
+        return new AbstractAction("Delete") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.getCharacters().remove(character);
+                playerService.deleteCharacter(player, character);
+                parent.remove(CharacterPanel.this);
+                parent.refresh();
+            }
+        };
     }
 
     private ActionListener getNameListener() {
         return a->{
             String newName = ((JTextField)a.getSource()).getText();
             if(!character.getName().equals(newName)) {
-                character = new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles());
+                updateCharacter(new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles()));
                 playerService.updateCharacter(player, character);
             }
         };
@@ -73,7 +89,7 @@ public class CharacterPanel extends JPanel {
             CharacterClass selectedClass = (CharacterClass) a.getItem();
 
             if(selectedClass != character.getCharacterClass()) {
-                character = new Character(character.getId(), character.getName(), selectedClass, character.getRoles());
+                updateCharacter(new Character(character.getId(), character.getName(), selectedClass, character.getRoles()));
                 playerService.updateCharacter(player, character);
             }
         };
@@ -88,9 +104,15 @@ public class CharacterPanel extends JPanel {
             } else {
                 newRoles.remove(role);
             }
-            character = new Character(character.getId(), character.getName(), character.getCharacterClass(), newRoles);
+            updateCharacter(new Character(character.getId(), character.getName(), character.getCharacterClass(), newRoles));
             playerService.updateCharacter(player, character);
         };
+    }
+
+    private void updateCharacter(Character character) {
+        player.getCharacters().remove(this.character);
+        this.character = character;
+        player.getCharacters().add(character);
     }
 
 }

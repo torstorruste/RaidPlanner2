@@ -29,11 +29,26 @@ public class PlayerService {
         return result;
     }
 
+    public Character addCharacter(Player player, Character character) {
+        Client client = ClientBuilder.newClient();
+        log.info("POST {}/players/{}/characters", REST_URL, player.getId());
+
+        return client.target(REST_URL).path("players").path(String.format("%d/characters", player.getId()))
+                .request(MediaType.APPLICATION_JSON).post(Entity.entity(character, MediaType.APPLICATION_JSON), Character.class);
+    }
+
     public void updateCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
         log.info("PUT {}/players/{}", REST_URL, determineCharacterUrl(player, character));
         client.target(REST_URL).path("players").path(determineCharacterUrl(player, character))
                 .request(MediaType.APPLICATION_JSON).put(Entity.entity(character, MediaType.APPLICATION_JSON));
+    }
+
+    public void deleteCharacter(Player player, Character character) {
+        Client client = ClientBuilder.newClient();
+        log.info("DELETE {}/players/{}", REST_URL, determineCharacterUrl(player, character));
+        client.target(REST_URL).path("players").path(determineCharacterUrl(player, character))
+                .request(MediaType.APPLICATION_JSON).delete();
     }
 
     private String determineCharacterUrl(Player player, Character character) {
