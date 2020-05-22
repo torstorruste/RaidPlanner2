@@ -29,6 +29,14 @@ public class PlayerService {
         return result;
     }
 
+    public Player addPlayer(Player player) {
+        Client client = ClientBuilder.newClient();
+        log.info("POST {}/players", REST_URL);
+
+        return client.target(REST_URL).path("players")
+                .request(MediaType.APPLICATION_JSON).post(Entity.entity(player, MediaType.APPLICATION_JSON), Player.class);
+    }
+
     public Character addCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
         log.info("POST {}/players/{}/characters", REST_URL, player.getId());
