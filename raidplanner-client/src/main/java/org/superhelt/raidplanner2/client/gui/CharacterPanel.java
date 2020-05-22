@@ -7,6 +7,7 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,9 +28,10 @@ public class CharacterPanel extends JPanel {
     }
 
     private void initGui() {
-        JTextPane namePane = new JTextPane();
+        JTextField namePane = new JTextField(20);
         namePane.setText(character.getName());
         add(namePane);
+        namePane.addActionListener(getNameListener());
 
         JComboBox<CharacterClass> classComboBox = new JComboBox<>(CharacterClass.values());
         classComboBox.setSelectedIndex(character.getCharacterClass().ordinal());
@@ -45,6 +47,16 @@ public class CharacterPanel extends JPanel {
             roleBox.addItemListener(getRoleListener(role));
             add(roleBox);
         }
+    }
+
+    private ActionListener getNameListener() {
+        return a->{
+            String newName = ((JTextField)a.getSource()).getText();
+            if(!character.getName().equals(newName)) {
+                character = new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles());
+                playerService.updateCharacter(player, character);
+            }
+        };
     }
 
     private ImageIcon createImageIcon(Role role) {
