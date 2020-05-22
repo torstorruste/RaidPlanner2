@@ -22,7 +22,7 @@ public class PlayerAdminPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         for(Player player : players) {
-            add(new PlayerPanel(player));
+            add(new PlayerPanel(service, player));
         }
     }
 

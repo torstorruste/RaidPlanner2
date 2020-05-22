@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui;
 
+import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
 
@@ -7,9 +8,11 @@ import javax.swing.*;
 
 public class PlayerPanel extends JPanel {
 
+    private final PlayerService playerService;
     private final Player player;
 
-    public PlayerPanel(Player player) {
+    public PlayerPanel(PlayerService playerService, Player player) {
+        this.playerService = playerService;
         this.player = player;
 
         initGui();
@@ -21,7 +24,7 @@ public class PlayerPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         for(Character character : player.getCharacters()) {
-            add(new CharacterPanel(character));
+            add(new CharacterPanel(playerService, player, character));
         }
     }
 
