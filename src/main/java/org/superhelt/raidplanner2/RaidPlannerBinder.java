@@ -12,7 +12,7 @@ public class RaidPlannerBinder extends AbstractBinder {
         bindAsContract(ApprovalDao.class);
         bindAsContract(ApprovalService.class);
 
-        bindAsContract(InstanceDao.class);
+        bind(FileInstanceDao.class).to(InstanceDao.class);
         bindAsContract(InstanceService.class);
 
         bind(FilePlayerDao.class).to(PlayerDao.class);

@@ -4,9 +4,12 @@ import java.util.List;
 
 public class Instance {
 
-    private final int id;
-    private final String name;
-    private final List<Boss> bosses;
+    private int id;
+    private String name;
+    private List<Boss> bosses;
+
+    public Instance() {
+    }
 
     public Instance(int id, String name, List<Boss> bosses) {
         this.id = id;
