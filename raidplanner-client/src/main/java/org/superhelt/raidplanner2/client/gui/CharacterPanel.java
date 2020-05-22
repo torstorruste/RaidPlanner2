@@ -7,9 +7,7 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,7 @@ public class CharacterPanel extends JPanel {
         namePane.setText(character.getName());
         add(namePane);
         namePane.addActionListener(getNameListener());
+        namePane.addFocusListener(getNameFocusListener());
 
         JComboBox<CharacterClass> classComboBox = new JComboBox<>(CharacterClass.values());
         classComboBox.setSelectedIndex(character.getCharacterClass().ordinal());
@@ -53,14 +52,20 @@ public class CharacterPanel extends JPanel {
         add(new JButton(getDeleteButton()));
     }
 
-    private Action getDeleteButton() {
-        return new AbstractAction("Delete") {
+    private FocusListener getNameFocusListener() {
+        return new FocusListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                player.getCharacters().remove(character);
-                playerService.deleteCharacter(player, character);
-                parent.remove(CharacterPanel.this);
-                parent.refresh();
+            public void focusGained(FocusEvent e) {
+                // Do nothing
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                String newName = ((JTextField)e.getSource()).getText();
+                if(!character.getName().equals(newName)) {
+                    updateCharacter(new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles()));
+                    playerService.updateCharacter(player, character);
+                }
             }
         };
     }
@@ -71,6 +76,18 @@ public class CharacterPanel extends JPanel {
             if(!character.getName().equals(newName)) {
                 updateCharacter(new Character(character.getId(), newName, character.getCharacterClass(), character.getRoles()));
                 playerService.updateCharacter(player, character);
+            }
+        };
+    }
+
+    private Action getDeleteButton() {
+        return new AbstractAction("Delete") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.getCharacters().remove(character);
+                playerService.deleteCharacter(player, character);
+                parent.remove(CharacterPanel.this);
+                parent.refresh();
             }
         };
     }
