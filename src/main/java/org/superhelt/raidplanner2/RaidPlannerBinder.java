@@ -1,10 +1,7 @@
 package org.superhelt.raidplanner2;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.superhelt.raidplanner2.dao.ApprovalDao;
-import org.superhelt.raidplanner2.dao.InstanceDao;
-import org.superhelt.raidplanner2.dao.MockPlayerDao;
-import org.superhelt.raidplanner2.dao.PlayerDao;
+import org.superhelt.raidplanner2.dao.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.InstanceService;
 import org.superhelt.raidplanner2.service.PlayerService;
@@ -18,7 +15,7 @@ public class RaidPlannerBinder extends AbstractBinder {
         bindAsContract(InstanceDao.class);
         bindAsContract(InstanceService.class);
 
-        bind(MockPlayerDao.class).to(PlayerDao.class);
+        bind(FilePlayerDao.class).to(PlayerDao.class);
         bindAsContract(PlayerService.class);
     }
 }
