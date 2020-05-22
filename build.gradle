@@ -13,3 +13,9 @@ project('raidplanner-rest') {
         implementation project(':raidplanner-shared')
     }
 }
+
+project('raidplanner-client') {
+    dependencies {
+        implementation project(':raidplanner-shared')
+    }
+}
