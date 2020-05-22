@@ -1,2 +1,3 @@
 rootProject.name = 'RaidPlanner2'
 
+include 'raidplanner-rest', 'raidplanner-shared'
