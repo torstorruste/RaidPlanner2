@@ -2,8 +2,10 @@ package org.superhelt.raidplanner2.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.approvalAdmin.ApprovalAdminPanel;
 import org.superhelt.raidplanner2.client.gui.instanceAdmin.InstanceAdminPanel;
 import org.superhelt.raidplanner2.client.gui.playerAdmin.PlayerAdminPanel;
+import org.superhelt.raidplanner2.client.service.ApprovalService;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 
@@ -19,10 +21,12 @@ public class Program extends JFrame {
 
         PlayerService playerService = new PlayerService();
         InstanceService instanceService = new InstanceService();
+        ApprovalService approvalService = new ApprovalService();
 
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.addTab("Players", new PlayerAdminPanel(playerService));
         tabPane.addTab("Instances", new InstanceAdminPanel(instanceService));
+        tabPane.addTab("Approval", new ApprovalAdminPanel(approvalService, instanceService, playerService));
 
         add(tabPane);
     }
