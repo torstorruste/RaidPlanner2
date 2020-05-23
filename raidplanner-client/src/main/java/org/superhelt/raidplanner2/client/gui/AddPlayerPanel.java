@@ -30,12 +30,13 @@ public class AddPlayerPanel extends JPanel {
     }
 
     private Action getAddAction() {
-        return new AbstractAction("Add player") {
+        return new AbstractAction("Add") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!nameField.getText().isEmpty()) {
-                    playerService.addPlayer(new Player(-1, nameField.getText(), new ArrayList<>()));
-                    parent.refresh();
+                    Player savedPlayer = playerService.addPlayer(new Player(-1, nameField.getText(), new ArrayList<>()));
+                    parent.addPlayer(savedPlayer);
+                    nameField.setText("");
                 }
             }
         };

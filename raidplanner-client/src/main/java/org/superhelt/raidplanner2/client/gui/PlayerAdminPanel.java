@@ -2,12 +2,11 @@ package org.superhelt.raidplanner2.client.gui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.superhelt.raidplanner2.client.Program;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import javax.swing.event.ListSelectionListener;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,44 +15,74 @@ public class PlayerAdminPanel extends JPanel {
     private static final Logger log = LoggerFactory.getLogger(PlayerAdminPanel.class);
 
     private final PlayerService service;
-    private final Program program;
+    private List<Player> players;
+    private PlayerPanel playerPanel;
+    private JList<Player> list;
 
-    private List<JPanel> panels = new ArrayList<>();
-
-    public PlayerAdminPanel(Program program, PlayerService service) {
-        this.program = program;
+    public PlayerAdminPanel(PlayerService service) {
         this.service = service;
 
         initGui();
     }
 
     private void initGui() {
-        for(JPanel panel : panels) {
-            remove(panel);
-        }
-        panels.clear();
-
-        List<Player> players = service.getPlayers();
+        list = new JList<>();
+        DefaultListModel<Player> model = new DefaultListModel<>();
+        players = service.getPlayers();
         players.sort(Comparator.comparing(Player::getName));
 
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        players.forEach(model::addElement);
 
-        for(Player player : players) {
-            PlayerPanel playerPanel = new PlayerPanel(service, this, player);
-            add(playerPanel);
-            panels.add(playerPanel);
-        }
+        list.setModel(model);
+        list.setSelectedIndex(0);
+        list.setCellRenderer(new PlayerCellRenderer());
 
-        AddPlayerPanel addPanel = new AddPlayerPanel(this, service);
-        add(addPanel);
-        panels.add(addPanel);
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+        leftPanel.add(list);
+        leftPanel.add(new AddPlayerPanel(this, service));
+
+        playerPanel = new PlayerPanel(service, this, players.get(0));
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, playerPanel);
+        add(splitPane);
+
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        list.addListSelectionListener(getListListener());
     }
 
-    public void refresh() {
-        log.info("Refreshing player admin panel");
-        initGui();
+    private ListSelectionListener getListListener() {
+        return e->{
+            if(list.getSelectedIndex()>=0) {
+                Player player = players.get(list.getSelectedIndex());
+                log.info("Selecting player {} (index={})", player.getName(), list.getSelectedIndex());
+                playerPanel.setPlayer(player);
+            }
+        };
+    }
+
+    public void addPlayer(Player player) {
+        log.info("Refreshing list with player {}", player.getName());
+        players = service.getPlayers();
+        players.sort(Comparator.comparing(Player::getName));
+
+        int index = getIndex(players, player);
+
+        DefaultListModel<Player> model = new DefaultListModel<>();
+        players.forEach(model::addElement);
+        list.setModel(model);
+        list.setSelectedIndex(index);
+
         revalidate();
         repaint();
-        program.refresh();
+    }
+
+    private int getIndex(List<Player> players, Player player) {
+        for(int i=0;i<players.size();i++) {
+            if(players.get(i).getId()==player.getId()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

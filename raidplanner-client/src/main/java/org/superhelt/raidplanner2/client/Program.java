@@ -16,7 +16,7 @@ public class Program extends JFrame {
         super("A Necessary Raid Planner");
 
         PlayerService playerService = new PlayerService();
-        add(new JScrollPane(new PlayerAdminPanel(this, playerService)));
+        add(new JScrollPane(new PlayerAdminPanel(playerService)));
     }
 
     public static void main(String[] args) {
@@ -24,11 +24,5 @@ public class Program extends JFrame {
         program.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         program.pack();
         program.setVisible(true);
-    }
-
-    public void refresh() {
-        log.info("Refreshing Program");
-        revalidate();
-        repaint();
     }
 }

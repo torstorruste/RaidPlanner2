@@ -19,7 +19,7 @@ public class PlayerPanel extends JPanel {
 
     private final PlayerService playerService;
     private final PlayerAdminPanel parent;
-    private final Player player;
+    private Player player;
 
     private List<CharacterPanel> characterPanels = new ArrayList<>();
 
@@ -31,9 +31,12 @@ public class PlayerPanel extends JPanel {
         initGui();
     }
 
-    private void initGui() {
-        add(new JLabel("Player: "+player.getName()));
+    public void setPlayer(Player player) {
+        this.player = player;
+        refresh();
+    }
 
+    private void initGui() {
         JButton addCharacter = new JButton(getAddCharacterAction());
         add(addCharacter);
 
@@ -44,7 +47,7 @@ public class PlayerPanel extends JPanel {
 
     private void addCharacterPanels(Player player) {
         player.getCharacters().sort(Comparator.comparing(Character::getName));
-        for(Character character : player.getCharacters()) {
+        for (Character character : player.getCharacters()) {
             CharacterPanel panel = new CharacterPanel(this, playerService, player, character);
             characterPanels.add(panel);
             add(panel);
@@ -52,7 +55,7 @@ public class PlayerPanel extends JPanel {
     }
 
     private void refreshCharacterPanels(Player player) {
-        for(CharacterPanel panel : characterPanels) {
+        for (CharacterPanel panel : characterPanels) {
             remove(panel);
         }
         characterPanels.clear();
@@ -78,6 +81,5 @@ public class PlayerPanel extends JPanel {
         refreshCharacterPanels(player);
         revalidate();
         repaint();
-        parent.refresh();
     }
 }
