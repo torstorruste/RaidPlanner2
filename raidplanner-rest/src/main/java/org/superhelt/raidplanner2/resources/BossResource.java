@@ -81,4 +81,12 @@ public class BossResource {
         Approval approval = approvalService.addApproval(playerId, characterId, instanceId, bossId);
         return Response.ok(approval).build();
     }
+
+    @DELETE
+    @Path("{bossId}/approvals/{playerId}/{characterId}")
+    public Response deleteApproval(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId,
+                                @PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId) {
+        approvalService.deleteApproval(playerId, characterId, instanceId, bossId);
+        return Response.ok().build();
+    }
 }

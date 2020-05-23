@@ -20,4 +20,8 @@ public class ApprovalDao {
     public List<Approval> get() {
         return approvals;
     }
+
+    public void deleteApproval(Approval approval) {
+        approvals.removeIf(a->a.getCharacter().getId()==approval.getCharacter().getId() && a.getBoss().getId()==approval.getBoss().getId());
+    }
 }
