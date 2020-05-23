@@ -34,7 +34,7 @@ public class InstanceAdminPanel extends JSplitPane {
         leftPanel.add(list);
 
         setLeftComponent(leftPanel);
-        setRightComponent(new JPanel());
+        setRightComponent(new InstancePanel(instances.get(0)));
         setEnabled(false);
     }
 }
