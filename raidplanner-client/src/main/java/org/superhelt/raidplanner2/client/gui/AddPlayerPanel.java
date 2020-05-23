@@ -35,7 +35,7 @@ public class AddPlayerPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!nameField.getText().isEmpty()) {
                     Player savedPlayer = playerService.addPlayer(new Player(-1, nameField.getText(), new ArrayList<>()));
-                    parent.addPlayer(savedPlayer);
+                    parent.refreshPanel(savedPlayer);
                     nameField.setText("");
                 }
             }

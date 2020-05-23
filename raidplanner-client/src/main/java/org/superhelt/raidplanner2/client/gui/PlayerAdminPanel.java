@@ -63,7 +63,7 @@ public class PlayerAdminPanel extends JSplitPane {
         };
     }
 
-    public void addPlayer(Player player) {
+    public void refreshPanel(Player player) {
         log.info("Refreshing list with player {}", player.getName());
         players = service.getPlayers();
         players.sort(Comparator.comparing(Player::getName));
@@ -82,6 +82,6 @@ public class PlayerAdminPanel extends JSplitPane {
                 return i;
             }
         }
-        return -1;
+        return 0;
     }
 }

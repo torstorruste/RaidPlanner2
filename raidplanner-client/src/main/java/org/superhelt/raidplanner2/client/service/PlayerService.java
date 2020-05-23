@@ -37,6 +37,13 @@ public class PlayerService {
                 .request(MediaType.APPLICATION_JSON).post(Entity.entity(player, MediaType.APPLICATION_JSON), Player.class);
     }
 
+    public void deletePlayer(Player player) {
+        Client client = ClientBuilder.newClient();
+        log.info("DELETE {}/players/{}", REST_URL, player.getId());
+
+        client.target(REST_URL).path("players/"+player.getId()).request(MediaType.APPLICATION_JSON).delete();
+    }
+
     public Character addCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
         log.info("POST {}/players/{}/characters", REST_URL, player.getId());

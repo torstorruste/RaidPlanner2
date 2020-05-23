@@ -37,8 +37,8 @@ public class PlayerPanel extends JPanel {
     }
 
     private void initGui() {
-        JButton addCharacter = new JButton(getAddCharacterAction());
-        add(addCharacter);
+        add(new JButton(getAddCharacterAction()));
+        add(new JButton(getDeletePlayerAction()));
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -61,6 +61,21 @@ public class PlayerPanel extends JPanel {
         characterPanels.clear();
 
         addCharacterPanels(player);
+    }
+
+    private Action getDeletePlayerAction() {
+        return new AbstractAction("Delete player") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(PlayerPanel.this, "Are you sure you want to delete " + player.getName() + "?",
+                        "Delete " + player.getName(), JOptionPane.YES_NO_OPTION);
+
+                if(result==0) {
+                    playerService.deletePlayer(player);
+                    parent.refreshPanel(player);
+                }
+            }
+        };
     }
 
     private Action getAddCharacterAction() {
