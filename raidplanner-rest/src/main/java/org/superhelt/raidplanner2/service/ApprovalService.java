@@ -33,7 +33,7 @@ public class ApprovalService {
         return approvalDao.get().stream().filter(a->a.getInstance().getId()==instanceId && a.getBoss().getId()==bossId).collect(Collectors.toList());
     }
 
-    public Approval addApproval(int playerId, int characterId, int instanceId, int bossId, Role role) {
+    public Approval addApproval(int playerId, int characterId, int instanceId, int bossId) {
         Player player = playerDao.get(playerId).orElseThrow(()->new ServerException("Player with id %d does not exist", playerId));
         Instance instance = instanceDao.get(instanceId).orElseThrow(()->new ServerException("Instance with id %d does not exist", instanceId));
 
@@ -43,7 +43,7 @@ public class ApprovalService {
         Boss boss = instance.getBosses().stream().filter(b->b.getId()==bossId).findFirst().orElseThrow(
                 ()->new ServerException("Instance %s does not contain a boss with id %d", instance.getName(), bossId));
 
-        Approval approval = new Approval(player, character, instance, boss, role);
+        Approval approval = new Approval(player, character, instance, boss);
         approvalDao.addApproval(approval);
 
         return approval;

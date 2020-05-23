@@ -1,6 +1,5 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.dto.CharacterApproval;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
@@ -11,7 +10,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/players/{playerId}/characters")
@@ -73,22 +71,15 @@ public class CharacterResource {
         return Response.ok(transform(approvals)).build();
     }
 
-    private List<CharacterApproval> transform(List<Approval> approvals) {
-        Map<Boss, List<Role>> map = approvals.stream().collect(
-                Collectors.groupingBy(
-                        Approval::getBoss,
-                        Collectors.mapping(Approval::getRole, Collectors.toList())
-                ));
-
-        return map.entrySet().stream().map(e->new CharacterApproval(e.getKey(), e.getValue())).collect(Collectors.toList());
+    private List<Boss> transform(List<Approval> approvals) {
+        return approvals.stream().map(Approval::getBoss).collect(Collectors.toList());
     }
 
     @POST
     @Path("{characterId}/approvals/{instanceId}/{bossId}")
     public Response addApproval(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId,
-                                @PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId,
-                                Role role) {
-        Approval approval = approvalService.addApproval(playerId, characterId, instanceId, bossId, role);
+                                @PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId) {
+        Approval approval = approvalService.addApproval(playerId, characterId, instanceId, bossId);
         return Response.ok(approval).build();
     }
 }

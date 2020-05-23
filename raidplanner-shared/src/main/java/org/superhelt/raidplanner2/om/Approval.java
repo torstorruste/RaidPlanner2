@@ -6,17 +6,15 @@ public class Approval {
     private Character character;
     private Instance instance;
     private Boss boss;
-    private Role role;
 
     public Approval() {
     }
 
-    public Approval(Player player, Character character, Instance instance, Boss boss, Role role) {
+    public Approval(Player player, Character character, Instance instance, Boss boss) {
         this.player = player;
         this.character = character;
         this.instance = instance;
         this.boss = boss;
-        this.role = role;
     }
 
     public Player getPlayer() {
@@ -33,9 +31,5 @@ public class Approval {
 
     public Boss getBoss() {
         return boss;
-    }
-
-    public Role getRole() {
-        return role;
     }
 }

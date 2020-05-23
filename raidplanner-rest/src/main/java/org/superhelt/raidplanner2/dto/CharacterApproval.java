@@ -8,18 +8,12 @@ import java.util.List;
 public class CharacterApproval {
 
     private final Boss boss;
-    private final List<Role> roles;
 
-    public CharacterApproval(Boss boss, List<Role> roles) {
+    public CharacterApproval(Boss boss) {
         this.boss = boss;
-        this.roles = roles;
     }
 
     public Boss getBoss() {
         return boss;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
     }
 }
