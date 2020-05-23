@@ -66,7 +66,7 @@ public class BossResource {
     @GET
     @Path("{bossId}/approvals")
     public Response getApprovals(@PathParam("instanceId") int instanceId, @PathParam("bossId") int bossId) {
-        List<Approval> approvals = approvalService.getByBoss(instanceId, bossId);
+        List<Approval> approvals = approvalService.getByBoss(bossId);
         return Response.ok(transform(approvals)).build();
     }
 

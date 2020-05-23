@@ -66,7 +66,7 @@ public class CharacterResource {
     @GET
     @Path("{characterId}/approvals")
     public Response getApprovals(@PathParam("playerId") int playerId, @PathParam("characterId") int characterId) {
-        List<Approval> approvals = approvalService.getByCharacter(playerId, characterId);
+        List<Approval> approvals = approvalService.getByCharacter(characterId);
 
         return Response.ok(transform(approvals)).build();
     }
