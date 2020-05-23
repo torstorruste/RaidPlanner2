@@ -22,7 +22,7 @@ public class AddPlayerPanel extends JPanel {
     }
 
     private void initGui() {
-        nameField = new JTextField(20);
+        nameField = new JTextField(10);
         add(nameField);
 
         JButton addPlayerButton = new JButton(getAddAction());
