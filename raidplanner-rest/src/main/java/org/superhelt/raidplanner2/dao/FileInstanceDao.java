@@ -40,6 +40,11 @@ public class FileInstanceDao implements InstanceDao {
         return instances.stream().filter(i->i.getId()==id).findFirst();
     }
 
+    @Override
+    public void add(Instance instance) {
+        instances.add(instance);
+    }
+
     public void update(Instance instance) {
         instances.removeIf(i->i.getId()==instance.getId());
         instances.add(instance);

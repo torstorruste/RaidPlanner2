@@ -5,10 +5,7 @@ import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.service.InstanceService;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -36,5 +33,11 @@ public class InstanceResource {
         Instance instance = service.getInstance(id);
 
         return Response.ok(instance).build();
+    }
+
+    @POST
+    public Response addInstance(Instance instance) {
+        Instance savedInstance = service.addInstance(instance);
+        return Response.ok(savedInstance).build();
     }
 }

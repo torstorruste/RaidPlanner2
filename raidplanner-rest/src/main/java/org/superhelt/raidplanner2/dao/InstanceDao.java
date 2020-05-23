@@ -14,4 +14,6 @@ public interface InstanceDao {
     Optional<Instance> get(int id);
 
     void update(Instance instance);
+
+    void add(Instance instance);
 }

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
-import org.superhelt.raidplanner2.om.Player;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -28,6 +27,13 @@ public class InstanceService {
         List<Instance> result = Arrays.asList(players);
         result.sort(Comparator.comparing(Instance::getName));
         return result;
+    }
+
+    public Instance addInstance(Instance instance) {
+        Client client = ClientBuilder.newClient();
+        log.info("POST {}/instances", REST_URL);
+        return client.target(REST_URL).path("instances").request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(instance, MediaType.APPLICATION_JSON_TYPE), Instance.class);
     }
 
     public void updateBoss(Instance instance, Boss boss) {

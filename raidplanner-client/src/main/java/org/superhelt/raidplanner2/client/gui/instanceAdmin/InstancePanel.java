@@ -5,6 +5,7 @@ import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Comparator;
 
 public class InstancePanel extends JPanel {
@@ -22,12 +23,19 @@ public class InstancePanel extends JPanel {
     }
 
     private void initGui() {
-        add(new JLabel(instance.getName()));
         instance.getBosses().sort(Comparator.comparing(Boss::getId));
         for(Boss boss : instance.getBosses()) {
             add(new BossPanel(service, instance, boss));
         }
+    }
 
-        add(new AddBossPanel());
+    public void setInstance(Instance instance) {
+        for(Component component : getComponents()) {
+            remove(component);
+        }
+        this.instance = instance;
+        initGui();
+        revalidate();
+        repaint();
     }
 }

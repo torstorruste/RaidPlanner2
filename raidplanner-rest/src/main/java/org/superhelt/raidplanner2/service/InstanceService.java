@@ -5,8 +5,10 @@ import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.dao.InstanceDao;
 import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
+import org.superhelt.raidplanner2.om.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,21 +29,27 @@ public class InstanceService {
         return dao.get(id).orElseThrow(()->new ServerException(404, "Instance with id %d does not exist", id));
     }
 
+    public Instance addInstance(Instance instance) {
+        if(dao.get().stream().anyMatch(p->p.getName().equals(instance.getName()))) {
+            throw new ServerException("An instance with the name %s already exists", instance.getName());
+        }
+
+        Instance instanceToSave = new Instance(findInstanceId(), instance.getName(), new ArrayList<>());
+        dao.add(instanceToSave);
+        return instanceToSave;
+    }
+
     public Instance addBoss(Instance instance, Boss boss) {
         if (instance.getBosses().stream().anyMatch(b -> b.getName().equals(boss.getName()))) {
             throw new ServerException("Instance %s already contains a boss with name %s", instance.getName(), boss.getName());
         }
 
-        Boss bossToAdd = new Boss(findId(), boss.getName());
+        Boss bossToAdd = new Boss(findBossId(), boss.getName());
 
         instance.getBosses().add(bossToAdd);
 
         dao.update(instance);
         return instance;
-    }
-
-    private int findId() {
-        return dao.get().stream().flatMap(i->i.getBosses().stream()).mapToInt(Boss::getId).max().orElse(0)+1;
     }
 
     public void updateBoss(Instance instance, Boss boss) {
@@ -63,5 +71,13 @@ public class InstanceService {
         instance.getBosses().removeIf(b -> b.getId() == bossId);
 
         dao.update(instance);
+    }
+
+    private int findInstanceId() {
+        return dao.get().stream().mapToInt(Instance::getId).max().orElse(0)+1;
+    }
+
+    private int findBossId() {
+        return dao.get().stream().flatMap(i->i.getBosses().stream()).mapToInt(Boss::getId).max().orElse(0)+1;
     }
 }
