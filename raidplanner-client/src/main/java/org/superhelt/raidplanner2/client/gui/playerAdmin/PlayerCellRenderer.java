@@ -1,4 +1,4 @@
-package org.superhelt.raidplanner2.client.gui;
+package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
 import org.superhelt.raidplanner2.om.Player;
 

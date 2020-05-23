@@ -1,4 +1,4 @@
-package org.superhelt.raidplanner2.client.gui;
+package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
