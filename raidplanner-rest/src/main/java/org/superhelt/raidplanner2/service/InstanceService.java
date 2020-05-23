@@ -39,7 +39,15 @@ public class InstanceService {
         return instanceToSave;
     }
 
-    public Instance addBoss(Instance instance, Boss boss) {
+    public void deleteInstance(int id) {
+        if(dao.get().stream().noneMatch(p->p.getId()==id)) {
+            throw new ServerException(404, "No instance with id %d exists", id);
+        }
+
+        dao.delete(id);
+    }
+
+    public Boss addBoss(Instance instance, Boss boss) {
         if (instance.getBosses().stream().anyMatch(b -> b.getName().equals(boss.getName()))) {
             throw new ServerException("Instance %s already contains a boss with name %s", instance.getName(), boss.getName());
         }
@@ -49,7 +57,7 @@ public class InstanceService {
         instance.getBosses().add(bossToAdd);
 
         dao.update(instance);
-        return instance;
+        return bossToAdd;
     }
 
     public void updateBoss(Instance instance, Boss boss) {

@@ -21,7 +21,7 @@ public class PlayerService {
 
     public List<Player> getPlayers() {
         Client client = ClientBuilder.newClient();
-        log.info("GET {}/players", REST_URL);
+        log.info("GET {}players", REST_URL);
         Player[] players = client.target(REST_URL).path("players").request(MediaType.APPLICATION_JSON).get(Player[].class);
 
         List<Player> result = Arrays.asList(players);
@@ -31,7 +31,7 @@ public class PlayerService {
 
     public Player addPlayer(Player player) {
         Client client = ClientBuilder.newClient();
-        log.info("POST {}/players", REST_URL);
+        log.info("POST {}players", REST_URL);
 
         return client.target(REST_URL).path("players")
                 .request(MediaType.APPLICATION_JSON).post(Entity.entity(player, MediaType.APPLICATION_JSON), Player.class);
@@ -39,14 +39,14 @@ public class PlayerService {
 
     public void deletePlayer(Player player) {
         Client client = ClientBuilder.newClient();
-        log.info("DELETE {}/players/{}", REST_URL, player.getId());
+        log.info("DELETE {}players/{}", REST_URL, player.getId());
 
         client.target(REST_URL).path("players/"+player.getId()).request(MediaType.APPLICATION_JSON).delete();
     }
 
     public Character addCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
-        log.info("POST {}/players/{}/characters", REST_URL, player.getId());
+        log.info("POST {}players/{}/characters", REST_URL, player.getId());
 
         return client.target(REST_URL).path("players").path(String.format("%d/characters", player.getId()))
                 .request(MediaType.APPLICATION_JSON).post(Entity.entity(character, MediaType.APPLICATION_JSON), Character.class);
@@ -54,14 +54,14 @@ public class PlayerService {
 
     public void updateCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
-        log.info("PUT {}/players/{}", REST_URL, determineCharacterUrl(player, character));
+        log.info("PUT {}players/{}", REST_URL, determineCharacterUrl(player, character));
         client.target(REST_URL).path("players").path(determineCharacterUrl(player, character))
                 .request(MediaType.APPLICATION_JSON).put(Entity.entity(character, MediaType.APPLICATION_JSON));
     }
 
     public void deleteCharacter(Player player, Character character) {
         Client client = ClientBuilder.newClient();
-        log.info("DELETE {}/players/{}", REST_URL, determineCharacterUrl(player, character));
+        log.info("DELETE {}players/{}", REST_URL, determineCharacterUrl(player, character));
         client.target(REST_URL).path("players").path(determineCharacterUrl(player, character))
                 .request(MediaType.APPLICATION_JSON).delete();
     }

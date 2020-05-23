@@ -39,8 +39,8 @@ public class BossResource {
     public Response addBoss(@PathParam("instanceId") int instanceId, Boss boss) {
         Instance instance = instanceService.getInstance(instanceId);
 
-        Instance updatedInstance = instanceService.addBoss(instance, boss);
-        return Response.ok(updatedInstance.getBosses()).build();
+        Boss savedBoss = instanceService.addBoss(instance, boss);
+        return Response.ok(savedBoss).build();
     }
 
     @PUT

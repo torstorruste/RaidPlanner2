@@ -16,4 +16,6 @@ public interface InstanceDao {
     void update(Instance instance);
 
     void add(Instance instance);
+
+    void delete(int id);
 }

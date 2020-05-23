@@ -43,11 +43,18 @@ public class FileInstanceDao implements InstanceDao {
     @Override
     public void add(Instance instance) {
         instances.add(instance);
+        FileWriter.writeToFile(jsonFile, instances);
     }
 
     public void update(Instance instance) {
         instances.removeIf(i->i.getId()==instance.getId());
         instances.add(instance);
+        FileWriter.writeToFile(jsonFile, instances);
+    }
+
+    @Override
+    public void delete(int id) {
+        instances.removeIf(i->i.getId()==id);
         FileWriter.writeToFile(jsonFile, instances);
     }
 }

@@ -40,4 +40,11 @@ public class InstanceResource {
         Instance savedInstance = service.addInstance(instance);
         return Response.ok(savedInstance).build();
     }
+
+    @DELETE
+    @Path("/{instanceId}")
+    public Response deleteInstance(@PathParam("instanceId") int id) {
+        service.deleteInstance(id);
+        return Response.ok().build();
+    }
 }
