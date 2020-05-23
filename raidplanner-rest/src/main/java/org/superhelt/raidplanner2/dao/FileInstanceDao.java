@@ -19,9 +19,8 @@ public class FileInstanceDao implements InstanceDao {
 
     private static final Logger log = LoggerFactory.getLogger(FileInstanceDao.class);
 
-    private static Path jsonFile = Paths.get("instances.json");
-    private static List<Instance> instances = new ArrayList<>();
-
+    private static final Path jsonFile = Paths.get("instances.json");
+    private static final List<Instance> instances = new ArrayList<>();
 
     static {
         try {

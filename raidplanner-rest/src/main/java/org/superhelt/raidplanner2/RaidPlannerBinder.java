@@ -9,7 +9,7 @@ import org.superhelt.raidplanner2.service.PlayerService;
 public class RaidPlannerBinder extends AbstractBinder {
     @Override
     protected void configure() {
-        bindAsContract(ApprovalDao.class);
+        bind(FileApprovalDao.class).to(ApprovalDao.class);
         bindAsContract(ApprovalService.class);
 
         bind(FileInstanceDao.class).to(InstanceDao.class);

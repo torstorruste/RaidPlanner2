@@ -1,27 +1,16 @@
 package org.superhelt.raidplanner2.dao;
 
-import org.jvnet.hk2.annotations.Service;
+import org.jvnet.hk2.annotations.Contract;
 import org.superhelt.raidplanner2.om.Approval;
 
-import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
-@Service
-public class ApprovalDao {
+@Contract
+public interface ApprovalDao {
 
-    private static final List<Approval> approvals = new ArrayList<>();
+    void addApproval(Approval approval);
 
-    public void addApproval(Approval approval) {
-        approvals.add(approval);
-    }
+    List<Approval> get();
 
-    public List<Approval> get() {
-        return approvals;
-    }
-
-    public void deleteApproval(Approval approval) {
-        approvals.removeIf(a->a.getCharacter().getId()==approval.getCharacter().getId() && a.getBoss().getId()==approval.getBoss().getId());
-    }
+    void deleteApproval(Approval approval);
 }
