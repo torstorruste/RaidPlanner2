@@ -9,6 +9,7 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class CharacterPanel extends JPanel {
     private final Player player;
     private Character character;
 
+    private static final Dimension SIZE = new Dimension(700, 32);
+
     public CharacterPanel(PlayerPanel parent, PlayerService playerService, Player player, Character character) {
         this.parent = parent;
         this.playerService = playerService;
@@ -30,6 +33,21 @@ public class CharacterPanel extends JPanel {
         this.character = character;
 
         initGui();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return SIZE;
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return SIZE;
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return SIZE;
     }
 
     private void initGui() {

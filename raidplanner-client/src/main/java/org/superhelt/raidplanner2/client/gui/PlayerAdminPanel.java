@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import java.util.Comparator;
 import java.util.List;
 
-public class PlayerAdminPanel extends JPanel {
+public class PlayerAdminPanel extends JSplitPane {
 
     private static final Logger log = LoggerFactory.getLogger(PlayerAdminPanel.class);
 
@@ -36,6 +36,8 @@ public class PlayerAdminPanel extends JPanel {
         list.setModel(model);
         list.setSelectedIndex(0);
         list.setCellRenderer(new PlayerCellRenderer());
+        list.setDragEnabled(false);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
@@ -43,19 +45,19 @@ public class PlayerAdminPanel extends JPanel {
         leftPanel.add(new AddPlayerPanel(this, service));
 
         playerPanel = new PlayerPanel(service, this, players.get(0));
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, playerPanel);
-        add(splitPane);
-
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setLeftComponent(leftPanel);
+        setRightComponent(playerPanel);
+        setEnabled(false);
 
         list.addListSelectionListener(getListListener());
     }
 
     private ListSelectionListener getListListener() {
         return e->{
-            if(list.getSelectedIndex()>=0) {
-                Player player = players.get(list.getSelectedIndex());
-                log.info("Selecting player {} (index={})", player.getName(), list.getSelectedIndex());
+            int selectedIndex = list.getSelectedIndex();
+            if(!e.getValueIsAdjusting() && selectedIndex >=0) {
+                Player player = players.get(selectedIndex);
+                log.info("Selecting player {} (index={})", player.getName(), selectedIndex);
                 playerPanel.setPlayer(player);
             }
         };
@@ -72,9 +74,6 @@ public class PlayerAdminPanel extends JPanel {
         players.forEach(model::addElement);
         list.setModel(model);
         list.setSelectedIndex(index);
-
-        revalidate();
-        repaint();
     }
 
     private int getIndex(List<Player> players, Player player) {
