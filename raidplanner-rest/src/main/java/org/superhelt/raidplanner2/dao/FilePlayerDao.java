@@ -2,11 +2,13 @@ package org.superhelt.raidplanner2.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,7 @@ public class FilePlayerDao implements PlayerDao {
         try {
             List<Player> storedPlayers = FileWriter.readFromFile(jsonFile, Player[].class);
             players.addAll(storedPlayers);
+            sortPlayers();
         } catch (Exception e) {
             log.error("Unable to read {}", jsonFile, e);
         }
@@ -40,18 +43,26 @@ public class FilePlayerDao implements PlayerDao {
     public void update(Player player) {
         players.removeIf(p->p.getId()==player.getId());
         players.add(player);
+        sortPlayers();
         FileWriter.writeToFile(jsonFile, players);
     }
 
     @Override
     public void add(Player player) {
         players.add(player);
+        sortPlayers();
         FileWriter.writeToFile(jsonFile, players);
     }
 
     @Override
     public void delete(int id) {
         players.removeIf(p->p.getId()==id);
+        sortPlayers();
         FileWriter.writeToFile(jsonFile, players);
+    }
+
+    private static void sortPlayers() {
+        players.sort(Comparator.comparing(Player::getName));
+        players.forEach(p->p.getCharacters().sort(Comparator.comparing(Character::getName)));
     }
 }
