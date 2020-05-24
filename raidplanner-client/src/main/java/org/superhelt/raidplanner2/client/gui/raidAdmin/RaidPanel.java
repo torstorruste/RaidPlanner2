@@ -37,7 +37,7 @@ public class RaidPanel extends JPanel {
         raid.getSignedUp().sort(Comparator.comparing(Player::getName));
 
         for(Player player : raid.getSignedUp()) {
-            add(new JLabel(player.getName()));
+            add(new SignupPanel(this, service, raid, player));
         }
     }
 
