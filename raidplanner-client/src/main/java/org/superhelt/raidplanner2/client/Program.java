@@ -15,6 +15,7 @@ import java.awt.*;
 public class Program extends JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(Program.class);
+    private final ApprovalAdminPanel approvalAdminPanel;
 
     public Program() throws HeadlessException {
         super("A Necessary Raid Planner");
@@ -26,7 +27,10 @@ public class Program extends JFrame {
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.addTab("Players", new PlayerAdminPanel(playerService));
         tabPane.addTab("Instances", new InstanceAdminPanel(instanceService));
-        tabPane.addTab("Approval", new ApprovalAdminPanel(approvalService, instanceService, playerService));
+        approvalAdminPanel = new ApprovalAdminPanel(approvalService, instanceService, playerService);
+        tabPane.addTab("Approval", approvalAdminPanel);
+
+        tabPane.addChangeListener(approvalAdminPanel);
 
         add(tabPane);
     }

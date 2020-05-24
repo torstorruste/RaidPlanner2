@@ -12,11 +12,13 @@ import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.List;
 
-public class ApprovalAdminPanel extends JPanel {
+public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(ApprovalAdminPanel.class);
 
@@ -45,8 +47,6 @@ public class ApprovalAdminPanel extends JPanel {
         List<Instance> instances = instanceService.getInstances();
         List<Player> players = playerService.getPlayers();
         approvals = approvalService.getApprovals();
-
-
 
         playerBox = new JComboBox<>(players.toArray(new Player[]{}));
         playerBox.setRenderer(new PlayerCellRenderer());
@@ -102,5 +102,20 @@ public class ApprovalAdminPanel extends JPanel {
                 repaint();
             }
         };
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JTabbedPane tabPane = (JTabbedPane) e.getSource();
+
+        if(tabPane.getSelectedIndex()==2) {
+            log.info("Approval admin is selected, updating players and instances");
+
+            List<Instance> instances = instanceService.getInstances();
+            List<Player> players = playerService.getPlayers();
+
+            playerBox.setModel(new DefaultComboBoxModel<>(players.toArray(new Player[]{})));
+            instanceBox.setModel(new DefaultComboBoxModel<>(instances.toArray(new Instance[]{})));
+        }
     }
 }
