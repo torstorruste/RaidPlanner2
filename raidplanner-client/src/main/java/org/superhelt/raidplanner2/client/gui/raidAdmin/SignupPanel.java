@@ -6,6 +6,7 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Comparator;
 import java.util.List;
@@ -43,10 +44,28 @@ public class SignupPanel extends JPanel {
         rightList = new JList<>(rightListModel);
         rightList.setCellRenderer(new PlayerCellRenderer());
 
-        add(new JScrollPane(leftList));
+
+        add(createScrollPane(leftList, "Unsigned"));
         add(new JButton(moveRightAction()));
         add(new JButton(moveLeftAction()));
-        add(new JScrollPane(rightList));
+        add(createScrollPane(rightList, "Signed"));
+    }
+
+    private JComponent createScrollPane(JList<Player> list, String title) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(list);
+        Dimension dimension = new Dimension(100, 200);
+        scrollPane.setSize(dimension);
+        scrollPane.setPreferredSize(dimension);
+        scrollPane.setMinimumSize(dimension);
+        scrollPane.setMaximumSize(dimension);
+
+        panel.add(new JLabel(title));
+        panel.add(scrollPane);
+
+        return panel;
     }
 
     private List<Player> getUnsignedPlayers() {

@@ -26,6 +26,7 @@ public class RaidPanel extends JPanel {
     }
 
     private void intiGui() {
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         add(new JLabel(dt.format(raid.getDate())));
 
         add(new SignupPanel(service, raid, players));
