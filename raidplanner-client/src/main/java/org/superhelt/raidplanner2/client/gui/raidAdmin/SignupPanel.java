@@ -1,58 +1,101 @@
 package org.superhelt.raidplanner2.client.gui.raidAdmin;
 
+import org.superhelt.raidplanner2.client.gui.cellRenderers.PlayerCellRenderer;
 import org.superhelt.raidplanner2.client.service.RaidService;
 import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SignupPanel extends JPanel {
 
-    private final RaidPanel parent;
     private final RaidService service;
+    private final List<Player> players;
     private final Raid raid;
-    private final Player player;
 
-    private static final Dimension SIZE = new Dimension(700, 32);
+    private DefaultListModel<Player> leftListModel;
+    private DefaultListModel<Player> rightListModel;
+    private JList<Player> leftList;
+    private JList<Player> rightList;
 
-    public SignupPanel(RaidPanel parent, RaidService service, Raid raid, Player player) {
-        this.parent = parent;
+    public SignupPanel(RaidService service, Raid raid, List<Player> players) {
         this.service = service;
+        this.players = players;
         this.raid = raid;
-        this.player = player;
 
-        initGui();
+        intiGui();
     }
 
-    private void initGui() {
-        add(new JLabel(player.getName()));
-        add(new JButton(getUnsignAction()));
+    private void intiGui() {
+        leftListModel = new DefaultListModel<>();
+        getUnsignedPlayers().forEach(leftListModel::addElement);
+
+        rightListModel = new DefaultListModel<>();
+        getSignedPlayers().forEach(rightListModel::addElement);
+
+        leftList = new JList<>(leftListModel);
+        leftList.setCellRenderer(new PlayerCellRenderer());
+
+        rightList = new JList<>(rightListModel);
+        rightList.setCellRenderer(new PlayerCellRenderer());
+
+        add(new JScrollPane(leftList));
+        add(new JButton(moveRightAction()));
+        add(new JButton(moveLeftAction()));
+        add(new JScrollPane(rightList));
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return SIZE;
+    private List<Player> getUnsignedPlayers() {
+        return players.stream()
+                .filter(p-> raid.getSignedUp().stream().noneMatch(s->s.getId()==p.getId()))
+                .sorted(Comparator.comparing(Player::getName))
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public Dimension getMaximumSize() {
-        return SIZE;
+    private List<Player> getSignedPlayers() {
+        return raid.getSignedUp().stream().sorted(Comparator.comparing(Player::getName)).collect(Collectors.toList());
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        return SIZE;
-    }
-
-    private Action getUnsignAction() {
-        return new AbstractAction("Delete") {
+    private Action moveLeftAction() {
+        return new AbstractAction("<-") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                raid.getSignedUp().removeIf(p->p.getId()==player.getId());
-                parent.setRaid(raid);
+                for(Player player : rightList.getSelectedValuesList()) {
+                    raid.getSignedUp().removeIf(p->p.getId()==player.getId());
+                    service.unsign(raid, player);
+                }
+
+                refreshLists();
             }
         };
+    }
+
+    private Action moveRightAction() {
+        return new AbstractAction("->") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Player player : leftList.getSelectedValuesList()) {
+                    raid.getSignedUp().add(player);
+                    service.signup(raid, player);
+                }
+
+                refreshLists();
+            }
+        };
+    }
+
+    private void refreshLists() {
+        leftListModel.removeAllElements();
+        getUnsignedPlayers().forEach(leftListModel::addElement);
+
+        rightListModel.removeAllElements();
+        getSignedPlayers().forEach(rightListModel::addElement);
+
+        revalidate();
+        repaint();
     }
 }
