@@ -23,11 +23,11 @@ public class RaidService {
         this.playerDao = playerDao;
     }
 
-    public List<Raid> getAll() {
+    public List<Raid> getRaids() {
         return raidDao.getAll();
     }
 
-    public Raid get(int id) {
+    public Raid getRaid(int id) {
         return raidDao.get(id).orElseThrow(()->new ServerException(404, String.format("Raid with id %d does not exist", id)));
     }
 
@@ -50,6 +50,11 @@ public class RaidService {
         raid.getSignedUp().add(player);
         raidDao.update(raid);
         return savedPlayer;
+    }
+
+    public void unsign(Raid raid, Player player) {
+        raid.getSignedUp().removeIf(p->p.getId()==player.getId());
+        raidDao.update(raid);
     }
 
     private int findId() {

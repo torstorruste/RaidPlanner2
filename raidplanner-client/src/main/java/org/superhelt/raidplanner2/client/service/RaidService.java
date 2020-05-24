@@ -41,4 +41,11 @@ public class RaidService {
         return client.target(REST_URL).path(String.format("raids/%d/signups", raid.getId()))
                 .request(MediaType.APPLICATION_JSON).post(Entity.entity(player, MediaType.APPLICATION_JSON), Player.class);
     }
+
+    public void unsign(Raid raid, Player player) {
+        Client client = ClientBuilder.newClient();
+        log.info("DELETE {}raids/{}/signups/{}", REST_URL, raid.getId(), player.getId());
+        client.target(REST_URL).path(String.format("raids/%d/signups/%d", raid.getId(), player.getId()))
+                .request(MediaType.APPLICATION_JSON).delete();
+    }
 }
