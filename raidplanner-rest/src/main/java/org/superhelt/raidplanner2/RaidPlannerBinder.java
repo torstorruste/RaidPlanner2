@@ -5,6 +5,7 @@ import org.superhelt.raidplanner2.dao.*;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.InstanceService;
 import org.superhelt.raidplanner2.service.PlayerService;
+import org.superhelt.raidplanner2.service.RaidService;
 
 public class RaidPlannerBinder extends AbstractBinder {
     @Override
@@ -17,5 +18,8 @@ public class RaidPlannerBinder extends AbstractBinder {
 
         bind(FilePlayerDao.class).to(PlayerDao.class);
         bindAsContract(PlayerService.class);
+
+        bind(MockRaidDao.class).to(RaidDao.class);
+        bindAsContract(RaidService.class);
     }
 }
