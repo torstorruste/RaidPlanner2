@@ -30,7 +30,7 @@ public class Program extends JFrame {
         PlayerAdminPanel playerAdminPanel = new PlayerAdminPanel(playerService);
         ApprovalAdminPanel approvalAdminPanel = new ApprovalAdminPanel(approvalService, instanceService, playerService);
         InstanceAdminPanel instanceAdminPanel = new InstanceAdminPanel(instanceService);
-        RaidAdminPanel raidAdminPanel = new RaidAdminPanel(raidService);
+        RaidAdminPanel raidAdminPanel = new RaidAdminPanel(raidService, playerService);
 
         tabPane.addTab("Players", playerAdminPanel);
         tabPane.addTab("Instances", instanceAdminPanel);

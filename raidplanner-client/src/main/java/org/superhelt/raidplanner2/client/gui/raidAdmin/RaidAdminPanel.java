@@ -3,7 +3,9 @@ package org.superhelt.raidplanner2.client.gui.raidAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.RaidCellRenderer;
+import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.client.service.RaidService;
+import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
@@ -16,19 +18,23 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(RaidAdminPanel.class);
 
-    private final RaidService service;
+    private final RaidService raidService;
+    private final PlayerService playerService;
+
     private JList<Raid> list;
     private RaidPanel raidPanel;
     private List<Raid> raids;
 
-    public RaidAdminPanel(RaidService service) {
-        this.service = service;
+    public RaidAdminPanel(RaidService raidService, PlayerService playerService) {
+        this.raidService = raidService;
+        this.playerService = playerService;
 
         initGui();
     }
 
     private void initGui() {
-        raids = service.getRaids();
+        raids = raidService.getRaids();
+        List<Player> players = playerService.getPlayers();
 
         setEnabled(false);
 
@@ -39,11 +45,11 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
         leftPanel.add(list);
-        leftPanel.add(new AddRaidPanel(this, service));
+        leftPanel.add(new AddRaidPanel(this, raidService));
 
         setLeftComponent(leftPanel);
 
-        raidPanel = new RaidPanel(raids.get(0));
+        raidPanel = new RaidPanel(raidService, raids.get(0), players);
         setRightComponent(raidPanel);
     }
 
@@ -69,7 +75,7 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
     }
 
     public void refreshRaids() {
-        raids = service.getRaids();
+        raids = raidService.getRaids();
         DefaultListModel<Raid> model = new DefaultListModel<>();
         raids.forEach(model::addElement);
 

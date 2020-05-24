@@ -34,4 +34,11 @@ public class RaidService {
         log.info("POST {}raids", REST_URL);
         return client.target(REST_URL).path("raids").request(MediaType.APPLICATION_JSON).post(Entity.entity(raid, MediaType.APPLICATION_JSON), Raid.class);
     }
+
+    public Player signup(Raid raid, Player player) {
+        Client client = ClientBuilder.newClient();
+        log.info("POST {}raids/{}/signups", REST_URL, raid.getId());
+        return client.target(REST_URL).path(String.format("raids/%d/signups", raid.getId()))
+                .request(MediaType.APPLICATION_JSON).post(Entity.entity(player, MediaType.APPLICATION_JSON), Player.class);
+    }
 }

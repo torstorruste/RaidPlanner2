@@ -9,6 +9,7 @@ public class PlayerCellRenderer extends DefaultListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        if(value==null) return new JLabel();
         return super.getListCellRendererComponent(list, ((Player)value).getName(), index, isSelected, cellHasFocus);
     }
 }
