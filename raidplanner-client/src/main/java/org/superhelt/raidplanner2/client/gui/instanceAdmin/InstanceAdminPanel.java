@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui.instanceAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.InstanceCellRenderer;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.om.Instance;
 

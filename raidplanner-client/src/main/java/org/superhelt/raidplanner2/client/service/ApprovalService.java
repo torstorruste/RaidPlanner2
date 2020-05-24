@@ -2,8 +2,8 @@ package org.superhelt.raidplanner2.client.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

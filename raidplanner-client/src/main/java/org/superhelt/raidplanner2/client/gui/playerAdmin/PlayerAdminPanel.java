@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.PlayerCellRenderer;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Player;
 
