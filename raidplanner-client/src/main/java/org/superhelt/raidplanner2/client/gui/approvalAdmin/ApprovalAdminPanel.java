@@ -109,7 +109,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
         if(tabPane.getSelectedIndex()==2) {
-            log.info("Approval admin is selected, updating players and instances");
+            log.info("Approval admin selected, updating players and instances");
 
             List<Instance> instances = instanceService.getInstances();
             List<Player> players = playerService.getPlayers();

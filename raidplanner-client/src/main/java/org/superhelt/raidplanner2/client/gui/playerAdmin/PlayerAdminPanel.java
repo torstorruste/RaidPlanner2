@@ -7,11 +7,13 @@ import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 import java.util.Comparator;
 import java.util.List;
 
-public class PlayerAdminPanel extends JSplitPane {
+public class PlayerAdminPanel extends JSplitPane implements ChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(PlayerAdminPanel.class);
 
@@ -31,7 +33,6 @@ public class PlayerAdminPanel extends JSplitPane {
         DefaultListModel<Player> model = new DefaultListModel<>();
         players = service.getPlayers();
         players.sort(Comparator.comparing(Player::getName));
-
         players.forEach(model::addElement);
 
         list.setModel(model);
@@ -84,5 +85,22 @@ public class PlayerAdminPanel extends JSplitPane {
             }
         }
         return 0;
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JTabbedPane tabPane = (JTabbedPane) e.getSource();
+
+        if(tabPane.getSelectedIndex()==0) {
+            log.info("Player admin tab is selected, refreshing players");
+
+            DefaultListModel<Player> model = new DefaultListModel<>();
+            players = service.getPlayers();
+            players.sort(Comparator.comparing(Player::getName));
+            players.forEach(model::addElement);
+
+            list.setModel(model);
+            list.setSelectedIndex(0);
+        }
     }
 }

@@ -7,11 +7,13 @@ import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.om.Instance;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 import java.util.Comparator;
 import java.util.List;
 
-public class InstanceAdminPanel extends JSplitPane {
+public class InstanceAdminPanel extends JSplitPane implements ChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(InstanceAdminPanel.class);
 
@@ -52,9 +54,9 @@ public class InstanceAdminPanel extends JSplitPane {
     }
 
     private ListSelectionListener getSelectionListener() {
-        return e->{
+        return e -> {
             int selectedIndex = list.getSelectedIndex();
-            if(!e.getValueIsAdjusting() && selectedIndex >=0) {
+            if (!e.getValueIsAdjusting() && selectedIndex >= 0) {
                 Instance instance = instances.get(selectedIndex);
                 log.info("Selecting player {} (index={})", instance.getName(), selectedIndex);
                 instancePanel.setInstance(instance);
@@ -76,11 +78,28 @@ public class InstanceAdminPanel extends JSplitPane {
     }
 
     private int getIndex(List<Instance> instances, Instance instance) {
-        for(int i=0;i<instances.size();i++) {
-            if(instances.get(i).getId()==instance.getId()) {
+        for (int i = 0; i < instances.size(); i++) {
+            if (instances.get(i).getId() == instance.getId()) {
                 return i;
             }
         }
         return 0;
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JTabbedPane tabPane = (JTabbedPane) e.getSource();
+
+        if (tabPane.getSelectedIndex() == 1) {
+            log.info("Instance admin tab selected, refreshing instances");
+
+            DefaultListModel<Instance> model = new DefaultListModel<>();
+            instances = service.getInstances();
+            instances.sort(Comparator.comparing(Instance::getName));
+            instances.forEach(model::addElement);
+
+            list.setModel(model);
+            list.setSelectedIndex(0);
+        }
     }
 }
