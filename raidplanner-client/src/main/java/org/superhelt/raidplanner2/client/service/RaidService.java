@@ -7,6 +7,7 @@ import org.superhelt.raidplanner2.om.Raid;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -26,6 +27,11 @@ public class RaidService {
         List<Raid> result = Arrays.asList(raids);
         result.sort(Comparator.comparing(Raid::getDate));
         return result;
+    }
 
+    public Raid addRaid(Raid raid) {
+        Client client = ClientBuilder.newClient();
+        log.info("POST {}raids", REST_URL);
+        return client.target(REST_URL).path("raids").request(MediaType.APPLICATION_JSON).post(Entity.entity(raid, MediaType.APPLICATION_JSON), Raid.class);
     }
 }

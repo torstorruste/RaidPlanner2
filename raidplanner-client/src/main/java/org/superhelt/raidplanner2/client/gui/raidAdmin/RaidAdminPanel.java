@@ -19,6 +19,7 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
     private final RaidService service;
     private JList<Raid> list;
     private RaidPanel raidPanel;
+    private List<Raid> raids;
 
     public RaidAdminPanel(RaidService service) {
         this.service = service;
@@ -27,13 +28,20 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
     }
 
     private void initGui() {
-        List<Raid> raids = service.getRaids();
+        raids = service.getRaids();
+
+        setEnabled(false);
 
         list = new JList<>(raids.toArray(new Raid[]{}));
         list.setCellRenderer(new RaidCellRenderer());
         list.addListSelectionListener(getListListener());
-        setLeftComponent(list);
-        setEnabled(false);
+
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+        leftPanel.add(list);
+        leftPanel.add(new AddRaidPanel(this, service));
+
+        setLeftComponent(leftPanel);
 
         raidPanel = new RaidPanel(raids.get(0));
         setRightComponent(raidPanel);
@@ -54,14 +62,32 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
         if(tabPane.getSelectedIndex()==3) {
-            log.info("Raid admin tab is selected, refreshing players");
+            log.info("Raid admin tab is selected, refreshing raids");
 
-            List<Raid> raids = service.getRaids();
-            DefaultListModel<Raid> model = new DefaultListModel<>();
-            raids.forEach(model::addElement);
-
-            list.setModel(model);
-            list.setSelectedIndex(0);
+            refreshRaids();
         }
+    }
+
+    public void refreshRaids() {
+        raids = service.getRaids();
+        DefaultListModel<Raid> model = new DefaultListModel<>();
+        raids.forEach(model::addElement);
+
+        list.setModel(model);
+        list.setSelectedIndex(0);
+    }
+
+    public void refreshRaids(Raid raid) {
+        refreshRaids();
+        list.setSelectedIndex(findIndexOf(raid));
+    }
+
+    private int findIndexOf(Raid raid) {
+        for(int i=0;i<raids.size();i++) {
+            if(raids.get(i).getId()==raid.getId()) {
+                return i;
+            }
+        }
+        return 0;
     }
 }
