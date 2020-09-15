@@ -2,25 +2,25 @@ package org.superhelt.raidplanner2.om;
 
 public class EncounterCharacter {
 
-    private Player player;
-    private Character character;
+    private int playerId;
+    private int characterId;
     private Role role;
 
     public EncounterCharacter() {
     }
 
-    public EncounterCharacter(Player player, Character character, Role role) {
-        this.player = player;
-        this.character = character;
+    public EncounterCharacter(int playerId, int characterId, Role role) {
+        this.playerId = playerId;
+        this.characterId = characterId;
         this.role = role;
     }
 
-    public Player getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public Character getCharacter() {
-        return character;
+    public int getCharacterId() {
+        return characterId;
     }
 
     public Role getRole() {

@@ -6,15 +6,15 @@ public class Encounter {
 
     private int id;
     private int bossId;
-    private List<EncounterCharacter> players;
+    private List<EncounterCharacter> characters;
 
     public Encounter() {
     }
 
-    public Encounter(int id, int bossId, List<EncounterCharacter> players) {
+    public Encounter(int id, int bossId, List<EncounterCharacter> characters) {
         this.id = id;
         this.bossId = bossId;
-        this.players = players;
+        this.characters = characters;
     }
 
     public int getId() {
@@ -25,7 +25,7 @@ public class Encounter {
         return bossId;
     }
 
-    public List<EncounterCharacter> getPlayers() {
-        return players;
+    public List<EncounterCharacter> getCharacters() {
+        return characters;
     }
 }

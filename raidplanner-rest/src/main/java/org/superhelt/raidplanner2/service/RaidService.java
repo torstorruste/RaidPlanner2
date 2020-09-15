@@ -5,10 +5,8 @@ import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.dao.InstanceDao;
 import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.dao.RaidDao;
-import org.superhelt.raidplanner2.om.Boss;
-import org.superhelt.raidplanner2.om.Encounter;
-import org.superhelt.raidplanner2.om.Player;
-import org.superhelt.raidplanner2.om.Raid;
+import org.superhelt.raidplanner2.om.*;
+import org.superhelt.raidplanner2.om.Character;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -94,5 +92,55 @@ public class RaidService {
         raid.getEncounters().removeIf(e->e.getId()==encounterId);
 
         raidDao.update(raid);
+    }
+
+    public void addCharacter(Raid raid, int encounterId, EncounterCharacter encounterCharacter) {
+        if(encounterCharacter.getRole()==null) {
+            throw new ServerException("Role must be specified");
+        }
+
+        Optional<Encounter> encounter = raid.getEncounters().stream().filter(e -> e.getId() == encounterId).findFirst();
+
+        if(!encounter.isPresent()) {
+            throw new ServerException("Encounter %d does not exist in raid %d", encounterId, raid.getId());
+        }
+
+        Optional<Player> player = playerDao.get(encounterCharacter.getPlayerId());
+
+        if(!player.isPresent()) {
+            throw new ServerException("Player %d does not exist", encounterCharacter.getPlayerId());
+        }
+
+        Optional<Character> character = player.get().getCharacters().stream().filter(c -> c.getId() == encounterCharacter.getCharacterId()).findFirst();
+
+        if(!character.isPresent()) {
+            throw new ServerException("Player %d does not have a character with the id %d", encounterCharacter.getPlayerId(), encounterCharacter.getPlayerId());
+        }
+
+        if(encounter.get().getCharacters().stream()
+                .anyMatch(c->c.getPlayerId()==encounterCharacter.getPlayerId())) {
+            throw new ServerException("Player %d is already added to the encounter", encounterCharacter.getPlayerId());
+        }
+
+        encounter.get().getCharacters().add(encounterCharacter);
+
+        raidDao.update(raid);
+    }
+
+    public void deleteCharacter(Raid raid, int encounterId, int characterId) {
+        Optional<Encounter> encounter = raid.getEncounters().stream().filter(e -> e.getId() == encounterId).findFirst();
+
+        if(!encounter.isPresent()) {
+            throw new ServerException("Encounter %d does not exist in raid %d", encounterId, raid.getId());
+        }
+
+        if(!encounter.get().getCharacters().stream().anyMatch(c->c.getCharacterId()==characterId)) {
+            throw new ServerException("Character %d is not added to encounter %d", characterId, encounterId);
+        }
+
+        encounter.get().getCharacters().removeIf(c->c.getCharacterId()==characterId);
+
+        raidDao.update(raid);
+
     }
 }
