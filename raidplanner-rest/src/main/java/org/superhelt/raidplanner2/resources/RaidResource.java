@@ -20,13 +20,11 @@ public class RaidResource {
 
     private final RaidService raidService;
     private final PlayerService playerService;
-    private final InstanceService instanceService;
 
     @Inject
-    public RaidResource(RaidService raidService, PlayerService playerService, InstanceService instanceService) {
+    public RaidResource(RaidService raidService, PlayerService playerService) {
         this.raidService = raidService;
         this.playerService = playerService;
-        this.instanceService = instanceService;
     }
 
     @GET
@@ -64,48 +62,5 @@ public class RaidResource {
         Player player = playerService.getPlayer(playerId);
         raidService.unsign(raid, player);
         return Response.ok().build();
-    }
-
-    @GET
-    @Path("/{raidId}/encounters")
-    public Response getEncounters(@PathParam("raidId") int raidId) {
-        Raid raid = raidService.getRaid(raidId);
-
-        return Response.ok(raid.getEncounters()).build();
-    }
-
-    @POST
-    @Path("/{raidId}/encounters")
-    public Response addEncounter(@PathParam("raidId") int raidId, Boss boss) {
-        Raid raid = raidService.getRaid(raidId);
-
-        raidService.addEncounter(raid, boss);
-
-        return Response.ok(raid.getEncounters()).build();
-    }
-
-    @GET
-    @Path("/{raidId}/encounters/{encounterId}")
-    public Response getEncounter(@PathParam("raidId") int raidId, @PathParam("encounterId") int encounterId) {
-        Raid raid = raidService.getRaid(raidId);
-
-        Optional<Encounter> encounter = raid.getEncounters().stream()
-                .filter(e -> e.getId() == encounterId)
-                .findFirst();
-
-        if(encounter.isPresent()) {
-            return Response.ok(encounter.get()).build();
-        } else {
-            throw new ServerException("Encounter %d does not exist for raid %d", encounterId, raidId);
-        }
-    }
-
-    @DELETE
-    @Path("/{raidId}/encounters/{encounterId}")
-    public Response deleteEncounter(@PathParam("raidId") int raidId, @PathParam("encounterId") int encounterId) {
-        Raid raid = raidService.getRaid(raidId);
-        raidService.deleteEncounter(raid, encounterId);
-
-        return Response.ok(raid.getEncounters()).build();
     }
 }
