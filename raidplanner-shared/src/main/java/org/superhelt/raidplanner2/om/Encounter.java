@@ -5,15 +5,15 @@ import java.util.List;
 public class Encounter {
 
     private int id;
-    private Boss boss;
+    private int bossId;
     private List<EncounterCharacter> players;
 
     public Encounter() {
     }
 
-    public Encounter(int id, Boss boss, List<EncounterCharacter> players) {
+    public Encounter(int id, int bossId, List<EncounterCharacter> players) {
         this.id = id;
-        this.boss = boss;
+        this.bossId = bossId;
         this.players = players;
     }
 
@@ -21,8 +21,8 @@ public class Encounter {
         return id;
     }
 
-    public Boss getBoss() {
-        return boss;
+    public int getBossId() {
+        return bossId;
     }
 
     public List<EncounterCharacter> getPlayers() {

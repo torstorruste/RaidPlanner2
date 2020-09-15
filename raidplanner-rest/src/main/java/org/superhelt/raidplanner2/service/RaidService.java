@@ -78,14 +78,14 @@ public class RaidService {
         }
 
         if(raid.getEncounters().stream()
-                .map(Encounter::getBoss)
-                .anyMatch(b->b.equals(boss))) {
+                .map(Encounter::getBossId)
+                .anyMatch(b->b==boss.getId())) {
             throw new ServerException("Boss %s (id=%d) is already an encounter for the raid", boss.getName(), boss.getId());
         }
 
         int encounterId = raid.findNextEncounterId();
 
-        raid.getEncounters().add(new Encounter(encounterId, boss, new ArrayList<>()));
+        raid.getEncounters().add(new Encounter(encounterId, boss.getId(), new ArrayList<>()));
 
         raidDao.update(raid);
     }
