@@ -38,6 +38,7 @@ public class PlayerPanel extends JPanel {
             remove(component);
         }
         initGui();
+        refresh();
     }
 
     private void initGui() {

@@ -73,7 +73,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
     private ItemListener getSelectedPlayerAction() {
         return e -> {
-            Player player = (Player) playerBox.getSelectedItem();
+            Player player = (Player)e.getItem();
 
             if(player.getId() != currentPlayer.getId()) {
                 log.info("Selecting player {}", player.getName());
@@ -81,6 +81,8 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
                 ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
                 table.setModel(model);
+                table.repaint();
+
                 revalidate();
                 repaint();
             }
@@ -90,7 +92,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
     private ItemListener getSelectedInstanceAction() {
         return e -> {
-            Instance instance = (Instance) instanceBox.getSelectedItem();
+            Instance instance = (Instance) e.getItem();
 
             if(instance.getId() != currentInstance.getId()) {
                 log.info("Selecting instance {}", instance.getName());
@@ -98,6 +100,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
                 ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
                 table.setModel(model);
+                table.repaint();
                 revalidate();
                 repaint();
             }
@@ -116,10 +119,6 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
             playerBox.setModel(new DefaultComboBoxModel<>(players.toArray(new Player[]{})));
             instanceBox.setModel(new DefaultComboBoxModel<>(instances.toArray(new Instance[]{})));
-
-
-
-            initGui();
         }
     }
 }
