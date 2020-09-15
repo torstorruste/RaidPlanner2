@@ -48,7 +48,8 @@ public class InstanceAdminPanel extends JSplitPane implements ChangeListener {
         leftPanel.add(new AddInstancePanel(this, service));
 
         setLeftComponent(leftPanel);
-        instancePanel = new InstancePanel(service, this, instances.get(0));
+        Instance instance = instances.isEmpty()?new Instance():instances.get(0);
+        instancePanel = new InstancePanel(service, this, instance);
         setRightComponent(instancePanel);
         setEnabled(false);
     }

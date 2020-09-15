@@ -25,12 +25,12 @@ public class ApprovalTableModel implements TableModel {
 
     @Override
     public int getRowCount() {
-        return instance.getBosses().size();
+        return instance==null?0:instance.getBosses().size();
     }
 
     @Override
     public int getColumnCount() {
-        return player.getCharacters().size() + 1;
+        return player==null?1:player.getCharacters().size() + 1;
     }
 
     @Override

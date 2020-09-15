@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.om;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -9,6 +10,7 @@ public class Player {
     private List<Character> characters;
 
     public Player() {
+        characters = Collections.emptyList();
     }
 
     public Player(int id, String name, List<Character> characters) {

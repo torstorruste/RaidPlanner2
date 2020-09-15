@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.om;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Instance {
@@ -9,6 +10,7 @@ public class Instance {
     private List<Boss> bosses;
 
     public Instance() {
+        bosses = Collections.emptyList();
     }
 
     public Instance(int id, String name, List<Boss> bosses) {
