@@ -49,7 +49,8 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
 
         setLeftComponent(leftPanel);
 
-        raidPanel = new RaidPanel(raidService, raids.get(0), players);
+        Raid raid = raids.isEmpty()?null:raids.get(0);
+        raidPanel = new RaidPanel(raidService, raid, players);
         setRightComponent(raidPanel);
     }
 

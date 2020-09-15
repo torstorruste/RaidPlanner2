@@ -19,7 +19,7 @@ public class RaidPlannerBinder extends AbstractBinder {
         bind(FilePlayerDao.class).to(PlayerDao.class);
         bindAsContract(PlayerService.class);
 
-        bind(MockRaidDao.class).to(RaidDao.class);
+        bind(FileRaidDao.class).to(RaidDao.class);
         bindAsContract(RaidService.class);
     }
 }

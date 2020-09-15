@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileWriter {
+public final class FileWriter {
 
     private static final Logger log = LoggerFactory.getLogger(FileWriter.class);
     private static final Path dataFolder = getDataFolder();
+
+    private FileWriter() {}
 
     private static Path getDataFolder() {
         String dataFolder = System.getenv("RAIDPLANNER_DATA_FOLDER");

@@ -26,12 +26,14 @@ public class InstancePanel extends JPanel {
     }
 
     private void initGui() {
-        add(new JButton(getAddBossAction()));
-        add(new JButton(getDeleteInstanceAction()));
+        if(instance!=null) {
+            add(new JButton(getAddBossAction()));
+            add(new JButton(getDeleteInstanceAction()));
 
-        instance.getBosses().sort(Comparator.comparing(Boss::getId));
-        for(Boss boss : instance.getBosses()) {
-            add(new BossPanel(service, this, instance, boss));
+            instance.getBosses().sort(Comparator.comparing(Boss::getId));
+            for (Boss boss : instance.getBosses()) {
+                add(new BossPanel(service, this, instance, boss));
+            }
         }
     }
 

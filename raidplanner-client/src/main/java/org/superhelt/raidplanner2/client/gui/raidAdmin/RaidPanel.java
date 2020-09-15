@@ -26,10 +26,12 @@ public class RaidPanel extends JPanel {
     }
 
     private void intiGui() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(new JLabel(dt.format(raid.getDate())));
+        if(raid!=null) {
+            setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            add(new JLabel(dt.format(raid.getDate())));
 
-        add(new SignupPanel(service, raid, players));
+            add(new SignupPanel(service, raid, players));
+        }
     }
 
     public void setRaid(Raid raid) {

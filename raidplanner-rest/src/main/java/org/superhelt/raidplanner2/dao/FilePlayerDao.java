@@ -1,10 +1,12 @@
 package org.superhelt.raidplanner2.dao;
 
+import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Player;
 
+import javax.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Singleton
 public class FilePlayerDao implements PlayerDao {
 
     private static final Logger log = LoggerFactory.getLogger(FilePlayerDao.class);

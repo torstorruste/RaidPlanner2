@@ -46,7 +46,7 @@ public class PlayerAdminPanel extends JSplitPane implements ChangeListener {
         leftPanel.add(list);
         leftPanel.add(new AddPlayerPanel(this, service));
 
-        Player player = players.isEmpty()?new Player():players.get(0);
+        Player player = players.isEmpty()?null:players.get(0);
         playerPanel = new PlayerPanel(service, this, player);
         setLeftComponent(leftPanel);
         setRightComponent(playerPanel);

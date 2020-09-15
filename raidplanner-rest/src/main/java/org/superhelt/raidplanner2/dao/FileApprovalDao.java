@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
 @Service
+@Singleton
 public class FileApprovalDao implements ApprovalDao {
 
     private static final Logger log = LoggerFactory.getLogger(FileInstanceDao.class);
@@ -46,3 +46,4 @@ public class FileApprovalDao implements ApprovalDao {
         FileWriter.writeToFile(jsonFile, approvals);
     }
 }
+

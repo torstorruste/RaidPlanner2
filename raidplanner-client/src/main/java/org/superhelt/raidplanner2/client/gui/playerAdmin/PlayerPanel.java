@@ -8,6 +8,7 @@ import org.superhelt.raidplanner2.om.CharacterClass;
 import org.superhelt.raidplanner2.om.Player;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,16 +34,21 @@ public class PlayerPanel extends JPanel {
 
     public void setPlayer(Player player) {
         this.player = player;
-        refresh();
+        for(Component component : getComponents()) {
+            remove(component);
+        }
+        initGui();
     }
 
     private void initGui() {
-        add(new JButton(getAddCharacterAction()));
-        add(new JButton(getDeletePlayerAction()));
+        if(player!=null) {
+            add(new JButton(getAddCharacterAction()));
+            add(new JButton(getDeletePlayerAction()));
 
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        addCharacterPanels(player);
+            addCharacterPanels(player);
+        }
     }
 
     private void addCharacterPanels(Player player) {
