@@ -15,12 +15,12 @@ public class Raid {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
     private List<Encounter> encounters;
-    private List<Player> signedUp;
+    private List<Integer> signedUp;
 
     public Raid() {
     }
 
-    public Raid(int id, LocalDate date, List<Encounter> encounters, List<Player> signedUp) {
+    public Raid(int id, LocalDate date, List<Encounter> encounters, List<Integer> signedUp) {
         this.id = id;
         this.date = date;
         this.encounters = encounters;
@@ -39,7 +39,7 @@ public class Raid {
         return encounters;
     }
 
-    public List<Player> getSignedUp() {
+    public List<Integer> getSignedUp() {
         return signedUp;
     }
 

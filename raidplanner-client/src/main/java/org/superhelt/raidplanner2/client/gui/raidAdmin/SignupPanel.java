@@ -70,13 +70,19 @@ public class SignupPanel extends JPanel {
 
     private List<Player> getUnsignedPlayers() {
         return players.stream()
-                .filter(p-> raid.getSignedUp().stream().noneMatch(s->s.getId()==p.getId()))
+                .filter(p-> raid.getSignedUp().stream().noneMatch(s->s==p.getId()))
                 .sorted(Comparator.comparing(Player::getName))
                 .collect(Collectors.toList());
     }
 
     private List<Player> getSignedPlayers() {
-        return raid.getSignedUp().stream().sorted(Comparator.comparing(Player::getName)).collect(Collectors.toList());
+        return raid.getSignedUp().stream().map(this::getPlayerById).sorted(Comparator.comparing(Player::getName)).collect(Collectors.toList());
+    }
+
+    private Player getPlayerById(int id) {
+        return players.stream().
+                filter(p->p.getId()==id)
+                .findFirst().get();
     }
 
     private Action moveLeftAction() {
@@ -84,7 +90,7 @@ public class SignupPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(Player player : rightList.getSelectedValuesList()) {
-                    raid.getSignedUp().removeIf(p->p.getId()==player.getId());
+                    raid.getSignedUp().removeIf(p->p==player.getId());
                     service.unsign(raid, player);
                 }
 
@@ -98,7 +104,7 @@ public class SignupPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(Player player : leftList.getSelectedValuesList()) {
-                    raid.getSignedUp().add(player);
+                    raid.getSignedUp().add(player.getId());
                     service.signup(raid, player);
                 }
 

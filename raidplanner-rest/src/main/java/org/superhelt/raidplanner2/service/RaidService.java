@@ -49,17 +49,17 @@ public class RaidService {
     public Player signup(Raid raid, Player player) {
         Player savedPlayer = playerDao.get(player.getId()).orElseThrow(()->new ServerException(400, "Player with id "+player.getId()+" does not exist"));
 
-        if(raid.getSignedUp().stream().anyMatch(p->p.getId()==player.getId())) {
+        if(raid.getSignedUp().stream().anyMatch(p->p==player.getId())) {
             throw new ServerException("Player %s is already signed up to raid %s", player.getName(), raid.getDate());
         }
 
-        raid.getSignedUp().add(player);
+        raid.getSignedUp().add(player.getId());
         raidDao.update(raid);
         return savedPlayer;
     }
 
     public void unsign(Raid raid, Player player) {
-        raid.getSignedUp().removeIf(p->p.getId()==player.getId());
+        raid.getSignedUp().removeIf(p->p==player.getId());
         raidDao.update(raid);
     }
 
