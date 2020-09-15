@@ -42,4 +42,8 @@ public class Raid {
     public List<Player> getSignedUp() {
         return signedUp;
     }
+
+    public int findNextEncounterId() {
+        return encounters.stream().mapToInt(Encounter::getId).max().orElse(0)+1;
+    }
 }

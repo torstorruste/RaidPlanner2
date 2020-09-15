@@ -116,6 +116,10 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
             playerBox.setModel(new DefaultComboBoxModel<>(players.toArray(new Player[]{})));
             instanceBox.setModel(new DefaultComboBoxModel<>(instances.toArray(new Instance[]{})));
+
+
+
+            initGui();
         }
     }
 }
