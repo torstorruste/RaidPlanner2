@@ -29,7 +29,11 @@ public class IconUtil {
 
     public static JLabel getClassLabel(Character character) {
         JLabel label = new JLabel(character.getName(), getClassIcon(character.getCharacterClass()), 0);
-        label.setForeground(character.getCharacterClass().getColor());
+        if(character.getCharacterClass()!=CharacterClass.Priest) {
+            label.setForeground(character.getCharacterClass().getColor());
+        } else {
+            label.setForeground(new Color(100,100,100));
+        }
         return label;
     }
 

@@ -2,12 +2,11 @@ package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
 import org.superhelt.raidplanner2.client.gui.Buff;
 import org.superhelt.raidplanner2.client.gui.IconUtil;
-import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

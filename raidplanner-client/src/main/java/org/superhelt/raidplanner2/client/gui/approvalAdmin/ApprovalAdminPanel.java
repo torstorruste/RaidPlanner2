@@ -8,17 +8,13 @@ import org.superhelt.raidplanner2.client.gui.cellRenderers.PlayerCellRenderer;
 import org.superhelt.raidplanner2.client.service.ApprovalService;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.client.service.PlayerService;
-import org.superhelt.raidplanner2.om.Approval;
-import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Character;
-import org.superhelt.raidplanner2.om.Instance;
-import org.superhelt.raidplanner2.om.Player;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

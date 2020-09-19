@@ -7,7 +7,6 @@ import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class PickedPlayersPanel extends JPanel {
         for(Role role : Role.values()) {
             List<EncounterCharacter> charactersOfRole = getCharactersByRole(role);
             if(!charactersOfRole.isEmpty()) {
-                JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()), IconUtil.getRoleIcon(role), 0);
+                JLabel roleHeader = new JLabel(role.toString(), IconUtil.getRoleIcon(role), 0);
                 add(roleHeader, c);
 
                 for (EncounterCharacter encounterCharacter : charactersOfRole) {

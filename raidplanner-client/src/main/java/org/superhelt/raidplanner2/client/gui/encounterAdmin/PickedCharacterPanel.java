@@ -2,9 +2,9 @@ package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
 import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.EncounterService;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Encounter;
 import org.superhelt.raidplanner2.om.Player;
-import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;

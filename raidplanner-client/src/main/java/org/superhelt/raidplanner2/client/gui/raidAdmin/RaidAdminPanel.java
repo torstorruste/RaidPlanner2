@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.Comparator;
 import java.util.List;
 
 public class RaidAdminPanel extends JSplitPane implements ChangeListener {
