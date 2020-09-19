@@ -27,6 +27,14 @@ public class EncounterService {
                 .post(Entity.entity(boss, MediaType.APPLICATION_JSON_TYPE), Encounter.class);
     }
 
+    public void deleteEncounter(Raid raid, Encounter encounter) {
+        Client client = ClientBuilder.newClient();
+        String path = String.format("raids/%d/encounters/%d", raid.getId(), encounter.getId());
+        log.info("DELETE {}/{}", REST_URL, path);
+
+        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON).delete();
+    }
+
     public void addCharacter(Raid raid, Encounter encounter, EncounterCharacter encounterCharacter) {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters/%d/characters", raid.getId(), encounter.getId());
@@ -39,7 +47,6 @@ public class EncounterService {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters/%d/characters/%d", raid.getId(), encounter.getId(), character.getId());
         log.info("DELETE {}/{}", REST_URL, path);
-        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON)
-                .delete();
+        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON).delete();
     }
 }

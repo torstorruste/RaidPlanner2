@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class EncounterRaidPanel extends JSplitPane {
         if(raid!=null) {
             log.info("Initializing EncounterRaidPanel with raid {}", raid.getId());
             List<Boss> allBosses = instances.stream().flatMap(i -> i.getBosses().stream()).collect(Collectors.toList());
+            raid.getEncounters().sort(Comparator.comparing(Encounter::getBossId));
             encounterList = new JList<>(raid.getEncounters().toArray(new Encounter[]{}));
             encounterList.setCellRenderer(new EncounterCellRenderer(allBosses));
             encounterList.addListSelectionListener(getEncounterListListener());
@@ -64,7 +66,7 @@ public class EncounterRaidPanel extends JSplitPane {
             leftPanel.add(new JButton(getAddAction()));
             setLeftComponent(leftPanel);
 
-            characterPanel = new EncounterCharacterPanel(encounterService, raid, allBosses, players, encounterList.getSelectedValue(), approvals);
+            characterPanel = new EncounterCharacterPanel(encounterService, raid, allBosses, players, encounterList.getSelectedValue(), approvals, this);
             setRightComponent(characterPanel);
         }
     }
