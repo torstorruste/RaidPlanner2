@@ -3,10 +3,8 @@ package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.RaidCellRenderer;
-import org.superhelt.raidplanner2.client.service.EncounterService;
-import org.superhelt.raidplanner2.client.service.InstanceService;
-import org.superhelt.raidplanner2.client.service.PlayerService;
-import org.superhelt.raidplanner2.client.service.RaidService;
+import org.superhelt.raidplanner2.client.service.*;
+import org.superhelt.raidplanner2.om.Approval;
 import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
@@ -23,16 +21,18 @@ public class EncounterAdminPanel extends JSplitPane {
     private final PlayerService playerService;
     private final InstanceService instanceService;
     private final EncounterService encounterService;
+    private final ApprovalService approvalService;
 
     private JList<Raid> raidList;
     private List<Raid> raids;
     private EncounterRaidPanel raidPanel;
 
-    public EncounterAdminPanel(RaidService raidService, PlayerService playerService, InstanceService instanceService, EncounterService encounterService) {
+    public EncounterAdminPanel(RaidService raidService, PlayerService playerService, InstanceService instanceService, EncounterService encounterService, ApprovalService approvalService) {
         this.raidService = raidService;
         this.playerService = playerService;
         this.instanceService = instanceService;
         this.encounterService = encounterService;
+        this.approvalService = approvalService;
 
         initGui();
     }
@@ -40,6 +40,7 @@ public class EncounterAdminPanel extends JSplitPane {
     private void initGui() {
         raids = raidService.getRaids();
         List<Player> players = playerService.getPlayers();
+        List<Approval> approvals = approvalService.getApprovals();
 
         raidList = new JList<>(raids.toArray(new Raid[]{}));
         raidList.setCellRenderer(new RaidCellRenderer());
@@ -53,7 +54,7 @@ public class EncounterAdminPanel extends JSplitPane {
         setRightComponent(new JPanel());
 
         List<Instance> instances = instanceService.getInstances();
-        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances, players);
+        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances, players, approvals);
         setRightComponent(raidPanel);
     }
 

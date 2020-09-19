@@ -11,18 +11,20 @@ import java.util.Optional;
 public class EncounterCharacterPanel extends JPanel {
 
     private final EncounterService encounterService;
+    private final List<Approval> approvals;
     private final List<Boss> bosses;
     private final List<Player> players;
     private final Raid raid;
 
     private Encounter encounter;
 
-    public EncounterCharacterPanel(EncounterService encounterService, Raid raid, List<Boss> bosses, List<Player> players, Encounter encounter) {
+    public EncounterCharacterPanel(EncounterService encounterService, Raid raid, List<Boss> bosses, List<Player> players, Encounter encounter, List<Approval> approvals) {
         this.raid = raid;
         this.encounter = encounter;
         this.bosses = bosses;
         this.players = players;
         this.encounterService = encounterService;
+        this.approvals = approvals;
 
         initGui();
     }
@@ -40,7 +42,7 @@ public class EncounterCharacterPanel extends JPanel {
             add(new PickedPlayersPanel(encounter, players));
 
             // List all players that have signed up and are not yet part of the encounter
-            add(new SelectPlayersPanel(encounterService, raid, encounter, players, this));
+            add(new SelectPlayersPanel(encounterService, raid, encounter, players, this, approvals));
         } else {
             add(new JLabel(String.format("%d: Select encounter", raid.getId())));
         }

@@ -8,7 +8,6 @@ import org.superhelt.raidplanner2.client.gui.instanceAdmin.InstanceAdminPanel;
 import org.superhelt.raidplanner2.client.gui.playerAdmin.PlayerAdminPanel;
 import org.superhelt.raidplanner2.client.gui.raidAdmin.RaidAdminPanel;
 import org.superhelt.raidplanner2.client.service.*;
-import org.superhelt.raidplanner2.om.Encounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +30,7 @@ public class Program extends JFrame {
         ApprovalAdminPanel approvalAdminPanel = new ApprovalAdminPanel(approvalService, instanceService, playerService);
         InstanceAdminPanel instanceAdminPanel = new InstanceAdminPanel(instanceService);
         RaidAdminPanel raidAdminPanel = new RaidAdminPanel(raidService, playerService);
-        EncounterAdminPanel encounterAdminPanel = new EncounterAdminPanel(raidService, playerService, instanceService, encounterService);
+        EncounterAdminPanel encounterAdminPanel = new EncounterAdminPanel(raidService, playerService, instanceService, encounterService, approvalService);
 
         tabPane.addTab("Players", playerAdminPanel);
         tabPane.addTab("Instances", instanceAdminPanel);

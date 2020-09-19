@@ -1,10 +1,7 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
 import org.superhelt.raidplanner2.client.service.EncounterService;
-import org.superhelt.raidplanner2.om.Encounter;
-import org.superhelt.raidplanner2.om.EncounterCharacter;
-import org.superhelt.raidplanner2.om.Player;
-import org.superhelt.raidplanner2.om.Raid;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
 import java.util.List;
@@ -13,17 +10,20 @@ import java.util.stream.Collectors;
 public class SelectPlayersPanel extends JPanel {
 
     private final EncounterService encounterService;
+    private final List<Approval> approvals;
     private final Raid raid;
     private final Encounter encounter;
     private final List<Player> players;
     private final EncounterCharacterPanel encounterCharacterPanel;
 
-    public SelectPlayersPanel(EncounterService encounterService, Raid raid, Encounter encounter, List<Player> players, EncounterCharacterPanel encounterCharacterPanel) {
+    public SelectPlayersPanel(EncounterService encounterService, Raid raid, Encounter encounter, List<Player> players,
+                              EncounterCharacterPanel encounterCharacterPanel, List<Approval> approvals) {
         this.encounterCharacterPanel = encounterCharacterPanel;
         this.raid = raid;
         this.encounter = encounter;
         this.players = players;
         this.encounterService = encounterService;
+        this.approvals = approvals;
 
         initGui();
     }
@@ -35,7 +35,7 @@ public class SelectPlayersPanel extends JPanel {
         // For each player that isn't already in the encounter:
         List<Player> missingPlayers = getMissingPlayers(players, raid, encounter);
         for(Player player : missingPlayers) {
-            add(new SelectCharacterPanel(player, encounter, this));
+            add(new SelectCharacterPanel(player, encounter, this, approvals));
         }
     }
 
