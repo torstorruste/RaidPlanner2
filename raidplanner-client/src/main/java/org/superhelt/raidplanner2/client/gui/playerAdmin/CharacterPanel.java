@@ -66,7 +66,7 @@ public class CharacterPanel extends JPanel {
         add(classComboBox);
 
         for(Role role : Role.values()) {
-            add(new JLabel(role.createImageIcon()));
+            add(new JLabel(IconUtil.getRoleIcon(role)));
             JCheckBox roleBox = new JCheckBox();
             if(character.getRoles().contains(role)) {
                 roleBox.setSelected(true);

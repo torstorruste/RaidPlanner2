@@ -45,7 +45,7 @@ public class SelectCharacterPanel extends JPanel {
                 panel.add(IconUtil.getClassLabel(character));
 
                 for (Role role : character.getRoles()) {
-                    JButton addCharacterButton = new JButton(role.createImageIcon());
+                    JButton addCharacterButton = new JButton(IconUtil.getRoleIcon(role));
                     addCharacterButton.setAction(getAddCharacterAction(character, role));
                     panel.add(addCharacterButton);
                 }
@@ -63,7 +63,7 @@ public class SelectCharacterPanel extends JPanel {
     }
 
     private Action getAddCharacterAction(Character character, Role role) {
-        return new AbstractAction(null, role.createImageIcon()) {
+        return new AbstractAction(null, IconUtil.getRoleIcon(role)) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EncounterCharacter encounterCharacter = new EncounterCharacter(player.getId(), character.getId(), role);

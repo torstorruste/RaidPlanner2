@@ -44,7 +44,7 @@ public class PickedPlayersPanel extends JPanel {
         for(Role role : Role.values()) {
             List<EncounterCharacter> charactersOfRole = getCharactersByRole(role);
             if(!charactersOfRole.isEmpty()) {
-                JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()), role.createImageIcon(), 0);
+                JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()), IconUtil.getRoleIcon(role), 0);
                 add(roleHeader, c);
 
                 for (EncounterCharacter encounterCharacter : charactersOfRole) {

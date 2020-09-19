@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
+import org.superhelt.raidplanner2.client.gui.Buff;
 import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
@@ -28,7 +29,7 @@ public class EncounterStatsPanel extends JPanel {
 
         add(new JLabel("Roles:"), c);
         for(Role role : Role.values()) {
-            add(new JLabel(String.valueOf(getNumberOfRole(encounter, role)), role.createImageIcon(), SwingConstants.LEFT), c);
+            add(new JLabel(String.valueOf(getNumberOfRole(encounter, role)), IconUtil.getRoleIcon(role), SwingConstants.LEFT), c);
         }
 
         add(new JLabel(), c);
@@ -36,6 +37,14 @@ public class EncounterStatsPanel extends JPanel {
         add(new JLabel("Classes:"), c);
         for(CharacterClass characterClass : CharacterClass.values()) {
             add(new JLabel(String.valueOf(getNumberOfClass(encounter, characterClass)), IconUtil.getClassIcon(characterClass), SwingConstants.LEFT), c);
+        }
+
+        add(new JLabel("Missing buffs"), c);
+        for(Buff buff : Buff.values()) {
+            boolean hasBuff = getNumberOfClass(encounter, buff.characterClass) > 0;
+            if(!hasBuff) {
+                add(new JLabel(buff.toString(), IconUtil.getBuffIcon(buff), SwingConstants.LEFT), c);
+            }
         }
     }
 
