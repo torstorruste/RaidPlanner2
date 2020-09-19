@@ -8,6 +8,7 @@ import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PickedCharacterPanel extends JPanel {
@@ -31,7 +32,11 @@ public class PickedCharacterPanel extends JPanel {
     }
 
     private void initGui() {
-        add(new JLabel(String.format("%s - %s", player.getName(), character.getName())));
+        JLabel characterLabel = new JLabel(String.format("%s", character.getName()), IconUtil.getClassIcon(character.getCharacterClass()), 0);
+        add(characterLabel);
+
+        characterLabel.setForeground(character.getCharacterClass().getColor());
+
         add(new JButton(getDeleteAction(character)));
     }
 
