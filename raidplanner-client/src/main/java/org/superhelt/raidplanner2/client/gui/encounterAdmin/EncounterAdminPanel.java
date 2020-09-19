@@ -3,8 +3,11 @@ package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.RaidCellRenderer;
+import org.superhelt.raidplanner2.client.service.EncounterService;
+import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.client.service.RaidService;
+import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 
@@ -18,13 +21,18 @@ public class EncounterAdminPanel extends JSplitPane {
 
     private final RaidService raidService;
     private final PlayerService playerService;
+    private final InstanceService instanceService;
+    private final EncounterService encounterService;
 
     private JList<Raid> raidList;
     private List<Raid> raids;
+    private EncounterRaidPanel raidPanel;
 
-    public EncounterAdminPanel(RaidService raidService, PlayerService playerService) {
+    public EncounterAdminPanel(RaidService raidService, PlayerService playerService, InstanceService instanceService, EncounterService encounterService) {
         this.raidService = raidService;
         this.playerService = playerService;
+        this.instanceService = instanceService;
+        this.encounterService = encounterService;
 
         initGui();
     }
@@ -43,13 +51,18 @@ public class EncounterAdminPanel extends JSplitPane {
 
         setLeftComponent(leftPanel);
         setRightComponent(new JPanel());
+
+        List<Instance> instances = instanceService.getInstances();
+        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances);
+        setRightComponent(raidPanel);
     }
 
     private ListSelectionListener getRaidListListener() {
-        return a-> {
-            log.debug("Raid selected");
+        return e-> {
+            int index = raidList.getSelectedIndex();
+            Raid raid = raids.get(index);
+            log.debug("Raid selected: {}", raid.getId());
+            raidPanel.setRaid(raid);
         };
     }
-
-
 }

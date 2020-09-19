@@ -7,10 +7,8 @@ import org.superhelt.raidplanner2.client.gui.encounterAdmin.EncounterAdminPanel;
 import org.superhelt.raidplanner2.client.gui.instanceAdmin.InstanceAdminPanel;
 import org.superhelt.raidplanner2.client.gui.playerAdmin.PlayerAdminPanel;
 import org.superhelt.raidplanner2.client.gui.raidAdmin.RaidAdminPanel;
-import org.superhelt.raidplanner2.client.service.ApprovalService;
-import org.superhelt.raidplanner2.client.service.InstanceService;
-import org.superhelt.raidplanner2.client.service.PlayerService;
-import org.superhelt.raidplanner2.client.service.RaidService;
+import org.superhelt.raidplanner2.client.service.*;
+import org.superhelt.raidplanner2.om.Encounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,13 +24,14 @@ public class Program extends JFrame {
         InstanceService instanceService = new InstanceService();
         ApprovalService approvalService = new ApprovalService();
         RaidService raidService = new RaidService();
+        EncounterService encounterService = new EncounterService();
 
         JTabbedPane tabPane = new JTabbedPane();
         PlayerAdminPanel playerAdminPanel = new PlayerAdminPanel(playerService);
         ApprovalAdminPanel approvalAdminPanel = new ApprovalAdminPanel(approvalService, instanceService, playerService);
         InstanceAdminPanel instanceAdminPanel = new InstanceAdminPanel(instanceService);
         RaidAdminPanel raidAdminPanel = new RaidAdminPanel(raidService, playerService);
-        EncounterAdminPanel encounterAdminPanel = new EncounterAdminPanel(raidService, playerService);
+        EncounterAdminPanel encounterAdminPanel = new EncounterAdminPanel(raidService, playerService, instanceService, encounterService);
 
         tabPane.addTab("Players", playerAdminPanel);
         tabPane.addTab("Instances", instanceAdminPanel);

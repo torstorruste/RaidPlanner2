@@ -65,7 +65,7 @@ public class RaidService {
         return raidDao.getAll().stream().mapToInt(Raid::getId).max().orElse(0)+1;
     }
 
-    public void addEncounter(Raid raid, Boss boss) {
+    public Encounter addEncounter(Raid raid, Boss boss) {
         Optional<Boss> savedBoss = instanceDao.get().stream()
                 .flatMap(i -> i.getBosses().stream())
                 .filter(i -> i.getId() == boss.getId() && i.getName().equals(boss.getName()))
@@ -83,9 +83,12 @@ public class RaidService {
 
         int encounterId = raid.findNextEncounterId();
 
-        raid.getEncounters().add(new Encounter(encounterId, boss.getId(), new ArrayList<>()));
+        Encounter encounter = new Encounter(encounterId, boss.getId(), new ArrayList<>());
+        raid.getEncounters().add(encounter);
 
         raidDao.update(raid);
+
+        return encounter;
     }
 
     public void deleteEncounter(Raid raid, int encounterId) {

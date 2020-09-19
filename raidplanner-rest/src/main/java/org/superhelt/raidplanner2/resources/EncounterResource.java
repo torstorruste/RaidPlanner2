@@ -37,9 +37,9 @@ public class EncounterResource {
     public Response addEncounter(@PathParam("raidId") int raidId, Boss boss) {
         Raid raid = raidService.getRaid(raidId);
 
-        raidService.addEncounter(raid, boss);
+        Encounter encounter = raidService.addEncounter(raid, boss);
 
-        return Response.ok(raid.getEncounters()).build();
+        return Response.ok(encounter).build();
     }
 
     @GET
