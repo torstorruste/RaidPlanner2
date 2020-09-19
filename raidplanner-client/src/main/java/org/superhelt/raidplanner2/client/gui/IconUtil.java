@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
 
 import javax.swing.*;
@@ -34,5 +35,11 @@ public class IconUtil {
             log.error("Unable to fetch icon for {}", characterClass);
             return null;
         }
+    }
+
+    public static JLabel getClassLabel(Character character) {
+        JLabel label = new JLabel(character.getName(), getClassIcon(character.getCharacterClass()), 0);
+        label.setForeground(character.getCharacterClass().getColor());
+        return label;
     }
 }

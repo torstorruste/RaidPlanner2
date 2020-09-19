@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
 
@@ -41,7 +42,7 @@ public class SelectCharacterPanel extends JPanel {
         for(Character character : player.getCharacters()) {
             if(isApproved(character, encounter)){
                 JPanel panel = new JPanel();
-                panel.add(new JLabel(String.format(character.getName(), character.getCharacterClass(), "%s - %s")));
+                panel.add(IconUtil.getClassLabel(character));
 
                 for (Role role : character.getRoles()) {
                     JButton addCharacterButton = new JButton(role.createImageIcon());

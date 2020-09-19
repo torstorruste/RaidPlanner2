@@ -3,6 +3,7 @@ package org.superhelt.raidplanner2.client.gui.playerAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.client.gui.IconUtil;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.CharacterClassCellRenderer;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -61,6 +62,7 @@ public class CharacterPanel extends JPanel {
         JComboBox<CharacterClass> classComboBox = new JComboBox<>(CharacterClass.values());
         classComboBox.setSelectedIndex(character.getCharacterClass().ordinal());
         classComboBox.addItemListener(getClassListener());
+        classComboBox.setRenderer(new CharacterClassCellRenderer());
         add(classComboBox);
 
         for(Role role : Role.values()) {

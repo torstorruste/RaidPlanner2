@@ -32,11 +32,7 @@ public class PickedCharacterPanel extends JPanel {
     }
 
     private void initGui() {
-        JLabel characterLabel = new JLabel(String.format("%s", character.getName()), IconUtil.getClassIcon(character.getCharacterClass()), 0);
-        add(characterLabel);
-
-        characterLabel.setForeground(character.getCharacterClass().getColor());
-
+        add(IconUtil.getClassLabel(character));
         add(new JButton(getDeleteAction(character)));
     }
 
