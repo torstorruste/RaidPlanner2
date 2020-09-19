@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -92,15 +93,13 @@ public class InstanceAdminPanel extends JSplitPane implements ChangeListener {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
         if (tabPane.getSelectedIndex() == 1) {
-            log.info("Instance admin tab selected, refreshing instances");
+            log.info("Instance admin tab selected, refreshing pane");
 
-            DefaultListModel<Instance> model = new DefaultListModel<>();
-            instances = service.getInstances();
-            instances.sort(Comparator.comparing(Instance::getName));
-            instances.forEach(model::addElement);
+            for(Component component : getComponents()) {
+                remove(component);
+            }
 
-            list.setModel(model);
-            list.setSelectedIndex(0);
+            initGui();
         }
     }
 }

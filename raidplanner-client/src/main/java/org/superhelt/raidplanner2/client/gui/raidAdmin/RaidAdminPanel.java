@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.util.List;
 
 public class RaidAdminPanel extends JSplitPane implements ChangeListener {
@@ -68,10 +69,14 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
-        if(tabPane.getSelectedIndex()==3) {
-            log.info("Raid admin tab is selected, refreshing raids");
+        if (tabPane.getSelectedIndex() == 3) {
+            log.info("Raid admin tab selected, refreshing pane");
 
-            refreshRaids();
+            for(Component component : getComponents()) {
+                remove(component);
+            }
+
+            initGui();
         }
     }
 

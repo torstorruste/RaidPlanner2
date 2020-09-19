@@ -10,10 +10,14 @@ import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 
-public class EncounterAdminPanel extends JSplitPane {
+public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(EncounterAdminPanel.class);
 
@@ -70,5 +74,20 @@ public class EncounterAdminPanel extends JSplitPane {
                 repaint();
             }
         };
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JTabbedPane tabPane = (JTabbedPane) e.getSource();
+
+        if (tabPane.getSelectedIndex() == 4) {
+            log.info("Encounter admin tab selected, refreshing pane");
+
+            for(Component component : getComponents()) {
+                remove(component);
+            }
+
+            initGui();
+        }
     }
 }

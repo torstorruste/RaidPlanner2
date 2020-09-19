@@ -42,6 +42,7 @@ public class Program extends JFrame {
         tabPane.addChangeListener(instanceAdminPanel);
         tabPane.addChangeListener(approvalAdminPanel);
         tabPane.addChangeListener(raidAdminPanel);
+        tabPane.addChangeListener(encounterAdminPanel);
 
         add(tabPane);
     }

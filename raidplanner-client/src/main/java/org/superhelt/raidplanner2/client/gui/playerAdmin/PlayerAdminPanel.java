@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -92,16 +93,14 @@ public class PlayerAdminPanel extends JSplitPane implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
-        if(tabPane.getSelectedIndex()==0) {
-            log.info("Player admin tab is selected, refreshing players");
+        if (tabPane.getSelectedIndex() == 0) {
+            log.info("Player admin tab selected, refreshing pane");
 
-            DefaultListModel<Player> model = new DefaultListModel<>();
-            players = service.getPlayers();
-            players.sort(Comparator.comparing(Player::getName));
-            players.forEach(model::addElement);
+            for(Component component : getComponents()) {
+                remove(component);
+            }
 
-            list.setModel(model);
-            list.setSelectedIndex(0);
+            initGui();
         }
     }
 }

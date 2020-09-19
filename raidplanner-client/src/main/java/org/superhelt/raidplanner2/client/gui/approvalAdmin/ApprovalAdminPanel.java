@@ -111,14 +111,14 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
         JTabbedPane tabPane = (JTabbedPane) e.getSource();
 
-        if(tabPane.getSelectedIndex()==2) {
-            log.info("Approval admin selected, updating players and instances");
+        if (tabPane.getSelectedIndex() == 2) {
+            log.info("Approval admin tab selected, refreshing pane");
 
-            List<Instance> instances = instanceService.getInstances();
-            List<Player> players = playerService.getPlayers();
+            for(Component component : getComponents()) {
+                remove(component);
+            }
 
-            playerBox.setModel(new DefaultComboBoxModel<>(players.toArray(new Player[]{})));
-            instanceBox.setModel(new DefaultComboBoxModel<>(instances.toArray(new Instance[]{})));
+            initGui();
         }
     }
 }
