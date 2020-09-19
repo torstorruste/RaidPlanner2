@@ -8,6 +8,8 @@ import org.superhelt.raidplanner2.client.service.ApprovalService;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Approval;
+import org.superhelt.raidplanner2.om.Boss;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.om.Player;
 
@@ -15,7 +17,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 public class ApprovalAdminPanel extends JPanel implements ChangeListener {
@@ -32,6 +37,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
     private Instance currentInstance;
     private List<Approval> approvals;
     private JTable table;
+    private JPanel comboBoxPanel;
 
     public ApprovalAdminPanel(ApprovalService approvalService, InstanceService instanceService, PlayerService playerService) {
         this.approvalService = approvalService;
@@ -56,19 +62,79 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
         instanceBox.setRenderer(new InstanceCellRenderer());
         instanceBox.addItemListener(getSelectedInstanceAction());
 
-        JPanel comboBoxPanel = new JPanel();
+        currentPlayer = playerBox.getItemAt(0);
+        currentInstance = instanceBox.getItemAt(0);
+
+        comboBoxPanel = new JPanel();
         comboBoxPanel.add(playerBox);
         comboBoxPanel.add(instanceBox);
 
-        add(comboBoxPanel, BorderLayout.NORTH);
+        comboBoxPanel.add(createCheckBoxes(currentPlayer, currentInstance, approvals));
 
-        currentPlayer = playerBox.getItemAt(0);
-        currentInstance = instanceBox.getItemAt(0);
+        add(comboBoxPanel, BorderLayout.NORTH);
 
         ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
         table = new JTable(model);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
+    }
+
+    private JPanel createCheckBoxes(Player player, Instance instance, List<Approval> approvals) {
+        JPanel panel = new JPanel();
+        for(int i=0;i<player.getCharacters().size(); i++) {
+            JCheckBox checkAllBox = new JCheckBox();
+            checkAllBox.addMouseListener(getSelectAllAction(checkAllBox, i+1));
+
+            boolean shouldBeChecked = true;
+            for(Boss boss : instance.getBosses()) {
+                if(!isApproved(approvals, player.getCharacters().get(i), boss)) {
+                    shouldBeChecked = false;
+                }
+            }
+            checkAllBox.setSelected(shouldBeChecked);
+
+            panel.add(checkAllBox, BorderLayout.NORTH);
+        }
+
+        return panel;
+    }
+
+    private boolean isApproved(List<Approval> approvals, Character character, Boss boss) {
+        return approvals.stream().filter(a->a.getCharacter().getId()==character.getId())
+                .anyMatch(a->a.getBoss().getId()==boss.getId());
+    }
+
+    private MouseListener getSelectAllAction(JCheckBox checkBox, int characterIndex) {
+        return new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                for(int i=0;i<table.getRowCount();i++) {
+                    table.getModel().setValueAt(checkBox.isSelected(), i, characterIndex);
+                    revalidate();
+                    repaint();
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
     }
 
     private ItemListener getSelectedPlayerAction() {
@@ -82,6 +148,9 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
                 ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
                 table.setModel(model);
                 table.repaint();
+
+                comboBoxPanel.remove(2);
+                comboBoxPanel.add(createCheckBoxes(currentPlayer, currentInstance, approvals));
 
                 revalidate();
                 repaint();
@@ -101,6 +170,10 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
                 ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
                 table.setModel(model);
                 table.repaint();
+
+                comboBoxPanel.remove(2);
+                comboBoxPanel.add(createCheckBoxes(currentPlayer, currentInstance, approvals));
+
                 revalidate();
                 repaint();
             }
