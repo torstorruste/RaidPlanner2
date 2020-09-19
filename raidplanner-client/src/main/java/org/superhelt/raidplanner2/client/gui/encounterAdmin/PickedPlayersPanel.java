@@ -30,21 +30,6 @@ public class PickedPlayersPanel extends JPanel {
         initGui();
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(200, 300);
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-        return new Dimension(300, 10000);
-    }
-
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(100, 100);
-    }
-
     private void initGui() {
         setLayout(new GridBagLayout());
 
@@ -59,33 +44,19 @@ public class PickedPlayersPanel extends JPanel {
         for(Role role : Role.values()) {
             List<EncounterCharacter> charactersOfRole = getCharactersByRole(role);
             if(!charactersOfRole.isEmpty()) {
-                JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()));
+                JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()), role.createImageIcon(), 0);
                 add(roleHeader, c);
 
                 for (EncounterCharacter encounterCharacter : charactersOfRole) {
                     Player player = getPlayer(encounterCharacter.getPlayerId());
                     Character character = player.getCharacter(encounterCharacter.getCharacterId());
 
-                    JPanel characterPanel = new JPanel();
-                    characterPanel.add(new JLabel(String.format("%s - %s", player.getName(), character.getName())));
-                    characterPanel.add(new JButton(getDeleteAction(character)));
-                    add(characterPanel, c);
+                    add(new PickedCharacterPanel(encounterCharacterPanel, encounterService, raid, encounter, player, character), c);
                 }
             }
         }
         c.weighty = 1;
         add(new JPanel(), c);
-    }
-
-    private Action getDeleteAction(Character character) {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                encounterService.deleteCharacter(raid, encounter, character);
-                encounter.getCharacters().removeIf(c->c.getCharacterId()==character.getId());
-                encounterCharacterPanel.setEncounter(encounter);
-            }
-        };
     }
 
     private List<EncounterCharacter> getCharactersByRole(Role role) {

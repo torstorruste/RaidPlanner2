@@ -4,6 +4,7 @@ import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -21,6 +22,17 @@ public class SelectCharacterPanel extends JPanel {
         this.approvals = approvals;
 
         initGui();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        int height = 30;
+        for(Character character : player.getCharacters()) {
+            if(isApproved(character, encounter)) {
+                height += 30;
+            }
+        }
+        return new Dimension(300, height);
     }
 
     private void initGui() {
