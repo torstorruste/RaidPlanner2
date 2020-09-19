@@ -1,11 +1,9 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
 import org.superhelt.raidplanner2.om.*;
-import org.superhelt.raidplanner2.om.Character;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +37,7 @@ public class EncounterCharacterPanel extends JPanel {
             add(new PickedPlayersPanel(encounter, players));
 
             // List all players that have signed up and are not yet part of the encounter
-
+            add(new SelectPlayersPanel(raid, encounter, players));
         } else {
             add(new JLabel(String.format("%d: Select encounter", raid.getId())));
         }

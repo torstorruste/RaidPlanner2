@@ -24,6 +24,7 @@ public class PickedPlayersPanel extends JPanel {
     private void initGui() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        add(new JLabel("Selected characters"));
         for(EncounterCharacter encounterCharacter : encounter.getCharacters()) {
             Player player = getPlayer(encounterCharacter.getPlayerId());
             Character character = player.getCharacter(encounterCharacter.getCharacterId());
