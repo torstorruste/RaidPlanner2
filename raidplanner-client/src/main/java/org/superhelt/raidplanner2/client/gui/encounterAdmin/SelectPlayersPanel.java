@@ -14,11 +14,13 @@ public class SelectPlayersPanel extends JPanel {
     private final Raid raid;
     private final Encounter encounter;
     private final List<Player> players;
+    private final EncounterCharacterPanel encounterCharacterPanel;
 
-    public SelectPlayersPanel(Raid raid, Encounter encounter, List<Player> players) {
+    public SelectPlayersPanel(Raid raid, Encounter encounter, List<Player> players, EncounterCharacterPanel encounterCharacterPanel) {
         this.raid = raid;
         this.encounter = encounter;
         this.players = players;
+        this.encounterCharacterPanel = encounterCharacterPanel;
 
         initGui();
     }
@@ -30,7 +32,7 @@ public class SelectPlayersPanel extends JPanel {
         // For each player that isn't already in the encounter:
         List<Player> missingPlayers = getMissingPlayers(players, raid, encounter);
         for(Player player : missingPlayers) {
-            add(new SelectCharacterPanel(player));
+            add(new SelectCharacterPanel(player, encounter, encounterCharacterPanel));
         }
     }
 

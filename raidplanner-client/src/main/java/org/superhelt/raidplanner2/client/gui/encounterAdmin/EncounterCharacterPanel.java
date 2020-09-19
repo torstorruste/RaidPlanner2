@@ -37,7 +37,7 @@ public class EncounterCharacterPanel extends JPanel {
             add(new PickedPlayersPanel(encounter, players));
 
             // List all players that have signed up and are not yet part of the encounter
-            add(new SelectPlayersPanel(raid, encounter, players));
+            add(new SelectPlayersPanel(raid, encounter, players, this));
         } else {
             add(new JLabel(String.format("%d: Select encounter", raid.getId())));
         }

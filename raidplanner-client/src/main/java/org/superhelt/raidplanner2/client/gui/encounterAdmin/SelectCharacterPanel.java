@@ -1,17 +1,21 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
-import org.superhelt.raidplanner2.om.Player;
+import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
-import org.superhelt.raidplanner2.om.Role;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class SelectCharacterPanel extends JPanel {
 
     private final Player player;
+    private final Encounter encounter;
+    private final EncounterCharacterPanel encounterCharacterPanel;
 
-    public SelectCharacterPanel(Player player) {
+    public SelectCharacterPanel(Player player, Encounter encounter, EncounterCharacterPanel encounterCharacterPanel) {
         this.player = player;
+        this.encounter = encounter;
+        this.encounterCharacterPanel = encounterCharacterPanel;
 
         initGui();
     }
@@ -23,9 +27,20 @@ public class SelectCharacterPanel extends JPanel {
             add(new JLabel(String.format(character.getName(), character.getCharacterClass(), "%s - %s")));
 
             for(Role role : character.getRoles()) {
-                // TODO: Make it into a button that adds the character to the encounter
-                add(new JLabel(role.createImageIcon()));
+                JButton addCharacterButton = new JButton(role.createImageIcon());
+                addCharacterButton.setAction(getAddCharacterAction(character, role));
+                add(addCharacterButton);
             }
         }
+    }
+
+    private Action getAddCharacterAction(Character character, Role role) {
+        return new AbstractAction(null, role.createImageIcon()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                encounter.getCharacters().add(new EncounterCharacter(player.getId(), character.getId(), role));
+                encounterCharacterPanel.setEncounter(encounter);
+            }
+        };
     }
 }
