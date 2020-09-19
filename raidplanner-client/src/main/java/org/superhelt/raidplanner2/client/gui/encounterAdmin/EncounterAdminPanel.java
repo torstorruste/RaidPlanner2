@@ -59,10 +59,13 @@ public class EncounterAdminPanel extends JSplitPane {
 
     private ListSelectionListener getRaidListListener() {
         return e-> {
-            int index = raidList.getSelectedIndex();
+            int index = e.getFirstIndex();
             Raid raid = raids.get(index);
             log.debug("Raid selected: {}", raid.getId());
             raidPanel.setRaid(raid);
+
+            revalidate();
+            repaint();
         };
     }
 }

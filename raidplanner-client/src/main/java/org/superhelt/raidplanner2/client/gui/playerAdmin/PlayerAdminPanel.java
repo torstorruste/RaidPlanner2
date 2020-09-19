@@ -29,12 +29,12 @@ public class PlayerAdminPanel extends JSplitPane implements ChangeListener {
     }
 
     private void initGui() {
-        list = new JList<>();
         DefaultListModel<Player> model = new DefaultListModel<>();
         players = service.getPlayers();
         players.sort(Comparator.comparing(Player::getName));
         players.forEach(model::addElement);
 
+        list = new JList<>();
         list.setModel(model);
         list.setSelectedIndex(0);
         list.setCellRenderer(new PlayerCellRenderer());

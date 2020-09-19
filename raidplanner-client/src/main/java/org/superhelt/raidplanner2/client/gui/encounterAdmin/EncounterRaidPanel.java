@@ -12,22 +12,21 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EncounterRaidPanel extends JPanel {
+public class EncounterRaidPanel extends JSplitPane {
 
     private static final Logger log = LoggerFactory.getLogger(EncounterRaidPanel.class);
 
     private final EncounterService encounterService;
     private final List<Instance> instances;
 
-
     private Raid raid;
 
     private JList<Encounter> encounterList;
     private JComboBox<Boss> bossComboBox;
+    private EncounterCharacterPanel characterPanel;
 
     public EncounterRaidPanel(EncounterService encounterService, Raid raid, List<Instance> instances) {
         this.encounterService = encounterService;
@@ -45,8 +44,6 @@ public class EncounterRaidPanel extends JPanel {
             encounterList.setCellRenderer(new EncounterCellRenderer(allBosses));
             encounterList.addListSelectionListener(getEncounterListListener());
 
-            add(encounterList);
-
             List<Boss> availableBosses = instances.stream().flatMap(i -> i.getBosses().stream()).collect(Collectors.toList());
             List<Integer> existingBosses = raid.getEncounters().stream().map(Encounter::getBossId).collect(Collectors.toList());
 
@@ -55,9 +52,16 @@ public class EncounterRaidPanel extends JPanel {
             bossComboBox = new JComboBox<>(availableBosses.toArray(new Boss[]{}));
             bossComboBox.setRenderer(new BossCellRenderer());
             bossComboBox.addItemListener(getAddEncounterAction());
-            add(bossComboBox);
 
-            add(new JButton(getAddAction()));
+            JPanel leftPanel = new JPanel();
+            leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+            leftPanel.add(encounterList);
+            leftPanel.add(bossComboBox);
+            leftPanel.add(new JButton(getAddAction()));
+            setLeftComponent(leftPanel);
+
+            characterPanel = new EncounterCharacterPanel(raid, encounterList.getSelectedValue());
+            setRightComponent(characterPanel);
         }
     }
 
@@ -75,7 +79,13 @@ public class EncounterRaidPanel extends JPanel {
 
     private ListSelectionListener getEncounterListListener() {
         return e->{
-            // TODO: Implement
+            int selectedIndex = encounterList.getSelectedIndex();
+            if(!e.getValueIsAdjusting() && selectedIndex >=0) {
+                Encounter encounter = raid.getEncounters().get(selectedIndex);
+                log.debug("Setting encounter {}", encounter.getId());
+
+                characterPanel.setEncounter(encounter);
+            }
         };
     }
 
