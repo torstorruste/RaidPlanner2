@@ -63,7 +63,7 @@ public class CharacterPanel extends JPanel {
         add(classComboBox);
 
         for(Role role : Role.values()) {
-            add(new JLabel(createImageIcon(role)));
+            add(new JLabel(role.createImageIcon()));
             JCheckBox roleBox = new JCheckBox();
             if(character.getRoles().contains(role)) {
                 roleBox.setSelected(true);
@@ -113,15 +113,6 @@ public class CharacterPanel extends JPanel {
                 parent.refresh();
             }
         };
-    }
-
-    private ImageIcon createImageIcon(Role role) {
-        URL url = getClass().getResource("/" + role+".png");
-        if(url != null) {
-            return new ImageIcon(url, role.toString());
-        } else {
-            return null;
-        }
     }
 
     private ItemListener getClassListener() {

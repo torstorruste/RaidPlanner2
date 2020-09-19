@@ -30,7 +30,7 @@ public class SelectPlayersPanel extends JPanel {
         // For each player that isn't already in the encounter:
         List<Player> missingPlayers = getMissingPlayers(players, raid, encounter);
         for(Player player : missingPlayers) {
-            add(new JLabel(player.getName()));
+            add(new SelectCharacterPanel(player));
         }
     }
 
