@@ -1,26 +1,45 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
-import org.superhelt.raidplanner2.om.Encounter;
-import org.superhelt.raidplanner2.om.Raid;
+import org.superhelt.raidplanner2.om.*;
+import org.superhelt.raidplanner2.om.Character;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class EncounterCharacterPanel extends JPanel {
 
-    private Raid raid;
+    private final List<Boss> bosses;
+    private final List<Player> players;
+    private final Raid raid;
+
     private Encounter encounter;
 
-    public EncounterCharacterPanel(Raid raid, Encounter encounter) {
+    public EncounterCharacterPanel(Raid raid, List<Boss> bosses, List<Player> players, Encounter encounter) {
         this.raid = raid;
         this.encounter = encounter;
+        this.bosses = bosses;
+        this.players = players;
 
         initGui();
     }
 
     private void initGui() {
         if(encounter!=null) {
-            add(new JLabel(String.format("%d: %s", raid.getId(), encounter.getBossId())));
+            Optional<Boss> boss = bosses.stream().filter(b->b.getId()==encounter.getBossId()).findFirst();
+            if(boss.isPresent()) {
+                add(new JLabel(String.format("%d: %s", raid.getId(), boss.get().getName())));
+            } else {
+                add(new JLabel(String.format("%d: Unknown boss", raid.getId())));
+            }
+
+            // List all players that are part of the encounter
+            add(new PickedPlayersPanel(encounter, players));
+
+            // List all players that have signed up and are not yet part of the encounter
+
         } else {
             add(new JLabel(String.format("%d: Select encounter", raid.getId())));
         }

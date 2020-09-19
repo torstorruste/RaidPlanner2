@@ -30,4 +30,8 @@ public class Player {
     public List<Character> getCharacters() {
         return characters;
     }
+
+    public Character getCharacter(int id) {
+        return characters.stream().filter(c->c.getId()==id).findFirst().orElse(new Character(id, "Unknown", CharacterClass.DeathKnight, Collections.emptyList()));
+    }
 }

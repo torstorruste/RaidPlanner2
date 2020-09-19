@@ -53,7 +53,7 @@ public class EncounterAdminPanel extends JSplitPane {
         setRightComponent(new JPanel());
 
         List<Instance> instances = instanceService.getInstances();
-        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances);
+        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances, players);
         setRightComponent(raidPanel);
     }
 

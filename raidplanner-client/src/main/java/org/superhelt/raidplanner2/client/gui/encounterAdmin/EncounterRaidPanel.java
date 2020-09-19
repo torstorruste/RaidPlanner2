@@ -21,6 +21,7 @@ public class EncounterRaidPanel extends JSplitPane {
 
     private final EncounterService encounterService;
     private final List<Instance> instances;
+    private final List<Player> players;
 
     private Raid raid;
 
@@ -28,10 +29,11 @@ public class EncounterRaidPanel extends JSplitPane {
     private JComboBox<Boss> bossComboBox;
     private EncounterCharacterPanel characterPanel;
 
-    public EncounterRaidPanel(EncounterService encounterService, Raid raid, List<Instance> instances) {
+    public EncounterRaidPanel(EncounterService encounterService, Raid raid, List<Instance> instances, List<Player> players) {
         this.encounterService = encounterService;
         this.raid = raid;
         this.instances = instances;
+        this.players = players;
 
         initGui();
     }
@@ -60,7 +62,7 @@ public class EncounterRaidPanel extends JSplitPane {
             leftPanel.add(new JButton(getAddAction()));
             setLeftComponent(leftPanel);
 
-            characterPanel = new EncounterCharacterPanel(raid, encounterList.getSelectedValue());
+            characterPanel = new EncounterCharacterPanel(raid, allBosses, players, encounterList.getSelectedValue());
             setRightComponent(characterPanel);
         }
     }
