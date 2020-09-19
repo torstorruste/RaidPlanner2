@@ -25,7 +25,7 @@ public class RaidService {
         Raid[] raids = client.target(REST_URL).path("raids").request(MediaType.APPLICATION_JSON).get(Raid[].class);
 
         List<Raid> result = Arrays.asList(raids);
-        result.sort(Comparator.comparing(Raid::getDate));
+        result.sort(Comparator.comparing(Raid::getDate).reversed());
         return result;
     }
 

@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 
 public class RaidAdminPanel extends JSplitPane implements ChangeListener {
@@ -45,8 +46,8 @@ public class RaidAdminPanel extends JSplitPane implements ChangeListener {
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-        leftPanel.add(list);
         leftPanel.add(new AddRaidPanel(this, raidService));
+        leftPanel.add(list);
 
         setLeftComponent(leftPanel);
 

@@ -29,7 +29,6 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
 
     private JList<Raid> raidList;
     private List<Raid> raids;
-    private EncounterRaidPanel raidPanel;
     private List<Instance> instances;
     private List<Player> players;
     private List<Approval> approvals;
@@ -46,6 +45,7 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
 
     private void initGui() {
         raids = raidService.getRaids();
+        raids.sort(Comparator.comparing(Raid::getDate).reversed());
         players = playerService.getPlayers();
         approvals = approvalService.getApprovals();
 
@@ -63,7 +63,7 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
         instances = instanceService.getInstances();
         Raid selectedRaid = raidList.getSelectedValue();
         if(selectedRaid!=null) {
-            raidPanel = new EncounterRaidPanel(encounterService, selectedRaid, instances, players, approvals);
+            EncounterRaidPanel raidPanel = new EncounterRaidPanel(encounterService, selectedRaid, instances, players, approvals);
             setRightComponent(raidPanel);
         }
     }
