@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.instanceAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
@@ -38,7 +39,7 @@ public class InstancePanel extends JPanel {
     }
 
     private Action getDeleteInstanceAction() {
-        return new AbstractAction("Delete instance") {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(InstancePanel.this, "Are you sure you want to delete " + instance.getName() + "?",

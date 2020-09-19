@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.EncounterService;
 import org.superhelt.raidplanner2.om.*;
 
@@ -54,7 +55,7 @@ public class EncounterCharacterPanel extends JPanel {
     }
 
     private Action getDeleteEncounterAction(Encounter encounter) {
-        return new AbstractAction("Delete") {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent ev) {
                 encounterService.deleteEncounter(raid, encounter);

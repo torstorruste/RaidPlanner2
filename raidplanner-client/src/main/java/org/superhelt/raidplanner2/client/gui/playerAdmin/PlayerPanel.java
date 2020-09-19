@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -71,7 +72,7 @@ public class PlayerPanel extends JPanel {
     }
 
     private Action getDeletePlayerAction() {
-        return new AbstractAction("Delete player") {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(PlayerPanel.this, "Are you sure you want to delete " + player.getName() + "?",

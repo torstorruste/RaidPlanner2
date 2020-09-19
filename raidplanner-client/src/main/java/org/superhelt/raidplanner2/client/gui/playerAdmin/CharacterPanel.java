@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.CharacterClass;
@@ -105,7 +106,7 @@ public class CharacterPanel extends JPanel {
     }
 
     private Action getDeleteButton() {
-        return new AbstractAction("Delete") {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.getCharacters().remove(character);

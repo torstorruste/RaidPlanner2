@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.instanceAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.InstanceService;
 import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Instance;
@@ -57,7 +58,7 @@ public class BossPanel extends JPanel {
     }
 
     private Action getDeleteAction() {
-        return new AbstractAction("Delete") {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 instance.getBosses().remove(boss);

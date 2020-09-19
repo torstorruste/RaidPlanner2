@@ -1,12 +1,12 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.EncounterService;
-import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,8 +52,7 @@ public class PickedPlayersPanel extends JPanel {
     }
 
     private Action getDeleteAction(Character character) {
-        URL url = getClass().getResource("/delete.png");
-        return new AbstractAction(null, new ImageIcon(url, "X")) {
+        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 encounterService.deleteCharacter(raid, encounter, character);
