@@ -13,7 +13,6 @@ import org.superhelt.raidplanner2.om.Role;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +107,7 @@ public class CharacterPanel extends JPanel {
     }
 
     private Action getDeleteButton() {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.getCharacters().remove(character);

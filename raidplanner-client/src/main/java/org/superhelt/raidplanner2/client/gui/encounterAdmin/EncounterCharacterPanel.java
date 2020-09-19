@@ -80,7 +80,7 @@ public class EncounterCharacterPanel extends JPanel {
     }
 
     private Action getDeleteEncounterAction(Encounter encounter) {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent ev) {
                 encounterService.deleteEncounter(raid, encounter);

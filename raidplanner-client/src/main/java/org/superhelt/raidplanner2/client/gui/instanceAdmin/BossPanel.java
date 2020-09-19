@@ -58,7 +58,7 @@ public class BossPanel extends JPanel {
     }
 
     private Action getDeleteAction() {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 instance.getBosses().remove(boss);

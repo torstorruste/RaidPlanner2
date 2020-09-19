@@ -14,28 +14,17 @@ public class IconUtil {
 
     private static final Logger log = LoggerFactory.getLogger(IconUtil.class);
 
-    public static ImageIcon getDeleteIcon() {
-        URL url = IconUtil.class.getResource("/delete.png");
-        return new ImageIcon(url, "Delete");
-    }
-
-    public static ImageIcon getAddIcon() {
-        URL url = IconUtil.class.getResource("/add.jpg");
-        return new ImageIcon(url, "Add");
+    public static ImageIcon getIcon(String name) {
+        URL url = IconUtil.class.getResource("/icons/"+name+".jpg");
+        if(url == null) {
+            url = IconUtil.class.getResource("/icons/"+name+".png");
+        }
+        return getIcon(url, 16);
     }
 
     public static ImageIcon getClassIcon(CharacterClass characterClass) {
-        try {
             URL url = IconUtil.class.getResource("/classes/" + characterClass.toString().toLowerCase() + ".png");
-            ImageIcon imageIcon = new ImageIcon(url);
-
-            Image image = imageIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-
-            return new ImageIcon(image, characterClass.name());
-        } catch(Exception e) {
-            log.error("Unable to fetch icon for {}", characterClass);
-            return null;
-        }
+            return getIcon(url, 16);
     }
 
     public static JLabel getClassLabel(Character character) {
@@ -45,24 +34,22 @@ public class IconUtil {
     }
 
     public static ImageIcon getBuffIcon(Buff buff) {
-        try {
-            URL url = IconUtil.class.getResource("/buffs/" + buff.toString().toLowerCase() + ".jpg");
-            ImageIcon imageIcon = new ImageIcon(url);
-
-            Image image = imageIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-
-            return new ImageIcon(image, buff.name());
-        } catch(Exception e) {
-            log.error("Unable to fetch icon for {}", buff);
-            return null;
-        }
+        URL url = IconUtil.class.getResource("/buffs/" + buff.toString().toLowerCase() + ".jpg");
+        return getIcon(url, 16);
     }
 
     public static ImageIcon getRoleIcon(Role role) {
-        URL url = IconUtil.class.getResource("/roles/" + role +".png");
-        if(url != null) {
-            return new ImageIcon(url, role.toString());
-        } else {
+        URL url = IconUtil.class.getResource("/roles/" + role + ".png");
+        return getIcon(url, 16);
+    }
+
+    private static ImageIcon getIcon(URL path, int size) {
+        try {
+            ImageIcon imageIcon = new ImageIcon(path);
+            Image image = imageIcon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+            return new ImageIcon(image, path.toString());
+        } catch (Exception e) {
+            log.error("Unable to fetch icon for {}", path);
             return null;
         }
     }

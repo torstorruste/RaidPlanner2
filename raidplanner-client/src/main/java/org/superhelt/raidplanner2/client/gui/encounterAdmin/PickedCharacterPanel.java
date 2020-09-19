@@ -8,7 +8,6 @@ import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PickedCharacterPanel extends JPanel {
@@ -37,7 +36,7 @@ public class PickedCharacterPanel extends JPanel {
     }
 
     private Action getDeleteAction(Character character) {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 encounterService.deleteCharacter(raid, encounter, character);

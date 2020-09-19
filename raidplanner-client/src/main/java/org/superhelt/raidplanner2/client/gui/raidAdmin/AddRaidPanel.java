@@ -37,7 +37,7 @@ public class AddRaidPanel extends JPanel {
     }
 
     private Action getAddRaidAction() {
-        return new AbstractAction(null, IconUtil.getAddIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DateModel<?> model = datePicker.getModel();

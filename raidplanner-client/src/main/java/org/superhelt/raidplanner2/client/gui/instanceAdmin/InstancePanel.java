@@ -39,7 +39,7 @@ public class InstancePanel extends JPanel {
     }
 
     private Action getDeleteInstanceAction() {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(InstancePanel.this, "Are you sure you want to delete " + instance.getName() + "?",
@@ -54,7 +54,7 @@ public class InstancePanel extends JPanel {
     }
 
     private Action getAddBossAction() {
-        return new AbstractAction(null, IconUtil.getAddIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Boss boss = new Boss(-1, "Boss");

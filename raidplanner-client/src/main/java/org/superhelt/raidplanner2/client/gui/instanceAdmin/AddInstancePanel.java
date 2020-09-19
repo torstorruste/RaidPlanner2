@@ -30,7 +30,7 @@ public class AddInstancePanel  extends JPanel {
     }
 
     private Action getAddAction() {
-        return new AbstractAction(null, IconUtil.getAddIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!nameField.getText().isEmpty()) {

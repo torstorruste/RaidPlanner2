@@ -72,7 +72,7 @@ public class PlayerPanel extends JPanel {
     }
 
     private Action getDeletePlayerAction() {
-        return new AbstractAction(null, IconUtil.getDeleteIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("delete")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showConfirmDialog(PlayerPanel.this, "Are you sure you want to delete " + player.getName() + "?",
@@ -87,7 +87,7 @@ public class PlayerPanel extends JPanel {
     }
 
     private Action getAddCharacterAction() {
-        return new AbstractAction(null, IconUtil.getAddIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Character character = new Character(-1, "Alt", CharacterClass.DeathKnight, new ArrayList<>());

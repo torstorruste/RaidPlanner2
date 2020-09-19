@@ -107,7 +107,7 @@ public class EncounterRaidPanel extends JSplitPane {
             // TODO: Implement
         };
     }private Action getAddAction() {
-        return new AbstractAction(null, IconUtil.getAddIcon()) {
+        return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Boss boss = (Boss) bossComboBox.getSelectedItem();
