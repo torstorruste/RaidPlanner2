@@ -60,11 +60,16 @@ public class EncounterRaidPanel extends JSplitPane {
             bossComboBox.setRenderer(new BossCellRenderer());
             bossComboBox.addItemListener(getAddEncounterAction());
 
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.weighty = 0;
             JPanel leftPanel = new JPanel();
-            leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-            leftPanel.add(encounterList);
-            leftPanel.add(bossComboBox);
-            leftPanel.add(new JButton(getAddAction()));
+            leftPanel.setLayout(new GridBagLayout());
+            leftPanel.add(encounterList, c);
+            leftPanel.add(bossComboBox, c);
+            leftPanel.add(new JButton(getAddAction()), c);
+            c.weighty = 1;
+            leftPanel.add(new JPanel(), c);
             setLeftComponent(leftPanel);
 
             characterPanel = new EncounterCharacterPanel(encounterService, raid, allBosses, players, encounterList.getSelectedValue(), approvals, this);
