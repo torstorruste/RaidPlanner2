@@ -9,11 +9,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Optional;
 
-public class CharacterRenderer extends DefaultTableCellRenderer {
+public class CharacterHeaderRenderer extends DefaultTableCellRenderer {
 
     private final Player currentPlayer;
 
-    public CharacterRenderer(Player currentPlayer) {
+    public CharacterHeaderRenderer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 

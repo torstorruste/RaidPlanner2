@@ -28,7 +28,7 @@ public class IconUtil {
     }
 
     public static JLabel getClassLabel(Character character) {
-        JLabel label = new JLabel(character.getName(), getClassIcon(character.getCharacterClass()), 0);
+        JLabel label = new JLabel(character.getName(), getClassIcon(character.getCharacterClass()), SwingConstants.LEFT);
         if(character.getCharacterClass()!=CharacterClass.Priest) {
             label.setForeground(character.getCharacterClass().getColor());
         } else {

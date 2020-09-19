@@ -2,7 +2,7 @@ package org.superhelt.raidplanner2.client.gui.approvalAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.superhelt.raidplanner2.client.gui.cellRenderers.CharacterRenderer;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.CharacterHeaderRenderer;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.InstanceCellRenderer;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.PlayerCellRenderer;
 import org.superhelt.raidplanner2.client.service.ApprovalService;
@@ -72,7 +72,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
 
         ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
         table = new JTable(model);
-        table.getColumnModel().getColumn(1).setHeaderRenderer(new CharacterRenderer(currentPlayer));
+        table.getColumnModel().getColumn(1).setHeaderRenderer(new CharacterHeaderRenderer(currentPlayer));
 
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
@@ -166,7 +166,7 @@ public class ApprovalAdminPanel extends JPanel implements ChangeListener {
         ApprovalTableModel model = new ApprovalTableModel(approvalService, currentInstance, currentPlayer, approvals);
         table.setModel(model);
         for(int i=0;i<currentPlayer.getCharacters().size();i++) {
-            table.getColumnModel().getColumn(i+1).setHeaderRenderer(new CharacterRenderer(currentPlayer));
+            table.getColumnModel().getColumn(i+1).setHeaderRenderer(new CharacterHeaderRenderer(currentPlayer));
         }
         table.repaint();
 

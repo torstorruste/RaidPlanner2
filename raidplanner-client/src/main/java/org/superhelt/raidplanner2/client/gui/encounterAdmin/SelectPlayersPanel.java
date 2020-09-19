@@ -1,14 +1,25 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.TableCharacterRenderer;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.TableComponentRenderer;
 import org.superhelt.raidplanner2.client.service.EncounterService;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.TableCellEditor;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.EventObject;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SelectPlayersPanel extends JPanel {
+
+    private static final Logger log = LoggerFactory.getLogger(SelectPlayersPanel.class);
 
     private final EncounterService encounterService;
     private final List<Approval> approvals;
@@ -16,6 +27,7 @@ public class SelectPlayersPanel extends JPanel {
     private final Encounter encounter;
     private final List<Player> players;
     private final EncounterCharacterPanel encounterCharacterPanel;
+    private JTable table;
 
     public SelectPlayersPanel(EncounterService encounterService, Raid raid, Encounter encounter, List<Player> players,
                               EncounterCharacterPanel encounterCharacterPanel, List<Approval> approvals) {
@@ -39,28 +51,54 @@ public class SelectPlayersPanel extends JPanel {
 
         add(new JLabel("Available players"), c);
 
-        // For each player that isn't already in the encounter:
-        List<Player> missingPlayers = getMissingPlayers(players, raid, encounter);
-        for(Player player : missingPlayers) {
-            add(new SelectCharacterPanel(player, encounter, this, approvals), c);
-        }
+        table = new JTable(new SelectPlayerModel(players, raid, encounter, approvals, this));
+        table.setDefaultRenderer(JButton.class, new TableComponentRenderer());
+        table.setDefaultRenderer(Character.class, new TableCharacterRenderer());
+        table.addMouseListener(createMouseListener());
+        add(table, c);
+    }
 
-        c.weighty = 1;
-        add(new JPanel(), c);
+    private MouseListener createMouseListener() {
+        return new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                int column = table.columnAtPoint(e.getPoint());
+                log.debug("Mouse clicked row={}, column={}", row, column);
+
+                if(column>1) {
+                    Object value = table.getValueAt(row, column);
+                    if(value instanceof JButton) {
+                        ((JButton)value).doClick();
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
     }
 
     public void addEncounterCharacter(EncounterCharacter encounterCharacter) {
         encounterService.addCharacter(raid, encounter, encounterCharacter);
         encounter.getCharacters().add(encounterCharacter);
         encounterCharacterPanel.setEncounter(encounter);
-    }
-
-    private List<Player> getMissingPlayers(List<Player> players, Raid raid, Encounter encounter) {
-        List<Integer> selectedPlayers = encounter.getCharacters().stream().map(EncounterCharacter::getPlayerId).collect(Collectors.toList());
-
-        return players.stream()
-                .filter(p->!selectedPlayers.contains(p.getId())
-                            && raid.getSignedUp().contains(p.getId()))
-                .collect(Collectors.toList());
     }
 }
