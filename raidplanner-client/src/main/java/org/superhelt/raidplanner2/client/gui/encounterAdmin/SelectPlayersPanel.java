@@ -27,7 +27,6 @@ public class SelectPlayersPanel extends JPanel {
     private final Encounter encounter;
     private final List<Player> players;
     private final EncounterCharacterPanel encounterCharacterPanel;
-    private JTable table;
 
     public SelectPlayersPanel(EncounterService encounterService, Raid raid, Encounter encounter, List<Player> players,
                               EncounterCharacterPanel encounterCharacterPanel, List<Approval> approvals) {
@@ -51,49 +50,11 @@ public class SelectPlayersPanel extends JPanel {
 
         add(new JLabel("Available players"), c);
 
-        table = new JTable(new SelectPlayerModel(players, raid, encounter, approvals, this));
+        JTable table = new JTable(new SelectPlayerModel(players, raid, encounter, approvals, this));
         table.setDefaultRenderer(JButton.class, new TableComponentRenderer());
         table.setDefaultRenderer(Character.class, new TableCharacterRenderer());
-        table.addMouseListener(createMouseListener());
+        table.addMouseListener(new ButtonListener(table));
         add(table, c);
-    }
-
-    private MouseListener createMouseListener() {
-        return new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = table.rowAtPoint(e.getPoint());
-                int column = table.columnAtPoint(e.getPoint());
-                log.debug("Mouse clicked row={}, column={}", row, column);
-
-                if(column>1) {
-                    Object value = table.getValueAt(row, column);
-                    if(value instanceof JButton) {
-                        ((JButton)value).doClick();
-                    }
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        };
     }
 
     public void addEncounterCharacter(EncounterCharacter encounterCharacter) {

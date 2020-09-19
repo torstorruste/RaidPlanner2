@@ -1,15 +1,16 @@
 package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
-import org.superhelt.raidplanner2.client.gui.IconUtil;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.TableCharacterRenderer;
+import org.superhelt.raidplanner2.client.gui.cellRenderers.TableComponentRenderer;
 import org.superhelt.raidplanner2.client.service.EncounterService;
 import org.superhelt.raidplanner2.om.Character;
-import org.superhelt.raidplanner2.om.*;
+import org.superhelt.raidplanner2.om.Encounter;
+import org.superhelt.raidplanner2.om.Player;
+import org.superhelt.raidplanner2.om.Raid;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PickedPlayersPanel extends JPanel {
 
@@ -37,32 +38,18 @@ public class PickedPlayersPanel extends JPanel {
         c.weighty = 0;
         c.gridx = 0;
         c.gridy = -1;
-
         add(new JLabel("Selected characters"), c);
 
-        for(Role role : Role.values()) {
-            List<EncounterCharacter> charactersOfRole = getCharactersByRole(role);
-            if(!charactersOfRole.isEmpty()) {
-                JLabel roleHeader = new JLabel(role.toString(), IconUtil.getRoleIcon(role), 0);
-                add(roleHeader, c);
-
-                for (EncounterCharacter encounterCharacter : charactersOfRole) {
-                    Player player = getPlayer(encounterCharacter.getPlayerId());
-                    Character character = player.getCharacter(encounterCharacter.getCharacterId());
-
-                    add(new PickedCharacterPanel(encounterCharacterPanel, encounterService, raid, encounter, player, character), c);
-                }
-            }
-        }
-        c.weighty = 1;
-        add(new JPanel(), c);
+        JTable table = new JTable(new PickedPlayersModel(encounter, players, this));
+        table.setDefaultRenderer(JButton.class, new TableComponentRenderer());
+        table.setDefaultRenderer(Character.class, new TableCharacterRenderer());
+        table.addMouseListener(new ButtonListener(table));
+        add(table, c);
     }
 
-    private List<EncounterCharacter> getCharactersByRole(Role role) {
-        return encounter.getCharacters().stream().filter(c->c.getRole()==role).collect(Collectors.toList());
-    }
-
-    private Player getPlayer(int id) {
-        return players.stream().filter(p->p.getId()==id).findFirst().orElse(new Player(id, "Unknown", Collections.emptyList()));
+    public void removeCharacter(Character character) {
+        encounterService.deleteCharacter(raid, encounter, character);
+        encounter.getCharacters().removeIf(c->c.getCharacterId()==character.getId());
+        encounterCharacterPanel.setEncounter(encounter);
     }
 }

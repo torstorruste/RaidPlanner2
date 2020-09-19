@@ -28,6 +28,8 @@ public class EncounterStatsPanel extends JPanel {
         c.gridx = 0;
         c.weighty = 0;
 
+        add(new JLabel("Total: "+encounter.getCharacters().size()), c);
+
         add(new JLabel("Roles:"), c);
         for(Role role : Role.values()) {
             add(new JLabel(String.valueOf(getNumberOfRole(encounter, role)), IconUtil.getRoleIcon(role), SwingConstants.LEFT), c);

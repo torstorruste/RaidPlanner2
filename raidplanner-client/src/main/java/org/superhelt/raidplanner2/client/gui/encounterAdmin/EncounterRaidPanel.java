@@ -106,7 +106,9 @@ public class EncounterRaidPanel extends JSplitPane {
         return e->{
             // TODO: Implement
         };
-    }private Action getAddAction() {
+    }
+
+    private Action getAddAction() {
         return new AbstractAction(null, IconUtil.getIcon("add")) {
             @Override
             public void actionPerformed(ActionEvent e) {
