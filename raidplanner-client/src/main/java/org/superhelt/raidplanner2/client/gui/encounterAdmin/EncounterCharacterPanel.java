@@ -35,11 +35,6 @@ public class EncounterCharacterPanel extends JPanel {
         initGui();
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(2000, 2000);
-    }
-
     private void initGui() {
         if(encounter!=null) {
             GridBagConstraints c = new GridBagConstraints();

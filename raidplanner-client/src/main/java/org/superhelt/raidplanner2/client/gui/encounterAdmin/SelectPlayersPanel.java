@@ -31,17 +31,17 @@ public class SelectPlayersPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500, 1000);
+        return new Dimension(500, 300);
     }
 
     @Override
     public Dimension getMinimumSize() {
-        return new Dimension(500, 1000);
+        return new Dimension(500, 100);
     }
 
     @Override
     public Dimension getMaximumSize() {
-        return new Dimension(500, 1000);
+        return new Dimension(500, 10000);
     }
 
     private void initGui() {
