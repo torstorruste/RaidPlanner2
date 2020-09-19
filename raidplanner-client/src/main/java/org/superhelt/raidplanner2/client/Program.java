@@ -19,11 +19,13 @@ public class Program extends JFrame {
     public Program() throws HeadlessException {
         super("A Necessary Raid Planner");
 
-        PlayerService playerService = new PlayerService();
-        InstanceService instanceService = new InstanceService();
-        ApprovalService approvalService = new ApprovalService();
-        RaidService raidService = new RaidService();
-        EncounterService encounterService = new EncounterService();
+        String baseUrl = "http://localhost:8080/";
+
+        PlayerService playerService = new PlayerService(baseUrl);
+        InstanceService instanceService = new InstanceService(baseUrl);
+        ApprovalService approvalService = new ApprovalService(baseUrl);
+        RaidService raidService = new RaidService(baseUrl);
+        EncounterService encounterService = new EncounterService(baseUrl);
 
         JTabbedPane tabPane = new JTabbedPane();
         PlayerAdminPanel playerAdminPanel = new PlayerAdminPanel(playerService);

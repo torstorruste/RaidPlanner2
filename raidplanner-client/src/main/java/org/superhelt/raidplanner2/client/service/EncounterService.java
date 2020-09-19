@@ -14,36 +14,40 @@ public class EncounterService {
 
     private static final Logger log = LoggerFactory.getLogger(EncounterService.class);
 
-    private static final String REST_URL = "http://localhost:8080/";
+    private final String baseUrl;
+
+    public EncounterService(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public Encounter addEncounter(Raid raid, Boss boss) {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters", raid.getId());
-        log.info("POST {}/{}", REST_URL, path);
-        return client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON)
+        log.info("POST {}/{}", baseUrl, path);
+        return client.target(baseUrl).path(path).request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(boss, MediaType.APPLICATION_JSON_TYPE), Encounter.class);
     }
 
     public void deleteEncounter(Raid raid, Encounter encounter) {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters/%d", raid.getId(), encounter.getId());
-        log.info("DELETE {}/{}", REST_URL, path);
+        log.info("DELETE {}/{}", baseUrl, path);
 
-        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON).delete();
+        client.target(baseUrl).path(path).request(MediaType.APPLICATION_JSON).delete();
     }
 
     public void addCharacter(Raid raid, Encounter encounter, EncounterCharacter encounterCharacter) {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters/%d/characters", raid.getId(), encounter.getId());
-        log.info("POST {}/{}", REST_URL, path);
-        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON)
+        log.info("POST {}/{}", baseUrl, path);
+        client.target(baseUrl).path(path).request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(encounterCharacter, MediaType.APPLICATION_JSON_TYPE));
     }
 
     public void deleteCharacter(Raid raid, Encounter encounter, Character character) {
         Client client = ClientBuilder.newClient();
         String path = String.format("raids/%d/encounters/%d/characters/%d", raid.getId(), encounter.getId(), character.getId());
-        log.info("DELETE {}/{}", REST_URL, path);
-        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON).delete();
+        log.info("DELETE {}/{}", baseUrl, path);
+        client.target(baseUrl).path(path).request(MediaType.APPLICATION_JSON).delete();
     }
 }

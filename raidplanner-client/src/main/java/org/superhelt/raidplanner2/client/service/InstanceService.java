@@ -17,12 +17,16 @@ public class InstanceService {
 
     private static final Logger log = LoggerFactory.getLogger(InstanceService.class);
 
-    private static final String REST_URL = "http://localhost:8080/";
+    private final String baseUrl;
+
+    public InstanceService(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public List<Instance> getInstances() {
         Client client = ClientBuilder.newClient();
-        log.info("GET {}instances", REST_URL);
-        Instance[] players = client.target(REST_URL).path("instances").request(MediaType.APPLICATION_JSON).get(Instance[].class);
+        log.info("GET {}instances", baseUrl);
+        Instance[] players = client.target(baseUrl).path("instances").request(MediaType.APPLICATION_JSON).get(Instance[].class);
 
         List<Instance> result = Arrays.asList(players);
         result.sort(Comparator.comparing(Instance::getName));
@@ -31,39 +35,39 @@ public class InstanceService {
 
     public Instance addInstance(Instance instance) {
         Client client = ClientBuilder.newClient();
-        log.info("POST {}instances", REST_URL);
-        return client.target(REST_URL).path("instances").request(MediaType.APPLICATION_JSON)
+        log.info("POST {}instances", baseUrl);
+        return client.target(baseUrl).path("instances").request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(instance, MediaType.APPLICATION_JSON_TYPE), Instance.class);
     }
 
     public void deleteInstance(Instance instance) {
         Client client = ClientBuilder.newClient();
-        log.info("DELETE {}instances/{}", REST_URL, instance.getId());
-        client.target(REST_URL).path(String.format("instances/%d", instance.getId()))
+        log.info("DELETE {}instances/{}", baseUrl, instance.getId());
+        client.target(baseUrl).path(String.format("instances/%d", instance.getId()))
                 .request(MediaType.APPLICATION_JSON).delete();
     }
 
     public void updateBoss(Instance instance, Boss boss) {
         Client client = ClientBuilder.newClient();
-        log.info("PUT {}instances{}/bosses/{}", REST_URL, instance.getId(), boss.getId());
+        log.info("PUT {}instances{}/bosses/{}", baseUrl, instance.getId(), boss.getId());
 
-        client.target(REST_URL).path("instances").path(buildBossUrl(instance, boss)).request(MediaType.APPLICATION_JSON)
+        client.target(baseUrl).path("instances").path(buildBossUrl(instance, boss)).request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(boss, MediaType.APPLICATION_JSON_TYPE));
     }
 
     public Boss addBoss(Instance instance, Boss boss) {
         Client client = ClientBuilder.newClient();
-        log.info("POST {}instances/{}/bosses", REST_URL, instance.getId());
+        log.info("POST {}instances/{}/bosses", baseUrl, instance.getId());
 
-        return client.target(REST_URL).path(String.format("instances/%d/bosses", instance.getId()))
+        return client.target(baseUrl).path(String.format("instances/%d/bosses", instance.getId()))
                 .request(MediaType.APPLICATION_JSON).post(Entity.entity(boss, MediaType.APPLICATION_JSON_TYPE), Boss.class);
     }
 
     public void deleteBoss(Instance instance, Boss boss) {
         Client client = ClientBuilder.newClient();
-        log.info("DELETE {}instances{}", REST_URL, buildBossUrl(instance, boss));
+        log.info("DELETE {}instances{}", baseUrl, buildBossUrl(instance, boss));
 
-        client.target(REST_URL).path("instances").path(buildBossUrl(instance, boss)).request(MediaType.APPLICATION_JSON).delete();
+        client.target(baseUrl).path("instances").path(buildBossUrl(instance, boss)).request(MediaType.APPLICATION_JSON).delete();
     }
 
     private String buildBossUrl(Instance instance, Boss boss) {

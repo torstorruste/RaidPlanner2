@@ -17,30 +17,34 @@ public class ApprovalService {
 
     private static final Logger log = LoggerFactory.getLogger(ApprovalService.class);
 
-    private static final String REST_URL = "http://localhost:8080/";
+    private final String baseUrl;
+
+    public ApprovalService(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public List<Approval> getApprovals() {
         Client client = ClientBuilder.newClient();
-        log.info("GET {}approvals", REST_URL);
+        log.info("GET {}approvals", baseUrl);
 
-        Approval[] approvals = client.target(REST_URL).path("approvals").request(MediaType.APPLICATION_JSON).get(Approval[].class);
+        Approval[] approvals = client.target(baseUrl).path("approvals").request(MediaType.APPLICATION_JSON).get(Approval[].class);
 
         return new ArrayList<>(Arrays.asList(approvals));
     }
 
     public void addApproval(Instance instance, Boss boss, Player player, Character character) {
         Client client = ClientBuilder.newClient();
-        log.info("POST {}{}", REST_URL, getApprovalUrl(instance, boss, player, character));
+        log.info("POST {}{}", baseUrl, getApprovalUrl(instance, boss, player, character));
 
-        client.target(REST_URL).path(getApprovalUrl(instance, boss, player, character))
+        client.target(baseUrl).path(getApprovalUrl(instance, boss, player, character))
                 .request(MediaType.APPLICATION_JSON).post(Entity.json(null), Approval.class);
     }
 
     public void removeApproval(Instance instance, Boss boss, Player player, Character character) {
         Client client = ClientBuilder.newClient();
-        log.info("DELETE {}{}", REST_URL, getApprovalUrl(instance, boss, player, character));
+        log.info("DELETE {}{}", baseUrl, getApprovalUrl(instance, boss, player, character));
 
-        client.target(REST_URL).path(getApprovalUrl(instance, boss, player, character))
+        client.target(baseUrl).path(getApprovalUrl(instance, boss, player, character))
                 .request(MediaType.APPLICATION_JSON).delete();
 
     }
