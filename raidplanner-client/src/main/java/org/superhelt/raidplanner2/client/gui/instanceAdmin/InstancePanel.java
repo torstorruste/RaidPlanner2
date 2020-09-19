@@ -54,7 +54,7 @@ public class InstancePanel extends JPanel {
     }
 
     private Action getAddBossAction() {
-        return new AbstractAction("Add Boss") {
+        return new AbstractAction(null, IconUtil.getAddIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Boss boss = new Boss(-1, "Boss");

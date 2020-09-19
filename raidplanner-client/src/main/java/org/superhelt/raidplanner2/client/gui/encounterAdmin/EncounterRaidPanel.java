@@ -2,6 +2,7 @@ package org.superhelt.raidplanner2.client.gui.encounterAdmin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.BossCellRenderer;
 import org.superhelt.raidplanner2.client.gui.cellRenderers.EncounterCellRenderer;
 import org.superhelt.raidplanner2.client.service.EncounterService;
@@ -101,7 +102,7 @@ public class EncounterRaidPanel extends JSplitPane {
             // TODO: Implement
         };
     }private Action getAddAction() {
-        return new AbstractAction("Add") {
+        return new AbstractAction(null, IconUtil.getAddIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Boss boss = (Boss) bossComboBox.getSelectedItem();

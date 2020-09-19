@@ -4,6 +4,7 @@ import org.jdatepicker.DateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.RaidService;
 import org.superhelt.raidplanner2.om.Raid;
 
@@ -36,7 +37,7 @@ public class AddRaidPanel extends JPanel {
     }
 
     private Action getAddRaidAction() {
-        return new AbstractAction("Add") {
+        return new AbstractAction(null, IconUtil.getAddIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DateModel<?> model = datePicker.getModel();

@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.client.gui.playerAdmin;
 
+import org.superhelt.raidplanner2.client.gui.IconUtil;
 import org.superhelt.raidplanner2.client.service.PlayerService;
 import org.superhelt.raidplanner2.om.Player;
 
@@ -30,7 +31,7 @@ public class AddPlayerPanel extends JPanel {
     }
 
     private Action getAddAction() {
-        return new AbstractAction("Add") {
+        return new AbstractAction(null, IconUtil.getAddIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!nameField.getText().isEmpty()) {

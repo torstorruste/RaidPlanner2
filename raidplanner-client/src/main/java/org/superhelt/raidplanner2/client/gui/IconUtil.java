@@ -7,6 +7,12 @@ public class IconUtil {
 
     public static ImageIcon getDeleteIcon() {
         URL url = IconUtil.class.getResource("/delete.png");
-        return new ImageIcon(url, "X");
+        return new ImageIcon(url, "Delete");
+    }
+
+    public static ImageIcon getAddIcon() {
+        URL url = IconUtil.class.getResource("/add.jpg");
+        return new ImageIcon(url, "Add");
+
     }
 }

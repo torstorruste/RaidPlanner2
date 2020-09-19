@@ -87,7 +87,7 @@ public class PlayerPanel extends JPanel {
     }
 
     private Action getAddCharacterAction() {
-        return new AbstractAction("Add Character") {
+        return new AbstractAction(null, IconUtil.getAddIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Character character = new Character(-1, "Alt", CharacterClass.DeathKnight, new ArrayList<>());
