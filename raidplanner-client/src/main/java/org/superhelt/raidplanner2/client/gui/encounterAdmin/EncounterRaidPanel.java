@@ -62,7 +62,7 @@ public class EncounterRaidPanel extends JSplitPane {
             leftPanel.add(new JButton(getAddAction()));
             setLeftComponent(leftPanel);
 
-            characterPanel = new EncounterCharacterPanel(raid, allBosses, players, encounterList.getSelectedValue());
+            characterPanel = new EncounterCharacterPanel(encounterService, raid, allBosses, players, encounterList.getSelectedValue());
             setRightComponent(characterPanel);
         }
     }

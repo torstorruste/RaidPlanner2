@@ -10,12 +10,12 @@ public class SelectCharacterPanel extends JPanel {
 
     private final Player player;
     private final Encounter encounter;
-    private final EncounterCharacterPanel encounterCharacterPanel;
+    private final SelectPlayersPanel selectPlayersPanel;
 
-    public SelectCharacterPanel(Player player, Encounter encounter, EncounterCharacterPanel encounterCharacterPanel) {
+    public SelectCharacterPanel(Player player, Encounter encounter, SelectPlayersPanel selectPlayersPanel) {
         this.player = player;
         this.encounter = encounter;
-        this.encounterCharacterPanel = encounterCharacterPanel;
+        this.selectPlayersPanel = selectPlayersPanel;
 
         initGui();
     }
@@ -38,8 +38,8 @@ public class SelectCharacterPanel extends JPanel {
         return new AbstractAction(null, role.createImageIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                encounter.getCharacters().add(new EncounterCharacter(player.getId(), character.getId(), role));
-                encounterCharacterPanel.setEncounter(encounter);
+                EncounterCharacter encounterCharacter = new EncounterCharacter(player.getId(), character.getId(), role);
+                selectPlayersPanel.addEncounterCharacter(encounterCharacter);
             }
         };
     }
