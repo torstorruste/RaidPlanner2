@@ -24,16 +24,20 @@ public class SelectCharacterPanel extends JPanel {
     }
 
     private void initGui() {
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         add(new JLabel(player.getName()));
         for(Character character : player.getCharacters()) {
             if(isApproved(character, encounter)){
-                add(new JLabel(String.format(character.getName(), character.getCharacterClass(), "%s - %s")));
+                JPanel panel = new JPanel();
+                panel.add(new JLabel(String.format(character.getName(), character.getCharacterClass(), "%s - %s")));
 
                 for (Role role : character.getRoles()) {
                     JButton addCharacterButton = new JButton(role.createImageIcon());
                     addCharacterButton.setAction(getAddCharacterAction(character, role));
-                    add(addCharacterButton);
+                    panel.add(addCharacterButton);
                 }
+
+                add(panel);
             }
         }
     }

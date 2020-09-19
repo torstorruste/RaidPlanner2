@@ -6,6 +6,7 @@ import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
 import java.util.List;
@@ -29,26 +30,51 @@ public class PickedPlayersPanel extends JPanel {
         initGui();
     }
 
-    private void initGui() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(300, 1000);
+    }
 
-        add(new JLabel("Selected characters"));
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(300, 1000);
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return new Dimension(300, 1000);
+    }
+
+    private void initGui() {
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.weighty = 0;
+        c.gridx = 0;
+        c.gridy = -1;
+
+        add(new JLabel("Selected characters"), c);
 
         for(Role role : Role.values()) {
             List<EncounterCharacter> charactersOfRole = getCharactersByRole(role);
             if(!charactersOfRole.isEmpty()) {
                 JLabel roleHeader = new JLabel(String.format("%s (%d)", role.toString(), charactersOfRole.size()));
-                add(roleHeader);
+                add(roleHeader, c);
 
                 for (EncounterCharacter encounterCharacter : charactersOfRole) {
                     Player player = getPlayer(encounterCharacter.getPlayerId());
                     Character character = player.getCharacter(encounterCharacter.getCharacterId());
 
-                    add(new JLabel(String.format("%s - %s", player.getName(), character.getName())));
-                    add(new JButton(getDeleteAction(character)));
+                    JPanel characterPanel = new JPanel();
+                    characterPanel.add(new JLabel(String.format("%s - %s", player.getName(), character.getName())));
+                    characterPanel.add(new JButton(getDeleteAction(character)));
+                    add(characterPanel, c);
                 }
             }
         }
+        c.weighty = 1;
+        add(new JPanel(), c);
     }
 
     private Action getDeleteAction(Character character) {

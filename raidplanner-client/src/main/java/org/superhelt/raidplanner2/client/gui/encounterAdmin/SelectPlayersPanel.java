@@ -4,6 +4,7 @@ import org.superhelt.raidplanner2.client.service.EncounterService;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,15 +29,39 @@ public class SelectPlayersPanel extends JPanel {
         initGui();
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(500, 1000);
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return new Dimension(500, 1000);
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(500, 1000);
+    }
+
     private void initGui() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(new JLabel("Available players"));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.weighty = 0;
+        c.gridy = -1;
+        c.gridx = 0;
+
+        add(new JLabel("Available players"), c);
 
         // For each player that isn't already in the encounter:
         List<Player> missingPlayers = getMissingPlayers(players, raid, encounter);
         for(Player player : missingPlayers) {
-            add(new SelectCharacterPanel(player, encounter, this, approvals));
+            add(new SelectCharacterPanel(player, encounter, this, approvals), c);
         }
+
+        c.weighty = 1;
+        add(new JPanel(), c);
     }
 
     public void addEncounterCharacter(EncounterCharacter encounterCharacter) {
