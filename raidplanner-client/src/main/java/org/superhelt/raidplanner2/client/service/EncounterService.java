@@ -3,6 +3,7 @@ package org.superhelt.raidplanner2.client.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.superhelt.raidplanner2.om.Boss;
+import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.Encounter;
 import org.superhelt.raidplanner2.om.EncounterCharacter;
 import org.superhelt.raidplanner2.om.Raid;
@@ -32,5 +33,13 @@ public class EncounterService {
         log.info("POST {}/{}", REST_URL, path);
         client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(encounterCharacter, MediaType.APPLICATION_JSON_TYPE));
+    }
+
+    public void deleteCharacter(Raid raid, Encounter encounter, Character character) {
+        Client client = ClientBuilder.newClient();
+        String path = String.format("raids/%d/encounters/%d/characters/%d", raid.getId(), encounter.getId(), character.getId());
+        log.info("DELETE {}/{}", REST_URL, path);
+        client.target(REST_URL).path(path).request(MediaType.APPLICATION_JSON)
+                .delete();
     }
 }

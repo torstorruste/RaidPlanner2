@@ -30,6 +30,9 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
     private JList<Raid> raidList;
     private List<Raid> raids;
     private EncounterRaidPanel raidPanel;
+    private List<Instance> instances;
+    private List<Player> players;
+    private List<Approval> approvals;
 
     public EncounterAdminPanel(RaidService raidService, PlayerService playerService, InstanceService instanceService, EncounterService encounterService, ApprovalService approvalService) {
         this.raidService = raidService;
@@ -43,8 +46,8 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
 
     private void initGui() {
         raids = raidService.getRaids();
-        List<Player> players = playerService.getPlayers();
-        List<Approval> approvals = approvalService.getApprovals();
+        players = playerService.getPlayers();
+        approvals = approvalService.getApprovals();
 
         raidList = new JList<>(raids.toArray(new Raid[]{}));
         raidList.setCellRenderer(new RaidCellRenderer());
@@ -57,9 +60,12 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
         setLeftComponent(leftPanel);
         setRightComponent(new JPanel());
 
-        List<Instance> instances = instanceService.getInstances();
-        raidPanel = new EncounterRaidPanel(encounterService, raidList.getSelectedValue(), instances, players, approvals);
-        setRightComponent(raidPanel);
+        instances = instanceService.getInstances();
+        Raid selectedRaid = raidList.getSelectedValue();
+        if(selectedRaid!=null) {
+            raidPanel = new EncounterRaidPanel(encounterService, selectedRaid, instances, players, approvals);
+            setRightComponent(raidPanel);
+        }
     }
 
     private ListSelectionListener getRaidListListener() {
@@ -68,7 +74,8 @@ public class EncounterAdminPanel extends JSplitPane implements ChangeListener {
             if(!e.getValueIsAdjusting() && selectedIndex >=0) {
                 Raid raid = raids.get(selectedIndex);
                 log.debug("Raid selected: {}", raid.getId());
-                raidPanel.setRaid(raid);
+
+                setRightComponent(new EncounterRaidPanel(encounterService, raid, instances, players, approvals));
 
                 revalidate();
                 repaint();

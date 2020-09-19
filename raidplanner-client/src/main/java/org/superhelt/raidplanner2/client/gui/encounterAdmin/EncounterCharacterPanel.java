@@ -39,7 +39,7 @@ public class EncounterCharacterPanel extends JPanel {
             }
 
             // List all players that are part of the encounter
-            add(new PickedPlayersPanel(encounter, players));
+            add(new PickedPlayersPanel(encounterService, raid, encounter, players, this));
 
             // List all players that have signed up and are not yet part of the encounter
             add(new SelectPlayersPanel(encounterService, raid, encounter, players, this, approvals));
