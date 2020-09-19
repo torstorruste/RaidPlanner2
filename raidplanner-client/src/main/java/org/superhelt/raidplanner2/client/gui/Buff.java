@@ -7,11 +7,13 @@ public enum Buff {
     BattleShout(CharacterClass.Warrior),
     ChasoBrand(CharacterClass.DemonHunter),
     Fortitude(CharacterClass.Priest),
-    MysticTouch(CharacterClass.Monk);
+    MysticTouch(CharacterClass.Monk),
+    Rebirth(CharacterClass.Druid,CharacterClass.Warlock,CharacterClass.DeathKnight),
+    Bloodlust(CharacterClass.Mage,CharacterClass.Shaman, CharacterClass.Hunter);
 
-    public final CharacterClass characterClass;
+    public final CharacterClass[] characterClass;
 
-    private Buff(CharacterClass characterClass) {
+    private Buff(CharacterClass... characterClass) {
         this.characterClass = characterClass;
     }
 }

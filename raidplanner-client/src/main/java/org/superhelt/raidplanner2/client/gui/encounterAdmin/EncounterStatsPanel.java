@@ -7,6 +7,8 @@ import org.superhelt.raidplanner2.om.Character;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,13 +57,14 @@ public class EncounterStatsPanel extends JPanel {
                 .findFirst();
     }
 
-    private int getNumberOfClass(Encounter encounter, CharacterClass characterClass) {
+    private int getNumberOfClass(Encounter encounter, CharacterClass... characterClasses) {
+        List<CharacterClass> classes = Arrays.asList(characterClasses);
         return (int) encounter.getCharacters().stream()
                 .map(EncounterCharacter::getCharacterId)
                 .map(this::getCharacterById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .filter(c->c.getCharacterClass()==characterClass)
+                .filter(c->classes.contains(c.getCharacterClass()))
                 .count();
     }
 
