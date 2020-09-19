@@ -65,6 +65,12 @@ public class EncounterCharacterPanel extends JPanel {
             // List all players that have signed up and are not yet part of the encounter
             add(new SelectPlayersPanel(encounterService, raid, encounter, players, this, approvals), c);
 
+            c.gridx = 2;
+            add(new EncounterStatsPanel(encounter, players), c);
+
+            c.gridx = 0;
+            c.gridy = 2;
+            c.gridwidth = 3;
             c.weighty = 1;
             c.weightx = 1;
             add(new JLabel(), c);
