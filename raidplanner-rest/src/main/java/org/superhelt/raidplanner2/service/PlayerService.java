@@ -38,6 +38,10 @@ public class PlayerService {
         return playerToSave;
     }
 
+    public Player updatePlayer(Player player) {
+        return dao.update(player);
+    }
+
     public Character addCharacter(Player player, Character character) {
         if (player.getCharacters().stream().anyMatch(c -> c.getName().equals(character.getName()))) {
             throw new ServerException("Player %s already has a character with the name %s", player.getName(), character.getName());

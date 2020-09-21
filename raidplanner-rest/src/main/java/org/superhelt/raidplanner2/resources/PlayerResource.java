@@ -43,6 +43,21 @@ public class PlayerResource {
         return Response.ok(savedPlayer).build();
     }
 
+    @PUT
+    @Path("{playerId}")
+    public Response updatePlayer(@PathParam("playerId") int playerId, Player player) {
+        if(playerId != player.getId()) {
+            return Response.status(400, "Player id does not match").build();
+        }
+
+        if(player.getName()==null || player.getName().isEmpty()) {
+            return Response.status(400, "Player needs a name").build();
+        }
+
+        Player updatedPlayer = playerService.updatePlayer(player);
+        return Response.ok(updatedPlayer).build();
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deletePlayer(@PathParam("id") int id) {

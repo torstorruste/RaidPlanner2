@@ -44,11 +44,12 @@ public class FilePlayerDao implements PlayerDao {
     }
 
     @Override
-    public void update(Player player) {
+    public Player update(Player player) {
         players.removeIf(p->p.getId()==player.getId());
         players.add(player);
         sortPlayers();
         FileWriter.writeToFile(jsonFile, players);
+        return player;
     }
 
     @Override

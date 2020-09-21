@@ -13,7 +13,7 @@ public interface PlayerDao {
 
     Optional<Player> get(int id);
 
-    void update(Player player);
+    Player update(Player player);
 
     void add(Player player);
 
