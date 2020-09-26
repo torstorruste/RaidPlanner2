@@ -29,6 +29,11 @@ public class InstanceService {
         return dao.get(id).orElseThrow(()->new ServerException(404, "Instance with id %d does not exist", id));
     }
 
+    public Instance updateInstance(Instance instance) {
+        dao.update(instance);
+        return instance;
+    }
+
     public Instance addInstance(Instance instance) {
         if(dao.get().stream().anyMatch(p->p.getName().equals(instance.getName()))) {
             throw new ServerException("An instance with the name %s already exists", instance.getName());

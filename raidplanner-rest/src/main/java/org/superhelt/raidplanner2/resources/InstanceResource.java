@@ -1,6 +1,7 @@
 package org.superhelt.raidplanner2.resources;
 
 
+import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.om.Instance;
 import org.superhelt.raidplanner2.service.InstanceService;
 
@@ -38,6 +39,16 @@ public class InstanceResource {
     @POST
     public Response addInstance(Instance instance) {
         Instance savedInstance = service.addInstance(instance);
+        return Response.ok(savedInstance).build();
+    }
+
+    @PUT
+    @Path("/{instanceId}")
+    public Response updateInstance(@PathParam("instanceId") int instanceId, Instance instance) {
+        if(instanceId!=instance.getId()) {
+            throw new ServerException(400, "Instance id does not match");
+        }
+        Instance savedInstance = service.updateInstance(instance);
         return Response.ok(savedInstance).build();
     }
 
