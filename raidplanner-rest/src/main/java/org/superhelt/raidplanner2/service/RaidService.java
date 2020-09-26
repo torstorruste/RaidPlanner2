@@ -5,8 +5,8 @@ import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.dao.InstanceDao;
 import org.superhelt.raidplanner2.dao.PlayerDao;
 import org.superhelt.raidplanner2.dao.RaidDao;
-import org.superhelt.raidplanner2.om.*;
 import org.superhelt.raidplanner2.om.Character;
+import org.superhelt.raidplanner2.om.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
 package org.superhelt.raidplanner2.resources;
 
-import org.superhelt.raidplanner2.ServerException;
-import org.superhelt.raidplanner2.om.*;
-import org.superhelt.raidplanner2.service.InstanceService;
+import org.superhelt.raidplanner2.om.Player;
+import org.superhelt.raidplanner2.om.Raid;
 import org.superhelt.raidplanner2.service.PlayerService;
 import org.superhelt.raidplanner2.service.RaidService;
 
@@ -11,7 +10,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 
 @Path("raids")
 @Consumes(MediaType.APPLICATION_JSON)

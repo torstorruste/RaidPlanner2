@@ -1,7 +1,9 @@
 package org.superhelt.raidplanner2.resources;
 
+import org.superhelt.raidplanner2.om.Approval;
+import org.superhelt.raidplanner2.om.Boss;
 import org.superhelt.raidplanner2.om.Character;
-import org.superhelt.raidplanner2.om.*;
+import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.service.ApprovalService;
 import org.superhelt.raidplanner2.service.PlayerService;
 
