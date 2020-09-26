@@ -45,6 +45,14 @@ public class RaidResource {
         return Response.ok(savedRaid).build();
     }
 
+    @DELETE
+    @Path("/{raidId}")
+    public Response deleteRaid(@PathParam("raidId") int raidId) {
+        Raid raid = raidService.getRaid(raidId);
+        raidService.deleteRaid(raid);
+        return Response.ok().build();
+    }
+
     @POST
     @Path("/{raidId}/signups")
     public Response signup(@PathParam("raidId") int raidId, Player player) {

@@ -59,6 +59,11 @@ public class FileRaidDao implements RaidDao {
         raids.add(raid);
         sortRaids();
         FileWriter.writeToFile(jsonFile, raids);
+    }
 
+    @Override
+    public void delete(Raid raid) {
+        raids.remove(raid);
+        FileWriter.writeToFile(jsonFile, raids);
     }
 }

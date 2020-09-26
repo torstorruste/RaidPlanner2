@@ -16,4 +16,6 @@ public interface RaidDao {
     void add(Raid raid);
 
     void update(Raid raid);
+
+    void delete(Raid raid);
 }

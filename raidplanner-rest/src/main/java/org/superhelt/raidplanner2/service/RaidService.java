@@ -44,6 +44,10 @@ public class RaidService {
         return raidToSave;
     }
 
+    public void deleteRaid(Raid raid) {
+        raidDao.delete(raid);
+    }
+
     public Player signup(Raid raid, Player player) {
         Player savedPlayer = playerDao.get(player.getId()).orElseThrow(()->new ServerException(400, "Player with id "+player.getId()+" does not exist"));
 
