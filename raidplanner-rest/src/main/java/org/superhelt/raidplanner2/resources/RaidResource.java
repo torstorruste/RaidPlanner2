@@ -10,7 +10,9 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Path("raids")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -33,6 +35,19 @@ public class RaidResource {
     }
 
     @GET
+    @Path("/latest")
+    public Response getLatestRaid() {
+        List<Raid> raids = raidService.getRaids();
+
+        Raid latest = raids.stream()
+                .filter(Raid::isFinalized)
+                .max(Comparator.comparing(Raid::getDate))
+                .orElseThrow(() -> new ServerException(404, "No raid is finalized"));
+
+        return Response.ok(latest).build();
+    }
+
+    @GET
     @Path("/{raidId}")
     public Response getRaid(@PathParam("raidId") int raidId) {
         Raid raid = raidService.getRaid(raidId);
@@ -49,7 +64,7 @@ public class RaidResource {
     @PUT
     @Path("/{raidId}")
     public Response updateRaid(@PathParam("raidId") int raidId, Raid raid) {
-        if(raid.getId() != raidId) {
+        if (raid.getId() != raidId) {
             throw new ServerException(400, "Ids do not match");
         }
 
