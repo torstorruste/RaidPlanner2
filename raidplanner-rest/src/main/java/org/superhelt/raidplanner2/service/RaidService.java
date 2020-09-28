@@ -9,6 +9,7 @@ import org.superhelt.raidplanner2.om.Character;
 import org.superhelt.raidplanner2.om.*;
 
 import javax.inject.Inject;
+import javax.ws.rs.GET;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,22 @@ public class RaidService {
         if(raidDao.getAll().stream().anyMatch(r->r.getDate().equals(raid.getDate()))) {
             throw new ServerException(400, "Raid at time %s already exists", raid.getDate());
         }
-        Raid raidToSave = new Raid(findId(), raid.getDate(), new ArrayList<>(), new ArrayList<>());
+        Raid raidToSave = new Raid(findId(), raid.getDate(), new ArrayList<>(), new ArrayList<>(), raid.isFinalized());
         raidDao.add(raidToSave);
         return raidToSave;
+    }
+
+    public Raid updateRaid(Raid raid) {
+        Raid savedRaid = raidDao.get(raid.getId()).orElseThrow(()->new ServerException(404, "Raid with id {} does not exist", raid.getId()));
+
+        if(raidDao.getAll().stream().filter(r->r.getId()!=raid.getId()).anyMatch(r->r.getDate().equals(raid.getDate()))) {
+            throw new ServerException(400, "Raid at time %s already exists", raid.getDate());
+        }
+
+        Raid updatedRaid = new Raid(savedRaid.getId(), raid.getDate(), savedRaid.getEncounters(), savedRaid.getSignedUp(), raid.isFinalized());
+        raidDao.update(updatedRaid);
+
+        return updatedRaid;
     }
 
     public void deleteRaid(Raid raid) {

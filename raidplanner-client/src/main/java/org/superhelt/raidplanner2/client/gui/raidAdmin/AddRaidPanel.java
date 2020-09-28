@@ -43,7 +43,7 @@ public class AddRaidPanel extends JPanel {
                 DateModel<?> model = datePicker.getModel();
                 LocalDate date = LocalDate.of(model.getYear(), model.getMonth()+1, model.getDay());
 
-                Raid raid = new Raid(-1, date, new ArrayList<>(), new ArrayList<>());
+                Raid raid = new Raid(-1, date, new ArrayList<>(), new ArrayList<>(), false);
                 Raid savedRaid = service.addRaid(raid);
 
                 parent.refreshRaids(savedRaid);

@@ -16,15 +16,17 @@ public class Raid {
     private LocalDate date;
     private List<Encounter> encounters;
     private List<Integer> signedUp;
+    private boolean finalized;
 
     public Raid() {
     }
 
-    public Raid(int id, LocalDate date, List<Encounter> encounters, List<Integer> signedUp) {
+    public Raid(int id, LocalDate date, List<Encounter> encounters, List<Integer> signedUp, boolean finalized) {
         this.id = id;
         this.date = date;
         this.encounters = encounters;
         this.signedUp = signedUp;
+        this.finalized = finalized;
     }
 
     public int getId() {
@@ -41,6 +43,10 @@ public class Raid {
 
     public List<Integer> getSignedUp() {
         return signedUp;
+    }
+
+    public boolean isFinalized() {
+        return finalized;
     }
 
     public int findNextEncounterId() {

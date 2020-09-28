@@ -1,5 +1,6 @@
 package org.superhelt.raidplanner2.resources;
 
+import org.superhelt.raidplanner2.ServerException;
 import org.superhelt.raidplanner2.om.Player;
 import org.superhelt.raidplanner2.om.Raid;
 import org.superhelt.raidplanner2.service.PlayerService;
@@ -43,6 +44,17 @@ public class RaidResource {
     public Response addRaid(Raid raid) {
         Raid savedRaid = raidService.addRaid(raid);
         return Response.ok(savedRaid).build();
+    }
+
+    @PUT
+    @Path("/{raidId}")
+    public Response updateRaid(@PathParam("raidId") int raidId, Raid raid) {
+        if(raid.getId() != raidId) {
+            throw new ServerException(400, "Ids do not match");
+        }
+
+        Raid updatedRaid = raidService.updateRaid(raid);
+        return Response.ok(updatedRaid).build();
     }
 
     @DELETE
